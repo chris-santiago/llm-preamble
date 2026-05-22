@@ -1,0 +1,375 @@
+======================================================================
+Preamble Quality Experiment 2  (mode=full)
+======================================================================
+
+Scope: 8 models x 8 conditions x 6 tasks
+Expected calls: 384 generation + 3072 judge = 3456 total
+
+============================== [1/8] Code Generation ==============================
+[generation] 384 generation calls queued...
+
+[WARNING] 9 code extraction failures (logged, not scored 0):
+  task_lru_ttl_cache|trivial_baseline|nvidia/nemotron-3-super-120b-a12b
+  task_async_conn_pool|negative_control|nvidia/nemotron-3-super-120b-a12b
+  task_god_function|generic_coding|nvidia/nemotron-3-super-120b-a12b
+  task_god_function|long_directive|nvidia/nemotron-3-super-120b-a12b
+  task_flag_class|trivial_baseline|nvidia/nemotron-3-super-120b-a12b
+[generation] Done: 274 ok, 49 API errors, 9 extraction failures
+[1/8] Generation results saved to generation_results.jsonl
+
+============================== [2/8] Static Analysis ==============================
+  [task_lru_ttl_cache|none|deepseek-v3.2] MI=59.8 CC=2.0 PEP8=0.94
+  [task_lru_ttl_cache|none|gemma-4-31b-it] MI=66.0 CC=1.9 PEP8=1.00
+  [task_lru_ttl_cache|none|mistral-small-2] MI=65.5 CC=3.1 PEP8=1.00
+  [task_lru_ttl_cache|none|nemotron-3-supe] MI=67.1 CC=2.0 PEP8=0.97
+  [task_lru_ttl_cache|none|gpt-4o-mini] MI=63.0 CC=1.8 PEP8=1.00
+  [task_lru_ttl_cache|minimal|deepseek-v3.2] MI=63.1 CC=3.2 PEP8=0.96
+  [task_lru_ttl_cache|minimal|gemma-4-31b-it] MI=65.6 CC=2.2 PEP8=1.00
+  [task_lru_ttl_cache|minimal|minimax-m2.5] MI=74.2 CC=1.6 PEP8=0.88
+  [task_lru_ttl_cache|minimal|mistral-small-2] MI=60.2 CC=3.6 PEP8=1.00
+  [task_lru_ttl_cache|minimal|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_lru_ttl_cache|minimal|gpt-4o-mini] MI=61.1 CC=2.0 PEP8=1.00
+  [task_lru_ttl_cache|minimal|qwen3.5-35b-a3b] MI=71.1 CC=2.9 PEP8=1.00
+  [task_lru_ttl_cache|generic_codi|deepseek-v3.2] MI=67.7 CC=2.3 PEP8=0.96
+  [task_lru_ttl_cache|generic_codi|gemma-4-31b-it] MI=73.6 CC=2.6 PEP8=1.00
+  [task_lru_ttl_cache|generic_codi|mistral-small-2] MI=66.4 CC=3.3 PEP8=1.00
+  [task_lru_ttl_cache|generic_codi|nemotron-3-supe] MI=63.5 CC=2.0 PEP8=0.97
+  [task_lru_ttl_cache|generic_codi|gpt-4o-mini] MI=63.2 CC=1.9 PEP8=1.00
+  [task_lru_ttl_cache|generic_codi|qwen3.5-35b-a3b] MI=60.1 CC=3.0 PEP8=0.97
+  [task_lru_ttl_cache|real_agent|deepseek-v3.2] MI=64.7 CC=2.5 PEP8=0.90
+  [task_lru_ttl_cache|real_agent|gemma-4-31b-it] MI=71.4 CC=3.5 PEP8=0.88
+  [task_lru_ttl_cache|real_agent|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_lru_ttl_cache|real_agent|mistral-small-2] MI=71.3 CC=2.2 PEP8=1.00
+  [task_lru_ttl_cache|real_agent|nemotron-3-supe] MI=60.1 CC=2.5 PEP8=0.89
+  [task_lru_ttl_cache|real_agent|gpt-4o-mini] MI=68.6 CC=2.6 PEP8=1.00
+  [task_lru_ttl_cache|negative_con|deepseek-v3.2] MI=71.0 CC=2.0 PEP8=0.95
+  [task_lru_ttl_cache|negative_con|gemma-4-31b-it] MI=73.5 CC=3.3 PEP8=1.00
+  [task_lru_ttl_cache|negative_con|minimax-m2.5] MI=64.2 CC=1.9 PEP8=0.97
+  [task_lru_ttl_cache|negative_con|mistral-small-2] MI=63.5 CC=2.9 PEP8=1.00
+  [task_lru_ttl_cache|negative_con|nemotron-3-supe] MI=66.2 CC=1.8 PEP8=0.97
+  [task_lru_ttl_cache|negative_con|gpt-4o-mini] MI=60.4 CC=1.8 PEP8=1.00
+  [task_lru_ttl_cache|persona_only|deepseek-v3.2] MI=65.6 CC=2.6 PEP8=0.96
+  [task_lru_ttl_cache|persona_only|gemma-4-31b-it] MI=72.0 CC=2.1 PEP8=0.90
+  [task_lru_ttl_cache|persona_only|mistral-small-2] MI=65.5 CC=3.9 PEP8=1.00
+  [task_lru_ttl_cache|persona_only|nemotron-3-supe] MI=58.1 CC=2.6 PEP8=0.97
+  [task_lru_ttl_cache|persona_only|gpt-4o-mini] MI=65.2 CC=1.9 PEP8=1.00
+  [task_lru_ttl_cache|persona_only|qwen3.5-35b-a3b] MI=72.0 CC=2.3 PEP8=1.00
+  [task_lru_ttl_cache|long_directi|deepseek-v3.2] MI=64.9 CC=2.4 PEP8=0.94
+  [task_lru_ttl_cache|long_directi|gemma-4-31b-it] MI=69.9 CC=2.9 PEP8=0.89
+  [task_lru_ttl_cache|long_directi|minimax-m2.5] MI=61.5 CC=2.2 PEP8=0.93
+  [task_lru_ttl_cache|long_directi|mistral-small-2] MI=69.6 CC=2.4 PEP8=1.00
+  [task_lru_ttl_cache|long_directi|nemotron-3-supe] MI=61.8 CC=2.8 PEP8=0.97
+  [task_lru_ttl_cache|long_directi|gpt-4o-mini] MI=69.7 CC=2.6 PEP8=1.00
+  [task_lru_ttl_cache|trivial_base|gemma-4-31b-it] MI=50.0 CC=1.0 PEP8=0.50
+  [task_lru_ttl_cache|trivial_base|minimax-m2.5] MI=96.5 CC=1.3 PEP8=1.00
+  [task_lru_ttl_cache|trivial_base|mistral-small-2] MI=65.7 CC=2.9 PEP8=1.00
+  [task_lru_ttl_cache|trivial_base|gpt-4o-mini] MI=75.6 CC=1.9 PEP8=1.00
+  [task_lru_ttl_cache|trivial_base|qwen3.5-35b-a3b] MI=45.6 CC=2.0 PEP8=1.00
+  [task_expr_parser|none|deepseek-v3.2] MI=52.9 CC=2.9 PEP8=0.98
+  [task_expr_parser|none|gemma-4-31b-it] MI=56.5 CC=3.0 PEP8=1.00
+  [task_expr_parser|none|mistral-small-2] MI=47.9 CC=3.4 PEP8=1.00
+  [task_expr_parser|none|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_expr_parser|none|gpt-4o-mini] MI=40.8 CC=3.0 PEP8=1.00
+  [task_expr_parser|minimal|deepseek-v3.2] MI=49.3 CC=3.1 PEP8=1.00
+  [task_expr_parser|minimal|gemma-4-31b-it] MI=57.0 CC=2.8 PEP8=1.00
+  [task_expr_parser|minimal|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_expr_parser|minimal|mistral-small-2] MI=50.5 CC=3.2 PEP8=0.95
+  [task_expr_parser|minimal|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_expr_parser|minimal|gpt-4o-mini] MI=40.6 CC=3.0 PEP8=1.00
+  [task_expr_parser|minimal|qwen3.5-35b-a3b] MI=39.7 CC=3.0 PEP8=0.87
+  [task_expr_parser|generic_codi|deepseek-v3.2] MI=49.1 CC=3.1 PEP8=1.00
+  [task_expr_parser|generic_codi|gemma-4-31b-it] MI=52.8 CC=3.3 PEP8=1.00
+  [task_expr_parser|generic_codi|mistral-small-2] MI=48.1 CC=2.9 PEP8=1.00
+  [task_expr_parser|generic_codi|gpt-4o-mini] MI=53.7 CC=2.3 PEP8=1.00
+  [task_expr_parser|generic_codi|qwen3.5-35b-a3b] MI=36.7 CC=3.1 PEP8=0.88
+  [task_expr_parser|real_agent|deepseek-v3.2] MI=50.0 CC=2.7 PEP8=0.82
+  [task_expr_parser|real_agent|gemma-4-31b-it] MI=55.5 CC=2.7 PEP8=0.98
+  [task_expr_parser|real_agent|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_expr_parser|real_agent|mistral-small-2] MI=47.3 CC=4.0 PEP8=0.98
+  [task_expr_parser|real_agent|nemotron-3-supe] MI=47.3 CC=2.9 PEP8=0.78
+  [task_expr_parser|real_agent|gpt-4o-mini] MI=53.3 CC=2.3 PEP8=1.00
+  [task_expr_parser|negative_con|deepseek-v3.2] MI=39.9 CC=3.3 PEP8=1.00
+  [task_expr_parser|negative_con|gemma-4-31b-it] MI=62.8 CC=2.4 PEP8=1.00
+  [task_expr_parser|negative_con|mistral-small-2] MI=50.1 CC=2.8 PEP8=0.97
+  [task_expr_parser|negative_con|nemotron-3-supe] MI=52.2 CC=3.2 PEP8=0.98
+  [task_expr_parser|negative_con|gpt-4o-mini] MI=54.4 CC=2.4 PEP8=1.00
+  [task_expr_parser|persona_only|deepseek-v3.2] MI=48.1 CC=3.6 PEP8=0.98
+  [task_expr_parser|persona_only|gemma-4-31b-it] MI=56.3 CC=3.1 PEP8=0.97
+  [task_expr_parser|persona_only|mistral-small-2] MI=51.4 CC=2.9 PEP8=0.97
+  [task_expr_parser|persona_only|nemotron-3-supe] MI=55.4 CC=3.0 PEP8=0.90
+  [task_expr_parser|persona_only|gpt-4o-mini] MI=38.7 CC=2.9 PEP8=1.00
+  [task_expr_parser|persona_only|qwen3.5-35b-a3b] MI=51.4 CC=2.5 PEP8=0.86
+  [task_expr_parser|long_directi|deepseek-v3.2] MI=52.9 CC=2.6 PEP8=0.76
+  [task_expr_parser|long_directi|gemma-4-31b-it] MI=57.2 CC=3.2 PEP8=0.98
+  [task_expr_parser|long_directi|minimax-m2.5] MI=48.5 CC=2.9 PEP8=0.87
+  [task_expr_parser|long_directi|mistral-small-2] MI=46.4 CC=3.1 PEP8=0.98
+  [task_expr_parser|long_directi|nemotron-3-supe] MI=54.6 CC=4.2 PEP8=0.98
+  [task_expr_parser|long_directi|gpt-4o-mini] MI=52.9 CC=2.8 PEP8=1.00
+  [task_expr_parser|trivial_base|deepseek-v3.2] MI=46.0 CC=3.3 PEP8=1.00
+  [task_expr_parser|trivial_base|gemma-4-31b-it] MI=68.5 CC=1.9 PEP8=1.00
+  [task_expr_parser|trivial_base|minimax-m2.5] MI=45.8 CC=2.9 PEP8=0.83
+  [task_expr_parser|trivial_base|mistral-small-2] MI=34.9 CC=3.3 PEP8=1.00
+  [task_expr_parser|trivial_base|nemotron-3-supe] MI=56.1 CC=3.0 PEP8=0.95
+  [task_expr_parser|trivial_base|gpt-4o-mini] MI=60.3 CC=2.9 PEP8=1.00
+  [task_expr_parser|trivial_base|qwen3.5-35b-a3b] MI=37.5 CC=3.0 PEP8=0.71
+  [task_async_conn_pool|none|deepseek-v3.2] MI=54.3 CC=2.9 PEP8=1.00
+  [task_async_conn_pool|none|gemma-4-31b-it] MI=66.0 CC=2.1 PEP8=0.97
+  [task_async_conn_pool|none|mistral-small-2] MI=56.5 CC=2.2 PEP8=0.94
+  [task_async_conn_pool|none|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|none|gpt-4o-mini] MI=57.0 CC=1.8 PEP8=0.97
+  [task_async_conn_pool|minimal|deepseek-v3.2] MI=52.5 CC=2.4 PEP8=0.98
+  [task_async_conn_pool|minimal|gemma-4-31b-it] MI=66.8 CC=2.3 PEP8=0.96
+  [task_async_conn_pool|minimal|minimax-m2.5] MI=82.7 CC=2.2 PEP8=0.93
+  [task_async_conn_pool|minimal|mistral-small-2] MI=67.3 CC=2.3 PEP8=0.95
+  [task_async_conn_pool|minimal|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|minimal|gpt-4o-mini] MI=62.9 CC=1.9 PEP8=1.00
+  [task_async_conn_pool|minimal|qwen3.5-35b-a3b] MI=61.7 CC=2.6 PEP8=0.97
+  [task_async_conn_pool|generic_codi|deepseek-v3.2] MI=56.5 CC=2.9 PEP8=0.96
+  [task_async_conn_pool|generic_codi|gemma-4-31b-it] MI=63.2 CC=2.4 PEP8=0.97
+  [task_async_conn_pool|generic_codi|mistral-small-2] MI=58.6 CC=2.2 PEP8=0.96
+  [task_async_conn_pool|generic_codi|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|generic_codi|gpt-4o-mini] MI=64.9 CC=2.0 PEP8=0.96
+  [task_async_conn_pool|real_agent|deepseek-v3.2] MI=61.6 CC=2.6 PEP8=0.97
+  [task_async_conn_pool|real_agent|gemma-4-31b-it] MI=60.4 CC=2.0 PEP8=0.97
+  [task_async_conn_pool|real_agent|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|real_agent|mistral-small-2] MI=70.4 CC=2.5 PEP8=0.96
+  [task_async_conn_pool|real_agent|gpt-4o-mini] MI=59.4 CC=1.9 PEP8=0.97
+  [task_async_conn_pool|negative_con|deepseek-v3.2] MI=60.0 CC=2.2 PEP8=1.00
+  [task_async_conn_pool|negative_con|gemma-4-31b-it] MI=68.8 CC=2.1 PEP8=1.00
+  [task_async_conn_pool|negative_con|mistral-small-2] MI=66.0 CC=2.5 PEP8=0.96
+  [task_async_conn_pool|negative_con|gpt-4o-mini] MI=62.3 CC=1.9 PEP8=0.96
+  [task_async_conn_pool|persona_only|deepseek-v3.2] MI=70.9 CC=2.0 PEP8=1.00
+  [task_async_conn_pool|persona_only|gemma-4-31b-it] MI=65.6 CC=2.0 PEP8=0.97
+  [task_async_conn_pool|persona_only|mistral-small-2] MI=63.3 CC=2.1 PEP8=0.96
+  [task_async_conn_pool|persona_only|nemotron-3-supe] MI=70.2 CC=3.5 PEP8=0.96
+  [task_async_conn_pool|persona_only|gpt-4o-mini] MI=68.5 CC=2.3 PEP8=0.96
+  [task_async_conn_pool|long_directi|deepseek-v3.2] MI=60.2 CC=3.7 PEP8=1.00
+  [task_async_conn_pool|long_directi|gemma-4-31b-it] MI=63.9 CC=1.9 PEP8=0.97
+  [task_async_conn_pool|long_directi|minimax-m2.5] MI=56.6 CC=3.4 PEP8=0.98
+  [task_async_conn_pool|long_directi|mistral-small-2] MI=65.2 CC=2.4 PEP8=0.96
+  [task_async_conn_pool|long_directi|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|long_directi|gpt-4o-mini] MI=64.9 CC=1.9 PEP8=0.97
+  [task_async_conn_pool|trivial_base|deepseek-v3.2] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|trivial_base|gemma-4-31b-it] MI=60.7 CC=1.8 PEP8=0.97
+  [task_async_conn_pool|trivial_base|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_async_conn_pool|trivial_base|mistral-small-2] MI=50.8 CC=3.8 PEP8=1.00
+  [task_async_conn_pool|trivial_base|nemotron-3-supe] MI=60.0 CC=3.7 PEP8=0.97
+  [task_async_conn_pool|trivial_base|gpt-4o-mini] MI=50.3 CC=2.1 PEP8=1.00
+  [task_async_conn_pool|trivial_base|qwen3.5-35b-a3b] MI=17.8 CC=3.0 PEP8=0.93
+  [task_god_function|none|deepseek-v3.2] MI=47.4 CC=3.4 PEP8=1.00
+  [task_god_function|none|gemma-4-31b-it] MI=55.9 CC=3.8 PEP8=0.94
+  [task_god_function|none|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_god_function|none|mistral-small-2] MI=38.9 CC=4.3 PEP8=1.00
+  [task_god_function|none|nemotron-3-supe] MI=50.7 CC=4.8 PEP8=1.00
+  [task_god_function|none|gpt-4o-mini] MI=42.5 CC=4.2 PEP8=1.00
+  [task_god_function|minimal|deepseek-v3.2] MI=44.0 CC=5.5 PEP8=1.00
+  [task_god_function|minimal|gemma-4-31b-it] MI=60.3 CC=4.2 PEP8=0.92
+  [task_god_function|minimal|minimax-m2.5] MI=53.2 CC=3.3 PEP8=1.00
+  [task_god_function|minimal|mistral-small-2] MI=37.9 CC=4.1 PEP8=1.00
+  [task_god_function|minimal|nemotron-3-supe] MI=58.3 CC=5.8 PEP8=1.00
+  [task_god_function|minimal|gpt-4o-mini] MI=41.8 CC=4.4 PEP8=1.00
+  [task_god_function|minimal|qwen3.5-35b-a3b] MI=52.3 CC=5.4 PEP8=1.00
+  [task_god_function|generic_codi|deepseek-v3.2] MI=48.5 CC=4.4 PEP8=1.00
+  [task_god_function|generic_codi|gemma-4-31b-it] MI=57.5 CC=4.5 PEP8=0.93
+  [task_god_function|generic_codi|minimax-m2.5] MI=59.1 CC=3.2 PEP8=1.00
+  [task_god_function|generic_codi|mistral-small-2] MI=35.3 CC=4.6 PEP8=1.00
+  [task_god_function|generic_codi|gpt-4o-mini] MI=41.8 CC=4.4 PEP8=1.00
+  [task_god_function|real_agent|deepseek-v3.2] MI=45.7 CC=4.0 PEP8=1.00
+  [task_god_function|real_agent|gemma-4-31b-it] MI=53.4 CC=4.8 PEP8=1.00
+  [task_god_function|real_agent|minimax-m2.5] MI=49.6 CC=2.5 PEP8=0.95
+  [task_god_function|real_agent|mistral-small-2] MI=35.1 CC=3.6 PEP8=1.00
+  [task_god_function|real_agent|nemotron-3-supe] MI=52.8 CC=3.4 PEP8=1.00
+  [task_god_function|real_agent|gpt-4o-mini] MI=41.9 CC=4.4 PEP8=1.00
+  [task_god_function|negative_con|deepseek-v3.2] MI=48.2 CC=4.4 PEP8=1.00
+  [task_god_function|negative_con|gemma-4-31b-it] MI=57.5 CC=4.5 PEP8=0.96
+  [task_god_function|negative_con|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_god_function|negative_con|mistral-small-2] MI=38.3 CC=5.8 PEP8=1.00
+  [task_god_function|negative_con|nemotron-3-supe] MI=55.1 CC=4.6 PEP8=1.00
+  [task_god_function|negative_con|gpt-4o-mini] MI=41.5 CC=4.4 PEP8=1.00
+  [task_god_function|persona_only|deepseek-v3.2] MI=49.2 CC=3.3 PEP8=1.00
+  [task_god_function|persona_only|gemma-4-31b-it] MI=58.4 CC=4.3 PEP8=0.90
+  [task_god_function|persona_only|minimax-m2.5] MI=61.8 CC=3.3 PEP8=1.00
+  [task_god_function|persona_only|mistral-small-2] MI=61.6 CC=4.3 PEP8=1.00
+  [task_god_function|persona_only|nemotron-3-supe] MI=53.0 CC=5.0 PEP8=1.00
+  [task_god_function|persona_only|gpt-4o-mini] MI=42.2 CC=4.4 PEP8=1.00
+  [task_god_function|long_directi|deepseek-v3.2] MI=45.1 CC=2.5 PEP8=0.99
+  [task_god_function|long_directi|gemma-4-31b-it] MI=50.3 CC=3.2 PEP8=1.00
+  [task_god_function|long_directi|minimax-m2.5] MI=54.6 CC=2.2 PEP8=1.00
+  [task_god_function|long_directi|mistral-small-2] MI=42.7 CC=3.5 PEP8=1.00
+  [task_god_function|long_directi|gpt-4o-mini] MI=41.2 CC=3.8 PEP8=1.00
+  [task_god_function|trivial_base|deepseek-v3.2] MI=91.0 CC=2.0 PEP8=1.00
+  [task_god_function|trivial_base|gemma-4-31b-it] MI=96.8 CC=4.0 PEP8=1.00
+  [task_god_function|trivial_base|minimax-m2.5] MI=100.0 CC=4.0 PEP8=0.86
+  [task_god_function|trivial_base|mistral-small-2] MI=100.0 CC=2.0 PEP8=1.00
+  [task_god_function|trivial_base|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_god_function|trivial_base|gpt-4o-mini] MI=100.0 CC=1.0 PEP8=1.00
+  [task_god_function|trivial_base|qwen3.5-35b-a3b] MI=88.5 CC=7.0 PEP8=1.00
+  [task_flag_class|none|deepseek-v3.2] MI=56.1 CC=2.0 PEP8=1.00
+  [task_flag_class|none|gemma-4-31b-it] MI=51.0 CC=2.9 PEP8=1.00
+  [task_flag_class|none|mistral-small-2] MI=36.7 CC=2.4 PEP8=0.98
+  [task_flag_class|none|gpt-4o-mini] MI=42.3 CC=1.9 PEP8=1.00
+  [task_flag_class|minimal|deepseek-v3.2] MI=48.9 CC=2.5 PEP8=0.95
+  [task_flag_class|minimal|gemma-4-31b-it] MI=61.7 CC=3.0 PEP8=1.00
+  [task_flag_class|minimal|minimax-m2.5] MI=61.6 CC=2.8 PEP8=1.00
+  [task_flag_class|minimal|mistral-small-2] MI=41.7 CC=3.7 PEP8=1.00
+  [task_flag_class|minimal|gpt-4o-mini] MI=43.2 CC=2.1 PEP8=1.00
+  [task_flag_class|minimal|qwen3.5-35b-a3b] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|generic_codi|deepseek-v3.2] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|generic_codi|gemma-4-31b-it] MI=57.1 CC=3.0 PEP8=1.00
+  [task_flag_class|generic_codi|mistral-small-2] MI=34.1 CC=1.5 PEP8=1.00
+  [task_flag_class|generic_codi|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|generic_codi|gpt-4o-mini] MI=37.3 CC=2.5 PEP8=1.00
+  [task_flag_class|real_agent|deepseek-v3.2] MI=49.3 CC=2.6 PEP8=1.00
+  [task_flag_class|real_agent|gemma-4-31b-it] MI=54.6 CC=3.0 PEP8=1.00
+  [task_flag_class|real_agent|minimax-m2.5] MI=42.6 CC=2.3 PEP8=1.00
+  [task_flag_class|real_agent|mistral-small-2] MI=64.2 CC=2.7 PEP8=1.00
+  [task_flag_class|real_agent|gpt-4o-mini] MI=58.9 CC=2.8 PEP8=1.00
+  [task_flag_class|negative_con|deepseek-v3.2] MI=40.5 CC=1.5 PEP8=1.00
+  [task_flag_class|negative_con|gemma-4-31b-it] MI=60.2 CC=3.2 PEP8=1.00
+  [task_flag_class|negative_con|mistral-small-2] MI=37.4 CC=1.4 PEP8=1.00
+  [task_flag_class|negative_con|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|negative_con|gpt-4o-mini] MI=37.9 CC=2.7 PEP8=1.00
+  [task_flag_class|persona_only|deepseek-v3.2] MI=43.7 CC=2.0 PEP8=1.00/Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment/preamble_quality_experiment2.py:1373: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  df["preamble"] = pd.Categorical(df["preamble"], categories=MAIN_CONDITIONS)
+
+  [task_flag_class|persona_only|gemma-4-31b-it] MI=58.5 CC=2.6 PEP8=1.00
+  [task_flag_class|persona_only|mistral-small-2] MI=31.6 CC=2.0 PEP8=1.00
+  [task_flag_class|persona_only|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|persona_only|gpt-4o-mini] MI=39.8 CC=1.6 PEP8=1.00
+  [task_flag_class|long_directi|deepseek-v3.2] MI=46.2 CC=1.7 PEP8=0.98
+  [task_flag_class|long_directi|gemma-4-31b-it] MI=52.9 CC=2.6 PEP8=1.00
+  [task_flag_class|long_directi|minimax-m2.5] MI=50.0 CC=1.9 PEP8=0.98
+  [task_flag_class|long_directi|mistral-small-2] MI=61.1 CC=3.5 PEP8=1.00
+  [task_flag_class|long_directi|gpt-4o-mini] MI=40.0 CC=2.2 PEP8=1.00
+  [task_flag_class|trivial_base|deepseek-v3.2] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|trivial_base|gemma-4-31b-it] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|trivial_base|minimax-m2.5] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|trivial_base|mistral-small-2] MI=100.0 CC=1.3 PEP8=1.00
+  [task_flag_class|trivial_base|gpt-4o-mini] MI=50.0 CC=1.0 PEP8=0.50
+  [task_flag_class|trivial_base|qwen3.5-35b-a3b] MI=100.0 CC=1.3 PEP8=1.00
+  [task_exception_pyram|none|deepseek-v3.2] MI=86.2 CC=3.0 PEP8=1.00
+  [task_exception_pyram|none|gemma-4-31b-it] MI=89.8 CC=3.0 PEP8=1.00
+  [task_exception_pyram|none|mistral-small-2] MI=82.4 CC=2.7 PEP8=1.00
+  [task_exception_pyram|none|nemotron-3-supe] MI=80.5 CC=4.0 PEP8=1.00
+  [task_exception_pyram|none|gpt-4o-mini] MI=72.2 CC=2.8 PEP8=1.00
+  [task_exception_pyram|none|qwen3.5-35b-a3b] MI=79.8 CC=3.2 PEP8=1.00
+  [task_exception_pyram|minimal|deepseek-v3.2] MI=82.0 CC=3.2 PEP8=1.00
+  [task_exception_pyram|minimal|gemma-4-31b-it] MI=90.0 CC=3.0 PEP8=1.00
+  [task_exception_pyram|minimal|minimax-m2.5] MI=78.2 CC=2.3 PEP8=1.00
+  [task_exception_pyram|minimal|mistral-small-2] MI=82.4 CC=2.5 PEP8=1.00
+  [task_exception_pyram|minimal|nemotron-3-supe] MI=78.6 CC=4.7 PEP8=1.00
+  [task_exception_pyram|minimal|gpt-4o-mini] MI=74.6 CC=2.4 PEP8=1.00
+  [task_exception_pyram|minimal|qwen3.5-35b-a3b] MI=84.2 CC=3.0 PEP8=1.00
+  [task_exception_pyram|generic_codi|deepseek-v3.2] MI=80.5 CC=3.4 PEP8=1.00
+  [task_exception_pyram|generic_codi|gemma-4-31b-it] MI=87.7 CC=3.5 PEP8=1.00
+  [task_exception_pyram|generic_codi|minimax-m2.5] MI=75.9 CC=2.3 PEP8=1.00
+  [task_exception_pyram|generic_codi|mistral-small-2] MI=50.0 CC=1.0 PEP8=0.50
+  [task_exception_pyram|generic_codi|gpt-4o-mini] MI=71.9 CC=2.8 PEP8=1.00
+  [task_exception_pyram|generic_codi|qwen3.5-35b-a3b] MI=50.0 CC=1.0 PEP8=0.50
+  [task_exception_pyram|real_agent|deepseek-v3.2] MI=87.0 CC=2.7 PEP8=1.00
+  [task_exception_pyram|real_agent|gemma-4-31b-it] MI=88.7 CC=2.8 PEP8=1.00
+  [task_exception_pyram|real_agent|minimax-m2.5] MI=68.7 CC=2.4 PEP8=1.00
+  [task_exception_pyram|real_agent|mistral-small-2] MI=76.4 CC=3.2 PEP8=1.00
+  [task_exception_pyram|real_agent|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_exception_pyram|real_agent|gpt-4o-mini] MI=65.3 CC=2.4 PEP8=1.00
+  [task_exception_pyram|negative_con|deepseek-v3.2] MI=84.1 CC=3.4 PEP8=1.00
+  [task_exception_pyram|negative_con|gemma-4-31b-it] MI=80.5 CC=10.0 PEP8=1.00
+  [task_exception_pyram|negative_con|minimax-m2.5] MI=76.2 CC=1.8 PEP8=1.00
+  [task_exception_pyram|negative_con|mistral-small-2] MI=60.2 CC=10.0 PEP8=1.00
+  [task_exception_pyram|negative_con|gpt-4o-mini] MI=71.0 CC=2.4 PEP8=1.00
+  [task_exception_pyram|persona_only|deepseek-v3.2] MI=85.6 CC=12.0 PEP8=1.00
+  [task_exception_pyram|persona_only|gemma-4-31b-it] MI=90.0 CC=3.0 PEP8=1.00
+  [task_exception_pyram|persona_only|mistral-small-2] MI=83.4 CC=2.8 PEP8=1.00
+  [task_exception_pyram|persona_only|nemotron-3-supe] MI=79.4 CC=4.7 PEP8=1.00
+  [task_exception_pyram|persona_only|gpt-4o-mini] MI=70.2 CC=2.4 PEP8=1.00
+  [task_exception_pyram|persona_only|qwen3.5-35b-a3b] MI=79.6 CC=3.0 PEP8=1.00
+  [task_exception_pyram|long_directi|deepseek-v3.2] MI=85.7 CC=2.9 PEP8=1.00
+  [task_exception_pyram|long_directi|gemma-4-31b-it] MI=88.9 CC=3.2 PEP8=1.00
+  [task_exception_pyram|long_directi|minimax-m2.5] MI=74.9 CC=2.1 PEP8=1.00
+  [task_exception_pyram|long_directi|mistral-small-2] MI=75.0 CC=3.2 PEP8=1.00
+  [task_exception_pyram|long_directi|nemotron-3-supe] MI=50.0 CC=1.0 PEP8=0.50
+  [task_exception_pyram|long_directi|gpt-4o-mini] MI=81.1 CC=2.4 PEP8=1.00
+  [task_exception_pyram|trivial_base|deepseek-v3.2] MI=100.0 CC=2.0 PEP8=1.00
+  [task_exception_pyram|trivial_base|minimax-m2.5] MI=100.0 CC=1.0 PEP8=1.00
+  [task_exception_pyram|trivial_base|mistral-small-2] MI=50.0 CC=1.0 PEP8=0.50
+  [task_exception_pyram|trivial_base|gpt-4o-mini] MI=89.7 CC=1.5 PEP8=1.00
+  [task_exception_pyram|trivial_base|qwen3.5-35b-a3b] MI=100.0 CC=1.0 PEP8=1.00
+
+============================== [3/8] Data-Driven Normalization Bounds (F6) ==============================
+  Percentile bounds computed:
+    maintainability_index: [38.57, 89.75]
+    avg_cyclomatic: [1.00, 4.57]
+    halstead_difficulty: [0.00, 8.76]
+    pylint_penalty: [1.00, 12.00]
+    cognitive_complexity_violations: [0.00, 0.00]
+    bare_except_count: [0.00, 0.00]
+    max_nesting_depth: [0.00, 7.00]
+
+============================== [4/8] F1 Metric Sensitivity Probe ==============================
+
+[F1-PROBE] Running metric sensitivity probe on 3 synthetic samples...
+  [poor] static=0.459 ast=0.217 cqs=0.425
+  [average] static=0.636 ast=1.000 cqs=0.661
+  [excellent] static=0.499 ast=0.864 cqs=0.573
+  [F1-PROBE] Range=0.148, Order=VIOLATED
+  [F1-PROBE] Verdict: CQS range=0.148 >= 0.10: metric is sensitive to quality
+  [F1-PROBE] Saved to f1_sensitivity_probe.json
+
+============================== [5/8] LLM Judge (cross-judge matrix) ==============================
+[judging] 2192 judge calls queued (cross-judge matrix)...
+[judging] Done: 1275 ok, 915 failed
+
+============================== [6/8] F3 Self-Preference Stratification ==============================
+  [F3] Verdict: no_significant_bias, delta=0.357, p=0.133163
+
+============================== [7/8] CQS Computation ==============================
+[7/8] 274 scored results saved.
+
+============================== [8/8] Statistics ==============================
+
+Condition              N     Mean CQS     95% CI                   MI mean   
+---------------------------------------------------------------------------
+Trivial Baseline       37    0.6825       [0.6416, 0.7216]    67.2
+None                   31    0.6910       [0.6565, 0.7221]    58.6
+Negative Control       31    0.6656       [0.6350, 0.6971]    58.2
+Minimal                41    0.6762       [0.6499, 0.7029]    59.8
+Generic Coding         32    0.6859       [0.6537, 0.7151]    56.7
+Persona Only           34    0.6915       [0.6670, 0.7163]    61.1
+Real Agent             34    0.6977       [0.6653, 0.7288]    58.1
+Long Directive         34    0.7044       [0.6792, 0.7282]    59.1
+
+Kruskal-Wallis (main conditions): H=4.325, p=0.6328
+  -> NOT significant (alpha=0.05)
+
+Spearman rank stability (main conditions, mean pairwise rho): 0.0560
+  -> FAILS threshold (>= 0.6)
+
+Real Agent vs None delta: +0.0067
+Trivial baseline mean CQS: 0.6825
+Best condition (real_agent) mean CQS: 0.6977
+Beat trivial baseline? YES
+
+Running mixed-effects model...
+  Mixed-effects failed: index 240 is out of bounds for axis 0 with size 237
+
+F2 Mechanism (priming vs instruction):
+  None                : 0.6910 (n=31)
+  Persona Only        : 0.6915 (n=34)
+  Real Agent          : 0.6977 (n=34)
+  Long Directive      : 0.7044 (n=34)
+
+Stats saved to stats_results.json
+
+[viz] Generating figures...
+[viz] finding_all_conditions_cqs.png
+[viz] finding_component_breakdown.png
+[viz] finding_per_model_heatmap.png
+[viz] finding_f1_sensitivity_probe.png
+[viz] finding_f3_self_preference.png
+[viz] finding_f2_mechanism.png
+[viz] summary_all_conditions.png
+
+======================================================================
+Experiment 2 complete (mode=full).
+Results in: /Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment/experiment2_results
+======================================================================

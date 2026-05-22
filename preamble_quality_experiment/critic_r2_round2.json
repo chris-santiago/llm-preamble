@@ -1,0 +1,47 @@
+{
+  "round": 2,
+  "challenges": [
+    {
+      "finding_id": "F1",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 9,
+      "reasoning": "DEFER/ETA maintained from round 1. The empirical resolution path is correct."
+    },
+    {
+      "finding_id": "F2",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 5,
+      "reasoning": "The defender's argument that the hypothesis tests outcomes not mechanisms is epistemologically valid. The ETA outcome (a persona-only preamble condition should be added) is the appropriate resolution. The REBUT-SCOPE + sev=5 is accepted. The experiment design will address this."
+    },
+    {
+      "finding_id": "F3",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 6,
+      "reasoning": "DEFER/ETA maintained. Stratified self-vs-cross analysis is the correct resolution."
+    },
+    {
+      "finding_id": "F4",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 5,
+      "reasoning": "Defender enumerated specific quality decision points in each task (exception breadth, backoff strategy, jitter, logging verbosity, type annotations for retry; error handling strategy for CSV). These are genuine expert-novice divergence points. PARTIAL from round 1 resolved to ACCEPT at sev=5."
+    },
+    {
+      "finding_id": "F5",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 6,
+      "reasoning": "CONCEDE maintained. No change."
+    },
+    {
+      "finding_id": "F6",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 4,
+      "reasoning": "DEFER/ETA maintained. No change."
+    },
+    {
+      "finding_id": "F7",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 2,
+      "reasoning": "REBUT-EVIDENCE/defense_wins maintained. No change."
+    }
+  ]
+}

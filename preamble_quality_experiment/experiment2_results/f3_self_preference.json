@@ -1,0 +1,10 @@
+{
+  "self_judge_n": 215,
+  "cross_judge_n": 1060,
+  "self_judge_mean_idiom": 8.1023,
+  "cross_judge_mean_idiom": 7.7453,
+  "delta": 0.357,
+  "cohen_d": 0.16,
+  "p_value_mannwhitney": 0.133163,
+  "verdict": "no_significant_bias"
+}

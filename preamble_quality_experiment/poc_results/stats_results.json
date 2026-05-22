@@ -1,0 +1,39 @@
+{
+  "kruskal_wallis_H": 1.6964080491321933,
+  "kruskal_wallis_p": 0.7913700029424582,
+  "spearman_rank_stability_rho": -0.3333333333333332,
+  "spearman_passes_threshold": false,
+  "expert_vs_none_delta": 0.0034111111111110315,
+  "cqs_by_condition": {
+    "none": {
+      "n": 9,
+      "mean": 0.8401444444444446,
+      "ci_95_lower": 0.8134311111111111,
+      "ci_95_upper": 0.8590825000000001
+    },
+    "minimal": {
+      "n": 9,
+      "mean": 0.8451777777777778,
+      "ci_95_lower": 0.8252605555555556,
+      "ci_95_upper": 0.8616583333333334
+    },
+    "generic_coding": {
+      "n": 9,
+      "mean": 0.8332888888888889,
+      "ci_95_lower": 0.7894975000000001,
+      "ci_95_upper": 0.8617141666666667
+    },
+    "real_agent": {
+      "n": 9,
+      "mean": 0.8435555555555556,
+      "ci_95_lower": 0.8279524999999999,
+      "ci_95_upper": 0.858611111111111
+    },
+    "negative_control": {
+      "n": 9,
+      "mean": 0.8381222222222223,
+      "ci_95_lower": 0.8289880555555555,
+      "ci_95_upper": 0.8471808333333334
+    }
+  }
+}

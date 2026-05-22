@@ -1,0 +1,63 @@
+{
+  "pass_1_analysis": "PoC was explicitly scoped as minimal with documented exclusions. The null result (KW p=0.79, expert-vs-none delta=+0.003) is genuine but uninterpretable without knowing whether the metric is insensitive or preamble effects are genuinely absent. The most critical threat is F1 (metric insensitivity) because it makes F2-F4 secondary — if the metric cannot distinguish known-quality code, all other findings are moot. F5 (identifier entropy bidirectionality) is a clear concession. F2 (construct validity) is overstated — the hypothesis does not require production-length preambles. F7 (radon double-count) is a systematic constant bias that does not threaten between-condition validity.",
+  "rebuttals": [
+    {
+      "finding_id": "F1",
+      "original_severity": 9,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": 0,
+      "adjusted_severity": 9,
+      "justification": "The critic is correct that metric sensitivity must be empirically verified before the null result can be interpreted. Two competing explanations: (a) metric cannot distinguish expert from novice code, (b) preambles genuinely do not change code quality. The proposed test — comparing within-condition vs between-condition variance, and testing CQS sensitivity to synthetic code quality perturbations — directly resolves this. Until this test runs, the null result is ambiguous. Severity maintained at 9."
+    },
+    {
+      "finding_id": "F2",
+      "original_severity": 8,
+      "rebuttal_type": "REBUT-SCOPE",
+      "severity_adjustment": -3,
+      "adjusted_severity": 5,
+      "justification": "The hypothesis states 'expert-level coding preambles' — not 'verbatim production system prompts of 10k-50k tokens.' The real_agent preamble is a structured, directive-rich expert instruction set consistent with the hypothesis construct. Production preambles contain tool definitions and deployment-specific constraints that are irrelevant to the priming mechanism being tested. The construct is valid for the stated hypothesis. A longer preamble is a recommended extension for external validity but not a PoC prerequisite. Severity 8 → 5."
+    },
+    {
+      "finding_id": "F3",
+      "original_severity": 7,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": -1,
+      "adjusted_severity": 6,
+      "justification": "Self-preference bias is real but bounded in impact. Judge scores comprise 35% of CQS (idiom 20% + comment 15%). Even a 0.1-scale bias in judge scores yields at most 0.035 CQS impact — still larger than the observed 0.003 expert-vs-none delta, so the concern is live. The test is cheap: stratify full_results.jsonl by self vs cross judge pairs and compare mean judge scores. If cross-judge scores show the same null result, this finding is discharged. Severity 7 → 6 because limited blast radius given CQS weighting."
+    },
+    {
+      "finding_id": "F4",
+      "original_severity": 7,
+      "rebuttal_type": "REBUT-LOGIC",
+      "severity_adjustment": -2,
+      "adjusted_severity": 5,
+      "justification": "The ceiling effect argument assumes the mechanism is complexity-driven. The hypothesis posits quality-driven mechanisms (naming, idioms, comments, defensive programming) that manifest at any CC level. A junior-vs-expert difference in a rate limiter shows up in naming choices, error handling style, and comment quality — not necessarily in CC. The task homogeneity (all utility patterns) is a real generalizability limitation but does not invalidate the existing null result. Including one higher-complexity algorithmic task in the full experiment is recommended. Severity 7 → 5."
+    },
+    {
+      "finding_id": "F5",
+      "original_severity": 6,
+      "rebuttal_type": "CONCEDE",
+      "severity_adjustment": 0,
+      "adjusted_severity": 6,
+      "justification": "Conceded. Identifier entropy is genuinely bidirectional: high entropy can indicate excellent varied naming or random/poor naming; low entropy can indicate consistent conventions or repetitive bad names. The metric is signed incorrectly for naming quality. The AST score (20% of CQS) includes identifier entropy as one sub-component. Removing or replacing it with a directional proxy (PEP 8 compliance on names, proportion of names that are dictionary words) would improve construct validity. Severity maintained at 6."
+    },
+    {
+      "finding_id": "F6",
+      "original_severity": 5,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": -1,
+      "adjusted_severity": 4,
+      "justification": "Normalization ceiling width is verifiable from PoC results. If MI data is [60,90] but normalized over [0,100], the effective resolution is 30% of the intended range — compressing real variation. This requires checking the actual observed ranges in full_results.jsonl against the normalization targets. The fix (data-driven percentile normalization) is straightforward. Severity 5 → 4 because it is a precision issue, not a validity threat."
+    },
+    {
+      "finding_id": "F7",
+      "original_severity": 4,
+      "rebuttal_type": "REBUT-EVIDENCE",
+      "severity_adjustment": -2,
+      "adjusted_severity": 2,
+      "justification": "Radon's cc command returns separate block entries for each function, method, and class. Class-level blocks have CC=1 by definition (no branching in class body). Including them in avg_cyclomatic is not double-counting — it is including class-level blocks in the average. The effect is a systematic constant bias (pulling average CC slightly down across all conditions equally). A constant bias does not affect between-condition comparisons. Severity 4 → 2."
+    }
+  ],
+  "overall_verdict": "mixed",
+  "verdict_rationale": "F1 (DEFER, sev=9) is the blocking finding — the null result cannot be interpreted without a metric sensitivity probe. F5 (CONCEDE, sev=6) and F3 (DEFER, sev=6) require experiment-level fixes. F2 and F4 are successfully rebutted with scope and logic arguments. The investigation should proceed to empirical resolution of F1/F3/F6 before drawing conclusions. The null result may be real or may be an artifact of metric insensitivity — only a sensitivity probe distinguishes the two."
+}

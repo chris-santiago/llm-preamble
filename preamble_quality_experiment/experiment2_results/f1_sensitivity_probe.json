@@ -1,0 +1,9 @@
+{
+  "poor_cqs": 0.425,
+  "average_cqs": 0.6611,
+  "excellent_cqs": 0.5726,
+  "cqs_range": 0.1476,
+  "order_preserved": false,
+  "verdict": "refutes_critique",
+  "verdict_text": "CQS range=0.148 >= 0.10: metric is sensitive to quality"
+}

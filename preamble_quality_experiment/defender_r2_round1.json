@@ -1,0 +1,70 @@
+{
+  "pass_2_analysis": "The critic's R2 challenge on F2 raises a genuine mechanism distinction (instruction-compliance vs distributional priming) but does not override the REBUT-SCOPE argument: the hypothesis tests outcomes (CQS), not mechanisms. The 6-bullet preamble is a valid operationalization of 'expert-level preamble' even if it operates through instruction-following rather than distributional priming. The experiment should include both directive-style and persona-style preambles to test both sub-mechanisms. F4 PARTIAL is addressed by noting that the three tasks DO have meaningful quality decision points at any CC level.",
+  "rebuttals": [
+    {
+      "finding_id": "F1",
+      "original_severity": 9,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": 0,
+      "adjusted_severity": 9,
+      "justification": "Maintained. Critic R2 accepted the DEFER. The empirical test (metric sensitivity probe + within-condition variance analysis) remains the resolution path. Severity 9 unchanged.",
+      "r2_challenge_response": "ACCEPT — critic R2 accepted the DEFER framing."
+    },
+    {
+      "finding_id": "F2",
+      "original_severity": 8,
+      "rebuttal_type": "REBUT-SCOPE",
+      "severity_adjustment": -3,
+      "adjusted_severity": 5,
+      "justification": "Critic R2 challenges that the mechanism distinction (instruction-compliance vs distributional priming) invalidates the construct. The defender's counter: the hypothesis tests outcomes (higher CQS) not mechanisms (how the preamble achieves the effect). Both instruction-following and distributional priming would produce the same CQS signal if real. Therefore the 6-bullet preamble validly tests the hypothesis claim. The experiment should add a persona-only condition (no explicit directives, only 'You are an expert senior engineer') to test the distributional priming sub-mechanism separately — but this is an extension, not a prerequisite. Severity maintained at 5.",
+      "r2_challenge_response": "MAINTAIN — the mechanism distinction is real but does not invalidate the construct. The hypothesis tests outcomes, not mechanisms."
+    },
+    {
+      "finding_id": "F3",
+      "original_severity": 7,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": -1,
+      "adjusted_severity": 6,
+      "justification": "Maintained. Critic R2 accepted. Severity 6.",
+      "r2_challenge_response": "ACCEPT — critic R2 accepted the DEFER and severity reduction."
+    },
+    {
+      "finding_id": "F4",
+      "original_severity": 7,
+      "rebuttal_type": "REBUT-LOGIC",
+      "severity_adjustment": -2,
+      "adjusted_severity": 5,
+      "justification": "Critic R2 gives PARTIAL — accepts quality dimensions can vary at any CC but argues decision-point density matters. Defender counter: the retry decorator task specifically requires decisions about: (1) exception type breadth (catch-all vs typed), (2) backoff strategy (fixed/linear/exponential), (3) jitter implementation (optional but quality-discriminating), (4) logging verbosity, (5) type annotation completeness. These are genuine expert-novice divergence points. Similarly CSV processor: error handling strategy for malformed rows is a real quality decision. The PARTIAL is reasonable but sev should remain at 5 — these tasks are not decision-point-free.",
+      "r2_challenge_response": "MAINTAIN at 5 — tasks have quality decision points that expert preambles could affect; the PARTIAL concedes the key counter-argument."
+    },
+    {
+      "finding_id": "F5",
+      "original_severity": 6,
+      "rebuttal_type": "CONCEDE",
+      "severity_adjustment": 0,
+      "adjusted_severity": 6,
+      "justification": "Maintained. Critic R2 accepted. Concession stands.",
+      "r2_challenge_response": "ACCEPT — critic R2 accepted the concession."
+    },
+    {
+      "finding_id": "F6",
+      "original_severity": 5,
+      "rebuttal_type": "DEFER",
+      "severity_adjustment": -1,
+      "adjusted_severity": 4,
+      "justification": "Maintained. Critic R2 accepted. Severity 4.",
+      "r2_challenge_response": "ACCEPT — critic R2 accepted the DEFER and severity reduction."
+    },
+    {
+      "finding_id": "F7",
+      "original_severity": 4,
+      "rebuttal_type": "REBUT-EVIDENCE",
+      "severity_adjustment": -2,
+      "adjusted_severity": 2,
+      "justification": "Maintained. Critic R2 accepted. Severity 2.",
+      "r2_challenge_response": "ACCEPT — critic R2 accepted the evidence rebuttal."
+    }
+  ],
+  "overall_verdict": "mixed",
+  "verdict_rationale": "F1 (DEFER, sev=9) remains the blocking finding requiring empirical resolution. F2 (REBUT-SCOPE, sev=5) is maintained against the mechanism challenge. F5 (CONCEDE, sev=6) stands. The investigation should proceed to experiment design focusing on metric sensitivity (F1), self-preference stratification (F3), and identifier entropy replacement (F5)."
+}

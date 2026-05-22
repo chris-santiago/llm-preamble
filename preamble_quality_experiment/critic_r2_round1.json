@@ -1,0 +1,47 @@
+{
+  "round": 1,
+  "challenges": [
+    {
+      "finding_id": "F1",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 9,
+      "reasoning": "Defender correctly DEFERs with a well-specified empirical test: within-condition vs between-condition variance analysis plus synthetic sensitivity probe. The ambiguity between metric insensitivity and genuine null is real and the proposed resolution is appropriate. The DEFER framing is correct — this cannot be resolved by argument alone."
+    },
+    {
+      "finding_id": "F2",
+      "challenge_verdict": "CHALLENGE",
+      "updated_severity": 7,
+      "reasoning": "The defender's REBUT-SCOPE misses the mechanism distinction. The hypothesis mechanism explicitly claims the preamble 'acts as a distributional shifter' — priming the model toward an expert coding subdomain. A 6-bullet directive list tests instruction-compliance, not distributional priming. Real production preambles (persona + constraints + tool context) are the actual construct for the distributional-shifter mechanism. The defender argues the hypothesis does not require production-length preambles, but the hypothesis mechanism requires a distributional shifter — not just an instruction list. Sev 8→7 (not fully fatal given hypothesis ambiguity, but not reduced to 5)."
+    },
+    {
+      "finding_id": "F3",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 6,
+      "reasoning": "DEFER is appropriate. The stratified self-vs-cross analysis is the correct empirical resolution. The severity reduction (7→6) is well-reasoned given the 35% CQS weight cap on judge scores."
+    },
+    {
+      "finding_id": "F4",
+      "challenge_verdict": "PARTIAL",
+      "updated_severity": 6,
+      "reasoning": "Defender's logic argument partially holds — naming and comments can vary at any CC level. But the defender does not rebut the key claim: tasks without complex quality decision points produce fewer observable preamble-driven differences. A junior developer writing a retry decorator will choose reasonable exponential backoff because it is the obvious approach, not because of expertise. The expert-novice divergence point is task complexity, not just metric coverage. Partially accepted: sev 7 → 6, not 5."
+    },
+    {
+      "finding_id": "F5",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 6,
+      "reasoning": "Concession appropriate. Identifier entropy is genuinely bidirectional. ACCEPT."
+    },
+    {
+      "finding_id": "F6",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 4,
+      "reasoning": "DEFER with severity reduction to 4 is appropriate. The normalization ceiling issue is verifiable and fixable."
+    },
+    {
+      "finding_id": "F7",
+      "challenge_verdict": "ACCEPT",
+      "updated_severity": 2,
+      "reasoning": "Defender's evidence argument is correct — radon class entries have CC=1 by construction, so their inclusion is a constant bias not a between-condition threat. ACCEPT."
+    }
+  ]
+}

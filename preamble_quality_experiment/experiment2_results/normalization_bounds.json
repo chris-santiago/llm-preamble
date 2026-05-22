@@ -1,0 +1,30 @@
+{
+  "maintainability_index": [
+    38.565716286157155,
+    89.75128552519915
+  ],
+  "avg_cyclomatic": [
+    1.0,
+    4.571428571428571
+  ],
+  "halstead_difficulty": [
+    0.0,
+    8.763045290358432
+  ],
+  "pylint_penalty": [
+    1.0,
+    12.0
+  ],
+  "cognitive_complexity_violations": [
+    0.0,
+    1e-06
+  ],
+  "bare_except_count": [
+    0.0,
+    1e-06
+  ],
+  "max_nesting_depth": [
+    0.0,
+    7.0
+  ]
+}
