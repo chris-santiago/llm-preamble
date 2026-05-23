@@ -9,9 +9,8 @@ If you ship a coding agent or design an LLM evaluation harness, the system promp
 ```
                                         what to do                                       evidence
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
-1. treat preamble content as             remove "junior dev" / "don't worry about"        β = −0.060
-   load-bearing — output moves           framing first — biggest single-clause lever      p = 5×10⁻⁵
-   in either direction
+1. preamble content is load-bearing      don't assume new content is neutral; test        β = −0.060
+   in both directions                    every preamble change against your evaluator     p = 5×10⁻⁵
 2. enumerate what your evaluator         list the dimensions in plain language; a bare    recovery
    measures, not what sounds expert      list recovers 70% of the maximum positive lift   ratio 0.70
 3. no universal best preamble exists     pick clauses by overlap with your downstream     probe A:
@@ -56,11 +55,11 @@ The rest of this README walks through each finding with empirical support, then 
 | `negative_control` ("junior developer") | 0.723 | **−0.060** | **5 × 10⁻⁵** |
 | `long_directive` (strongest rich preamble) | 0.815 | +0.046 | 0.002 |
 
-Both effects are statistically robust. Critically, `none` is not the floor — adding negative-quality framing pushes the model *below* what it produces with no instruction at all. That's the demonstration that the channel carries real signal: if preambles were inert or weakly additive, you could not degrade from baseline by writing one. (`trivial_baseline`, which uses no system prompt + a name-only user prompt + temperature 1.0, scores 0.556 — a −0.222 cliff that confirms the model uses *any* coherent context productively when present, and that the −0.060 negative-priming effect is a content-level signal rather than the absence of context.) The negative effect being larger in magnitude than the positive is a secondary observation — partly real, partly bounded by ceiling effects on rubric dimensions where `none` already scores near the top.
+Both effects are statistically robust. Critically, `none` is not the floor — the synthetic `negative_control` probe pushes output *below* what the model produces with no instruction at all. That's the demonstration that the channel carries real signal: if preambles were inert or weakly additive, you could not degrade from baseline by writing one. (`trivial_baseline`, which uses no system prompt + a name-only user prompt + temperature 1.0, scores 0.556 — a −0.222 cliff that confirms the model uses *any* coherent context productively when present, and that the −0.060 negative-priming effect is a content-level signal rather than the absence of context.) The negative effect being larger in magnitude than the positive is a secondary observation — partly real, partly bounded by ceiling effects on rubric dimensions where `none` already scores near the top.
 
 ![CQS-craft by preamble](preamble_quality_experiment_v2/experiment_v2_results/figures/fig1_headline_cqs_by_preamble.png)
 
-**Action.** Treat preamble content as load-bearing — what you write changes the output, including for the worse. The cheapest single audit available: scan your system prompt for negative-quality framing ("junior", "learning", "casual", "don't worry too much about"). Removing those is worth more CQS than any other prompt change you can make, because the channel reaches just as far in the negative direction as it does in the positive.
+**Action.** Treat preamble content as load-bearing — what you write changes the output, including for the worse. `negative_control` was a synthetic probe (no production prompt says "junior developer still learning Python"); its purpose was to *prove that the channel can push output below baseline at all*. The realistic implication for production prompts is broader: don't assume any preamble change is positive or neutral. Test every change against your evaluator. The most common ways real production prompts accidentally drift below baseline are content-mismatch (Finding 2) and verbose dilution (Finding 3) — both at smaller magnitude than the synthetic probe, but in the same direction.
 
 **Related work.** PRISM (USC 2026) reports the same below-baseline behavior on a *different* axis — expert personas degrade accuracy from ~71.6% to ~68%. Zheng et al. (EMNLP 2024) find no reliable accuracy gain from personas across 162 roles, consistent with this paper's load-bearing-on-craft reading (they measured accuracy; we measured craft). See [`RELATED_WORK.md` § "Personas help style, not substance"](RELATED_WORK.md#personas-help-style-not-substance--the-alignment-vs-pretraining-split) and [§ "Personas do not reliably help objective tasks"](RELATED_WORK.md#personas-do-not-reliably-help-objective-tasks).
 
@@ -165,7 +164,7 @@ The five findings collapse into a procedure:
 
 1. **Write down the dimensions your downstream evaluator scores.** This is the most important step. If you don't have an evaluator, build one before iterating on preambles — otherwise you cannot tell if your preamble changes are helping. If your evaluator is end-user thumbs-up, treat that as a noisy proxy for the dimensions your end-users actually notice, and try to articulate what those are.
 
-2. **Audit your existing preamble for negative-quality framing.** Any phrase that anchors competence downward ("junior", "learning", "casual", "don't worry too much about") pushes output measurably *below* what the model would produce with no preamble at all. Removing these is the single highest-leverage cleanup available — the channel reaches just as far in the negative direction as it does in the positive.
+2. **Treat every preamble change as bidirectional.** Don't assume new content is neutral or positive — the channel is sensitive enough that well-intentioned additions can degrade output. v2's `negative_control` was a synthetic probe ("junior developer still learning Python") that pushed output below the no-preamble baseline, demonstrating the negative direction exists; production prompts rarely contain language that blunt, but the realistic failure modes (rubric-mismatch and verbose dilution) are covered in steps 3–5 and produce the same directional effect at smaller magnitude. Test every preamble change against your evaluator.
 
 3. **Enumerate the evaluator's dimensions in plain language.** A bare list is sufficient; you'll capture ~70% of the maximum lift this way. The model genuinely allocates output capacity to whatever you enumerate.
 
