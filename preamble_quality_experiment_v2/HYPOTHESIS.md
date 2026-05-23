@@ -36,13 +36,34 @@ question, re-answered with the corrected instrument) and reasoning tier
 vs. `none` vs. `negative_control`. The effect is expected to be larger
 on creation tasks than on refactor tasks.
 
-**Mechanism:** Preambles act as distributional priming on the
-*alignment-dependent* axis of LLM capability — style, idiom, naming,
-comment quality, abstraction calibration — shaped during instruction-tuning.
-They do not measurably move *pretraining-dependent* axes — structural
-complexity, functional correctness as captured by static analysis. This
-split is the v1 finding and the published literature it cites
-(`RELATED_WORK.md`; USC PRISM 2026; Zheng et al. EMNLP 2024).
+**Mechanism (pre-registered, later refined post-main-run):** Preambles act
+as distributional priming on the *alignment-dependent* axis of LLM
+capability — style, idiom, naming, comment quality, abstraction
+calibration — shaped during instruction-tuning. They do not measurably
+move *pretraining-dependent* axes — structural complexity, functional
+correctness as captured by static analysis. This split is the v1 finding
+and the published literature it cites (`RELATED_WORK.md`; USC PRISM 2026;
+Zheng et al. EMNLP 2024).
+
+> **Post-hoc mechanism refinement (after the confound probes, see
+> `CONCLUSIONS.md §"Confound probes"`):** The pre-registered
+> "alignment vs capability" framing was partially correct but
+> over-stated. The three post-main-run probes (A nonrubric-expert,
+> B bare-rubric, C anti-rubric) showed that what governs whether a
+> dimension moves under preamble is the **overlap between dimensions
+> the preamble enumerates and dimensions the rubric measures**. The
+> pre-registered hypothesis predicted that capability-side dimensions
+> (algorithm_correctness, data_structure_choice) would be immobile
+> under preamble; this came out empirically true in v2, but the probes
+> suggest the proximate reason is that *no preamble in v2's condition
+> set enumerates those dimensions* — not that they are structurally
+> pretraining-locked. A v3 probe naming algorithmic correctness directly
+> would discriminate. Refined mechanism: preambles direct the model's
+> craft-attention budget to enumerated dimensions; CQS-craft measures
+> the overlap. The headline H1 (preambles move judge-scored craft)
+> remains supported; the mechanistic gloss is refined from
+> "alignment vs capability" to "preamble-enumerated vs unenumerated"
+> dimensions.
 
 **Open sub-question (reasoning tier):** Reasoning models may absorb craft
 signals during their internal chain-of-thought before content generation,

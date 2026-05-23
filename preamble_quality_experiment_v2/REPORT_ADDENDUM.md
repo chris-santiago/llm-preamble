@@ -244,3 +244,79 @@ just with different specific failure modes.
 The investigation followed the ml-lab structured debate workflow with macro-
 iteration on user methodological challenge: a defensible pre-registration
 deserves a defensible pre-flight.
+
+---
+
+## Post-main-run: the confound probes
+
+After the main run completed and the headline `CONCLUSIONS.md` was drafted,
+the user raised a sharp methodological challenge that the pre-flight had
+not addressed:
+
+> "Does the long directive only beat other preambles because it explicitly
+> covers the judging rubric dimensions?"
+
+The pre-flight had verified the instrument's *internal* validity (rubric
+prevalence, judge calibration, no clamp bug, reasoning param controlled).
+It had not verified the *interpretational* validity of any single preamble
+that dominates the headline. The rubric-directive overlap was real: 7 of
+`long_directive`'s 12 clauses explicitly enumerate dimensions the rubric
+scores. Both H-mechanism ("preambles change code; rubric detects change")
+and H-judge-priming ("preambles align surface markers to what the rubric
+enumerates") produced near-identical predictions in the main run, because
+the dominant preamble had been constructed without regard for whether its
+clauses overlap the rubric.
+
+Three discriminating probes were run on `task_expr_parser` with n=10 each,
+the full 10-judge cross-judge matrix, and the same calibration anchor
+and judge prompts as the main run. Total cost: $1.04. Total time:
+~5 minutes wall.
+
+| Probe | Preamble design | Result | Implication |
+|---|---|---|---|
+| **A** | Expert-toned 12-clause directive, clauses name *non-rubric* axes (compactness, performance, determinism, in-place ops, ordered iteration) | CQS −0.155 vs `none`, p = 0.0001 | Rules out "judges reward expert tone"; the model genuinely follows preamble content, and judges track actual code change |
+| **B** | Bare list of rubric dimensions, no expert tone, no imperative voice | CQS +0.015 vs `none`, p = 0.50 (≈ long_directive) | Naming the rubric items reproduces ~70% of `long_directive`'s lift, with no expert framing — partial support for the judge-priming side of the question |
+| **C** | Expert-toned 12-clause directive, clauses explicitly *deprioritize* rubric items | CQS −0.154 vs `none`, p = 0.0001 (≈ probe A) | Anti-rubric directives hurt identically to misaligned directives — preamble *content* drives behavior, not "presence of expert preamble" |
+
+The three results jointly support a refined reading: **attention allocation**.
+Preambles direct the model's finite craft-attention budget to whichever
+dimensions they enumerate, at the cost of other behaviors. The model
+genuinely tracks preamble content (probe A produces visibly fewer
+docstrings, fewer type hints, fewer defensive guards — observable to any
+reader). CQS-craft scores the overlap between dimensions the preamble
+directs the model toward and dimensions the rubric measures. The metric
+is real and reproducible, but rubric-dependent.
+
+Implications for the v2 main-run conclusions:
+
+1. The headline KW p = 9.2 × 10⁻¹⁸ is unaffected — the *existence* of
+   preamble effects on CQS-craft is robust.
+2. The mechanism gloss "preambles move alignment-dependent craft but not
+   pretraining-locked capability" should be refined to "preambles move
+   dimensions they enumerate (and the rubric measures); they do not
+   measurably move dimensions no v2 preamble enumerates". The two null
+   dimensions (`algorithm_correctness`, `data_structure_choice`) are
+   plausibly preamble-tunable under a probe specifically directing
+   attention to them; v2 did not run such a probe.
+3. The `negative_control` effect (−0.060 pooled) is *not* explained by
+   rubric overlap (negative_control enumerates nothing); it is a
+   stylistic-register effect distinct from attention allocation. The
+   "junior developer" framing's effect is the most mechanism-independent
+   finding in the investigation.
+4. `long_directive`'s lift over `none` decomposes as roughly: ~70%
+   attributable to rubric-aligned attention allocation (recoverable by
+   bare rubric naming, probe B), ~30% attributable to imperative tone or
+   compound-clause framing (the residual gap between probe B and
+   `long_directive`). On `task_expr_parser` specifically; the decomposition
+   may differ by task.
+
+The probes resolved an identification issue the pre-flight missed. A v3
+follow-up that included these probes from the start would have been a
+stronger investigation; v2's post-hoc probe is the second-best option.
+
+The lesson for ml-lab workflows is concrete: when a pre-registration's
+strongest preamble is also the one whose clauses overlap the rubric most,
+add a rubric-overlap-orthogonality probe to the pre-flight phase. The
+identification issue is small, the probe is cheap (~$1), and it converts
+a "well-defined but ambiguously-interpretable" main run into a
+"well-defined and mechanistically-interpretable" one.

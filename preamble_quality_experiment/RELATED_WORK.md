@@ -110,3 +110,19 @@ under-measured.
 - All cited code-domain results, like ours, are predominantly single-turn
   generation. Whether persona/preamble effects on craft persist or compound over
   multi-turn agentic sessions is open across this literature.
+
+> **Update from v2 (`../preamble_quality_experiment_v2/`):** v2's three
+> post-main-run confound probes (`CONCLUSIONS.md §"Confound probes"`)
+> refined the "alignment vs pretraining" framing the v1 work invoked
+> from PRISM. The probes showed that what governs whether a dimension
+> moves under preamble is not "alignment-tunable vs pretraining-locked"
+> per se, but **overlap between dimensions the preamble enumerates and
+> dimensions the rubric/eval measures**. The PRISM accuracy null and the
+> v1/v2 craft positive remain consistent with this refinement — accuracy
+> wasn't enumerated by the personas PRISM tested, and craft (style,
+> idiom, error handling) was — but the framing is sharper. A preamble
+> that explicitly enumerated correctness ("write rigorously correct code;
+> verify edge cases by symbolic reasoning before output") could in
+> principle move accuracy too, contrary to a strict reading of PRISM. A
+> preamble that explicitly enumerated *only* compactness can hurt craft
+> by ~7× the lift a rubric-aligned preamble provides — v2 probe A.
