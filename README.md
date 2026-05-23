@@ -62,6 +62,8 @@ Both effects are statistically robust. Critically, `none` is not the floor — a
 
 **Action.** Treat preamble content as load-bearing — what you write changes the output, including for the worse. The cheapest single audit available: scan your system prompt for negative-quality framing ("junior", "learning", "casual", "don't worry too much about"). Removing those is worth more CQS than any other prompt change you can make, because the channel reaches just as far in the negative direction as it does in the positive.
 
+**Related work.** PRISM (USC 2026) reports the same below-baseline behavior on a *different* axis — expert personas degrade accuracy from ~71.6% to ~68%. Zheng et al. (EMNLP 2024) find no reliable accuracy gain from personas across 162 roles, consistent with this paper's load-bearing-on-craft reading (they measured accuracy; we measured craft). See [`RELATED_WORK.md` § "Personas help style, not substance"](RELATED_WORK.md#personas-help-style-not-substance--the-alignment-vs-pretraining-split) and [§ "Personas do not reliably help objective tasks"](RELATED_WORK.md#personas-do-not-reliably-help-objective-tasks).
+
 ---
 
 ### Finding 2 — Preamble effects are governed by rubric overlap, not by "expertness"
@@ -81,6 +83,8 @@ Both effects are statistically robust. Critically, `none` is not the floor — a
 The model genuinely follows the preamble's content — probe A's outputs have visibly fewer docstrings, type hints, and defensive guards (you can read them in [`confound_probe_results/generations.jsonl`](preamble_quality_experiment_v2/confound_probe_results/generations.jsonl) and verify). Judges, blind to which preamble produced the code (see [methodology](#methodology-in-brief)), score the resulting code on whatever dimensions the rubric enumerates. The intersection of those two drives the effect.
 
 **Action.** Stop trying to write "the best preamble". Start by writing down the dimensions your downstream evaluator measures, then enumerate them in your system prompt. If your evaluator measures different things than the v2 rubric (e.g., latency, compactness, performance correctness), then probe A's preamble would beat `long_directive` for *you* — and v2's findings about which preamble is "best" don't transfer.
+
+**Related work.** This is the v2 refinement of PRISM's "alignment-tunable vs pretraining-locked" framing. The proximate predictor of which dimensions move under preamble is **preamble–evaluator overlap**, not whether a dimension is "alignment" or "capability" in some structural sense. See [`RELATED_WORK.md` § "Personas help style, not substance"](RELATED_WORK.md#personas-help-style-not-substance--the-alignment-vs-pretraining-split) — the v2 update at the end of that section makes this refinement explicit.
 
 ---
 
@@ -123,6 +127,8 @@ The 7 dimensions that move are exactly the 7 enumerated by `long_directive`. The
 
 **Action.** Don't assume any dimension is "preamble-immovable" without testing it. If you care about algorithmic correctness, enumerate it in your preamble — it may move (v2 didn't test this; an explicit-correctness probe is plausibly worth running for your domain).
 
+**Related work.** F4 is the headline form of the same PRISM refinement called out in F2 — the v2 update at the end of [`RELATED_WORK.md` § "Personas help style, not substance"](RELATED_WORK.md#personas-help-style-not-substance--the-alignment-vs-pretraining-split) discusses the implication: a preamble that explicitly enumerated correctness could in principle move accuracy too, against a strict reading of PRISM. F4's evidence is the within-rubric version of that argument.
+
 ---
 
 ### Finding 5 — Static-analysis tools cannot detect preamble effects on craft
@@ -146,6 +152,8 @@ The 7 dimensions that move are exactly the 7 enumerated by `long_directive`. The
 8 of 9 static metrics produced KW p > 0.5 across the 8 main preamble conditions. The single weak signal (`pylint_conventions`, p = 0.012) overlaps semantically with documentation/type-hint dimensions the rubric measures separately — and even there, the LLM-judge signal on the same axes is hundreds of orders of magnitude stronger (KW p < 10⁻¹⁶ on docstring quality and type-hint coverage). v1 confirmed this independently with its own static-analysis panel (KW p = 0.998 on a 65%-weighted static-heavy composite, which produced a false null on the whole investigation until the v2 instrument correction).
 
 **Action.** Build LLM-judge evaluation harnesses for any work where preamble or prompt-engineering effects matter. Static analysis tools are valid for what they measure (complexity, MI, lint compliance), but they don't measure what preambles tune. If you currently A/B-test preambles using radon/pylint metrics, you are getting false nulls.
+
+**Related work.** Independent confirmation in arXiv 2504.13656 ("Do Prompt Patterns Affect Code Quality?"), which found no significant differences in maintainability, security, or reliability across prompt patterns — all static-analysis-based. Concurrent argument that static analysis is insufficient as a quality measure (arXiv 2508.14419, 2506.10330) and should instead be used as a feedback signal. See [`RELATED_WORK.md` § "Prompt variation does not move static code-quality metrics"](RELATED_WORK.md#prompt-variation-does-not-move-static-code-quality-metrics).
 
 ---
 
