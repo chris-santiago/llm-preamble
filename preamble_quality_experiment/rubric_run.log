@@ -1,0 +1,18 @@
+Loaded 384 generations; 274 have valid code.
+[rubric] 822 judge calls queued (274 samples × 3 judges)...
+[rubric] Done: 821/822 judge calls successful
+Aggregated to 274 sample-level rows (cross-judge mean per item).
+
+Item                      KW H      KW p   per-condition smell rate (lower=better)
+mode_flag                 0.78    0.9927   gene=0.08  long=0.07  mini=0.11  nega=0.09  none=0.10  pers=0.09  real=0.11
+dict_domain               6.67    0.3529   gene=0.33  long=0.21  mini=0.34  nega=0.45  none=0.33  pers=0.32  real=0.31
+hidden_side_effects      10.08    0.1212   gene=0.17  long=0.08  mini=0.17  nega=0.20  none=0.27  pers=0.21  real=0.16
+swallowed_excepts         3.58    0.7336   gene=0.09  long=0.04  mini=0.09  nega=0.12  none=0.12  pers=0.06  real=0.06
+broad_except              3.85    0.6969   gene=0.17  long=0.16  mini=0.21  nega=0.18  none=0.27  pers=0.17  real=0.09
+dead_code                 7.62    0.2676   gene=0.06  long=0.00  mini=0.06  nega=0.03  none=0.00  pers=0.03  real=0.01
+orch_mixed_impl           4.21    0.6478   gene=0.12  long=0.09  mini=0.10  nega=0.18  none=0.18  pers=0.11  real=0.11
+overgrown_class           3.83    0.6997   gene=0.00  long=0.00  mini=0.01  nega=0.02  none=0.00  pers=0.00  real=0.01
+_smell_load               7.78    0.2545   gene=0.13  long=0.08  mini=0.14  nega=0.16  none=0.16  pers=0.12  real=0.11
+[viz] rubric_per_item_smell_rate.png
+
+Saved rubric_summary.json + rubric_judge_records.jsonl + figure.

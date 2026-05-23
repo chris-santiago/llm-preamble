@@ -1,0 +1,171 @@
+{
+  "rubric_items": [
+    {
+      "id": "mode_flag",
+      "description": "Does the code introduce boolean or mode-flag parameters on a non-underscore-prefixed function? (e.g. `def foo(x, *, verbose=False, dry_run=False, strict=True)`)"
+    },
+    {
+      "id": "dict_domain",
+      "description": "Does the code RETURN or ACCEPT dict-shaped domain data across a function boundary where a dataclass / TypedDict / NamedTuple would clarify the structure? (a typed object would be more idiomatic)"
+    },
+    {
+      "id": "hidden_side_effects",
+      "description": "Are there hidden side effects inside a function that LOOKS pure from its signature? (env-var reads, filesystem access, logging embedded in computation, mutating global/module-level state)"
+    },
+    {
+      "id": "swallowed_excepts",
+      "description": "Is there any except clause that swallows the exception? (e.g. `except ...: pass`, or catching then returning a silent sentinel without re-raising or typed handling)"
+    },
+    {
+      "id": "broad_except",
+      "description": "Is there a broad `except Exception` or bare `except:` at a library/function boundary without specific re-raise or narrowly-typed handling?"
+    },
+    {
+      "id": "dead_code",
+      "description": "Are there unused imports, dead code branches, or sentinel return values that are never meaningfully checked?"
+    },
+    {
+      "id": "orch_mixed_impl",
+      "description": "Does any single function BOTH coordinate workflow (calling many helpers, sequencing steps) AND do low-level transforms / I/O inline? (orchestration mixed with implementation in one function)"
+    },
+    {
+      "id": "overgrown_class",
+      "description": "Are there classes with many methods, weak invariants, or vague catch-all names (Manager / Handler / Helper / Processor) that should probably be a module of functions or smaller collaborators?"
+    }
+  ],
+  "judges": [
+    "openai/gpt-4o-mini",
+    "deepseek/deepseek-v3.2",
+    "mistralai/mistral-small-2603"
+  ],
+  "n_samples_judged": 274,
+  "n_sample_rows_cross_judge": 274,
+  "per_item_separation": {
+    "mode_flag": {
+      "H": 0.7778596964914694,
+      "p": 0.9926542114848403,
+      "means": {
+        "none": 0.0967741935483871,
+        "minimal": 0.1056910569105691,
+        "generic_coding": 0.078125,
+        "real_agent": 0.10784313725490195,
+        "negative_control": 0.09139784946236558,
+        "persona_only": 0.09313725490196079,
+        "long_directive": 0.07352941176470588
+      },
+      "significant": false
+    },
+    "dict_domain": {
+      "H": 6.66555673872318,
+      "p": 0.35288615631408815,
+      "means": {
+        "none": 0.3279569892473118,
+        "minimal": 0.3373983739837398,
+        "generic_coding": 0.33333333333333337,
+        "real_agent": 0.30882352941176466,
+        "negative_control": 0.45161290322580644,
+        "persona_only": 0.32352941176470584,
+        "long_directive": 0.20588235294117646
+      },
+      "significant": false
+    },
+    "hidden_side_effects": {
+      "H": 10.082635078782236,
+      "p": 0.12121493508246664,
+      "means": {
+        "none": 0.26881720430107525,
+        "minimal": 0.17073170731707316,
+        "generic_coding": 0.171875,
+        "real_agent": 0.1568627450980392,
+        "negative_control": 0.1989247311827957,
+        "persona_only": 0.2107843137254902,
+        "long_directive": 0.08333333333333333
+      },
+      "significant": false
+    },
+    "swallowed_excepts": {
+      "H": 3.5774765676134312,
+      "p": 0.7336348701590174,
+      "means": {
+        "none": 0.12365591397849461,
+        "minimal": 0.08943089430894309,
+        "generic_coding": 0.08854166666666666,
+        "real_agent": 0.058823529411764705,
+        "negative_control": 0.12365591397849462,
+        "persona_only": 0.06372549019607843,
+        "long_directive": 0.04411764705882353
+      },
+      "significant": false
+    },
+    "broad_except": {
+      "H": 3.8501863015460667,
+      "p": 0.6969418376783825,
+      "means": {
+        "none": 0.27419354838709675,
+        "minimal": 0.2113821138211382,
+        "generic_coding": 0.171875,
+        "real_agent": 0.09313725490196079,
+        "negative_control": 0.1827956989247312,
+        "persona_only": 0.16666666666666669,
+        "long_directive": 0.16176470588235295
+      },
+      "significant": false
+    },
+    "dead_code": {
+      "H": 7.616277415173387,
+      "p": 0.2675846709394142,
+      "means": {
+        "none": 0.0,
+        "minimal": 0.06097560975609756,
+        "generic_coding": 0.057291666666666664,
+        "real_agent": 0.014705882352941176,
+        "negative_control": 0.03225806451612903,
+        "persona_only": 0.029411764705882353,
+        "long_directive": 0.0
+      },
+      "significant": false
+    },
+    "orch_mixed_impl": {
+      "H": 4.213354616071976,
+      "p": 0.6478286617215729,
+      "means": {
+        "none": 0.18279569892473116,
+        "minimal": 0.10162601626016259,
+        "generic_coding": 0.125,
+        "real_agent": 0.10784313725490195,
+        "negative_control": 0.17741935483870966,
+        "persona_only": 0.10784313725490195,
+        "long_directive": 0.08823529411764705
+      },
+      "significant": false
+    },
+    "overgrown_class": {
+      "H": 3.8298602665847006,
+      "p": 0.6996881436987952,
+      "means": {
+        "none": 0.0,
+        "minimal": 0.012195121951219513,
+        "generic_coding": 0.0,
+        "real_agent": 0.00980392156862745,
+        "negative_control": 0.016129032258064516,
+        "persona_only": 0.0,
+        "long_directive": 0.0
+      },
+      "significant": false
+    },
+    "_smell_load": {
+      "H": 7.781945262312957,
+      "p": 0.2545178312535859,
+      "means": {
+        "none": 0.15927419354838707,
+        "minimal": 0.13617886178861788,
+        "generic_coding": 0.12825520833333331,
+        "real_agent": 0.10723039215686275,
+        "negative_control": 0.15927419354838707,
+        "persona_only": 0.12438725490196079,
+        "long_directive": 0.0821078431372549
+      },
+      "significant": false
+    }
+  }
+}

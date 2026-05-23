@@ -83,7 +83,7 @@ RESULTS_DIR.mkdir(exist_ok=True)
 # ============================================================
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
-CONCURRENCY = 12   # async semaphore for both generation and judging
+CONCURRENCY = 50   # async semaphore for both generation and judging
 MAX_RETRIES = 4
 BASE_RETRY_DELAY = 2.0   # seconds; exponential backoff
 GEN_TIMEOUT = 120        # generation (hard tasks need more tokens)
@@ -93,7 +93,10 @@ JUDGE_TIMEOUT = 60
 # Models
 # ============================================================
 
-# All 8 models used as both subjects AND judges (full cross-judge matrix)
+# Models used as both subjects AND judges (full cross-judge matrix).
+# `x-ai/grok-4.1-fast` was deprecated mid-experiment (404s with a
+# replacement-suggestion from OpenRouter) — removed. Replace with
+# `x-ai/grok-4.3` if you want to restore 8 models.
 ALL_MODELS = [
     "deepseek/deepseek-v3.2",
     "google/gemma-4-31b-it",
@@ -102,7 +105,6 @@ ALL_MODELS = [
     "nvidia/nemotron-3-super-120b-a12b",
     "openai/gpt-4o-mini",
     "qwen/qwen3.5-35b-a3b",
-    "x-ai/grok-4.1-fast",
 ]
 
 SUBJECT_MODELS = ALL_MODELS
