@@ -33,6 +33,18 @@ The full results, debate scorecard, and limitations are in v2's [`CONCLUSIONS.md
 
 ## Headline conclusions (v2)
 
+> **Methodology note — judges were blind to preambles.** Throughout the v2
+> main run and all probes, the judge call's user message was exactly
+> `"Code under review:\n\n```python\n{code}\n```"` — fenced extracted
+> code only, no condition label, no preamble text, no task description.
+> Judge system prompts contain the rubric and the calibration anchor but
+> no preamble information. Code refs:
+> [`preamble_quality_v2_main.py:621-630`](preamble_quality_experiment_v2/preamble_quality_v2_main.py),
+> [`confound_probes.py:341-362`](preamble_quality_experiment_v2/confound_probes.py).
+> Any "judge-priming" hypothesis below is about *what code the model
+> produces under a preamble*, not about *what information the judge
+> sees about the preamble*.
+>
 > **Refined mechanism interpretation, up front (after the confound probes).**
 > The strongest rich preamble (`long_directive`) is a 12-clause directive
 > list that explicitly enumerates ~7 of the 9 always-on rubric dimensions.

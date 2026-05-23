@@ -251,6 +251,28 @@ but with insufficient power to be decisive at the per-task level. It contributes
 
 ---
 
+## Methodology note — judges are blind to preambles
+
+Before discussing the identification limit and the probes, a foundational
+clarification of the judge protocol. Throughout the v2 main run, all five
+pre-flight phases, and the three confound probes, **judges never saw
+preamble information**. The judge call's user message is exactly
+`"Code under review:\n\n```python\n{code}\n```"` — fenced extracted code,
+nothing else. The judge's system prompt is either the rubric prompt
+(with calibration anchor) or the idiom_comment prompt — neither contains
+preamble text, condition labels, subject model identity, or the original
+task prompt. Code references: `preamble_quality_v2_main.py:621-630` for
+the main run; `confound_probes.py:341-362` for the post-hoc probes.
+
+When this document discusses an "H-judge-priming" hypothesis, the priming
+is at the **code level**: the model under a particular preamble produces
+code with different surface markers (more or fewer docstrings, type
+hints, defensive guards), and judges blind to the preamble detect those
+markers. The hypothesis is about whether the markers are *deep craft
+changes* or *surface alignment to what the rubric enumerates*. It is
+not, and could not be, about leaked preamble information reaching the
+judges.
+
 ## Identification limit — rubric-directive overlap confound
 
 Before reading the per-dimension results, a critical caveat we underplayed in
@@ -393,11 +415,24 @@ on this task. The model followed the preamble's content — produced
 compact, performance-focused code with fewer docstrings, fewer defensive
 guards, fewer comments — and the rubric correctly penalized this.
 
-**This rules out a strong form of H-judge-priming.** If judges were merely
-rewarding "expert tone" or "well-formatted preamble"-aligned outputs, probe A
-should produce CQS close to `long_directive`. It doesn't; it produces CQS
-*worse than `negative_control`*. The judges are tracking the actual code,
-not the preamble's surface tone.
+**This rules out a strong form of H-judge-priming.** (Note on methodology:
+**judges were blind to preamble identity** — the judge call's user message
+is `"Code under review:\n\n```python\n{code}\n```"`, with no condition
+label, preamble text, or task description visible. See
+`preamble_quality_v2_main.py:621-630` and `confound_probes.py:341-362`.
+H-judge-priming was never the strawman "judge sees the preamble and
+rewards expert framing"; it was the subtler claim that **the model**,
+conditioned on a rubric-enumerating preamble, produces code with more
+surface markers matching the rubric items — docstrings, type hints,
+try/except blocks, thread-safety comments — and blind judges then score
+those markers favorably because the rubric prompt enumerates the
+dimensions.) If that subtler indirect form of H-judge-priming were the
+*entire* story, probe A's outputs — which carry an expert tone in the
+preamble but not in the code — should produce CQS close to `long_directive`.
+They don't; they produce CQS worse than `negative_control`. The model
+genuinely follows the preamble's content into different code (visibly
+fewer docstrings, fewer guards), and blind judges correctly detect the
+shortfall.
 
 **This also rules out a strong form of H-mechanism that frames preambles
 as "generic expert priming".** If expert framing generically improved
