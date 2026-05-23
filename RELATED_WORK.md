@@ -87,6 +87,56 @@ under-measured.
 
 - https://arxiv.org/pdf/2411.00006 · https://arxiv.org/pdf/2603.24359
 
+## Prompt format as an independent variable
+
+A line of work adjacent to v2's "bare enumeration captures ~70% of the
+positive lift" finding ([`README.md` Finding 3](README.md)) asks the broader
+question of **format-at-fixed-content** as a controlled prompt variable.
+
+- **Liu et al., "Beyond Prompt Content: Enhancing LLM Performance via
+  Content-Format Integrated Prompt Optimization" (CFPO)** — arXiv 2502.04295,
+  Feb 2025. Runs a true content-vs-format ablation. Format-only optimization
+  recovers a sizable fraction of joint-optimization gains: on Big-Bench
+  Classification, ~83–86% of joint; on GSM8K, ~52–77% of joint
+  (Llama3.1 / Llama3-Instruct). Directionally consistent with v2's ~70%
+  finding, but on reasoning/classification rather than code craft, and
+  "format" includes renderer structure (Question-Answer, Instruction-Response,
+  MultiChoice_QA) rather than specifically enumeration vs prose.
+- **He et al., "Does Prompt Formatting Have Any Impact on LLM Performance?"**
+  — arXiv 2411.10541, Nov 2024. Holds prompt content fixed and varies only
+  formatting (plain text, Markdown, JSON, YAML). Code-translation
+  performance on GPT-3.5-turbo varies by ~40% across formats; HumanEval shows
+  up to a 2× shift between Markdown and plain text. Establishes the
+  precondition for any format-vs-content decomposition: format alone moves
+  code-generation output substantially. Measures pass@1, not craft.
+- **Sclar et al., "Quantifying Language Models' Sensitivity to Spurious
+  Features in Prompt Design" (FormatSpread)** — ICLR 2024 (arXiv 2310.11324).
+  Atomic perturbations of separators, casing, item formatting, and item
+  ordering on few-shot prompts. Reports accuracy spreads up to 76 points
+  across format-only variations. The canonical "format brittleness" result;
+  documents brittleness rather than decomposing enumeration effect-size.
+- **Bohr, "Show and Tell: Prompt Strategies for Style Control in Multi-Turn
+  LLM Code Generation"** — arXiv 2511.13972, Nov 2025. N=160 paired
+  two-turn Python sessions on Gemini 2.5 Pro across Control / Examples /
+  Instructions / Combined conditions. Measures style outcomes (compression
+  discipline, defensive ratios, documentation density) independent of
+  correctness. Closest domain match for v2 (code craft under directive
+  preambles), but does not decompose directive form into enumeration vs
+  imperative vs compound-clause components.
+
+**Net.** None of these isolates v2's specific decomposition (bare
+comma-separated list vs full imperative directive vs verbose prose on
+code-craft scores at fixed dimension coverage). CFPO is the closest
+methodological analog; He et al. and Sclar et al. establish that format
+alone moves outputs substantially (preconditions for any decomposition
+claim); Bohr is the closest domain match but does not subdivide directive
+form. v2's 70/30 decomposition appears to be the first published
+attribution of code-craft lift to enumeration form vs imperative-tone +
+compound-clause structure at fixed dimension coverage.
+
+- https://arxiv.org/abs/2502.04295 · https://arxiv.org/abs/2411.10541
+- https://arxiv.org/abs/2310.11324 · https://arxiv.org/abs/2511.13972
+
 ## What this experiment contributes
 
 1. **Craft-axis measurement.** We target the hard-to-judge dimensions (idiomaticity,

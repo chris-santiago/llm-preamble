@@ -102,6 +102,8 @@ The remaining 30% (0.006 CQS units on this task) is attributable to:
 
 **Action.** When time-constrained, write a one-sentence list. It's good enough. When you have time to polish, add imperative tone and dimension-level explanations to capture the remaining 30%. Don't add workflow/tooling/refactoring content unless it serves a separate single-turn goal — the dilution costs you.
 
+**Related work.** No published 2023–2026 work directly anchors the bare-enumeration-captures-~70% decomposition; v2's 70/30 attribution at fixed dimension coverage appears to be novel. Closest methodological analog: **CFPO** (Liu et al., arXiv 2502.04295) decomposes prompt optimization into content vs format axes and reports format-only recovers ~80% of joint-optimization gains on Big-Bench classification and GSM8K — directionally consistent, but on reasoning/classification rather than code craft. Supporting preconditions: **He et al.** (arXiv 2411.10541) show format-alone moves code-generation by ~40% with content held fixed; **Sclar et al.** (ICLR 2024, FormatSpread) document format-only spread up to 76 accuracy points. Closest domain match: **Bohr** (arXiv 2511.13972) on directive-prompt style control in multi-turn code generation. See [`RELATED_WORK.md` § "Prompt format as an independent variable"](RELATED_WORK.md#prompt-format-as-an-independent-variable) for the full mapping.
+
 ---
 
 ### Finding 4 — No "alignment vs capability" split, just preamble–evaluator overlap
@@ -163,7 +165,7 @@ The five findings collapse into a procedure:
 
 1. **Write down the dimensions your downstream evaluator scores.** This is the most important step. If you don't have an evaluator, build one before iterating on preambles — otherwise you cannot tell if your preamble changes are helping. If your evaluator is end-user thumbs-up, treat that as a noisy proxy for the dimensions your end-users actually notice, and try to articulate what those are.
 
-2. **Audit your existing preamble for negative-quality framing.** Any phrase that anchors competence downward ("junior", "learning", "casual", "don't worry too much about") costs more CQS than any positive framing can recover. Remove these first.
+2. **Audit your existing preamble for negative-quality framing.** Any phrase that anchors competence downward ("junior", "learning", "casual", "don't worry too much about") pushes output measurably *below* what the model would produce with no preamble at all. Removing these is the single highest-leverage cleanup available — the channel reaches just as far in the negative direction as it does in the positive.
 
 3. **Enumerate the evaluator's dimensions in plain language.** A bare list is sufficient; you'll capture ~70% of the maximum lift this way. The model genuinely allocates output capacity to whatever you enumerate.
 
