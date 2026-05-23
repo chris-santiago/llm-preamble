@@ -170,12 +170,17 @@ non-reasoning mixed in the same pool.
 (β = +0.046, p = 0.002). `real_agent` and `python_coder_agent` sit at the
 edge of significance (p = 0.067 and p = 0.126). The KW result is largely
 driven by the gap between `trivial_baseline` / `negative_control` and
-everything else — preambles primarily *prevent* quality regression rather
-than push quality far above the no-preamble baseline. **The asymmetric
-mechanism is the v2 refinement: rich preambles ≈ no preamble; "junior dev"
-priming actively hurts.** And critically, **this asymmetry holds in both
-tiers** — the interaction analysis confirms preamble effects do not
-materially differ between reasoning and non-reasoning models.
+everything else. **The sharpest reading is not a positive/negative
+asymmetry but a demonstration that the preamble channel is load-bearing:**
+`none` is not a floor — `negative_control` pushes CQS-craft *below* what
+the model produces with no system prompt at all. If preambles were inert
+or weakly additive, this could not happen. The negative effect being
+larger in magnitude than the positive effect is a secondary observation,
+partly real and partly bounded by ceiling effects on rubric dimensions
+where `none` already scores near the top. **This load-bearing behavior
+holds in both tiers** — the interaction analysis confirms preamble
+effects do not materially differ between reasoning and non-reasoning
+models.
 
 ### Weight-sensitivity (all schemes preamble-significant)
 
@@ -674,12 +679,22 @@ true):
    the rubric enumerates, or both. The effect on judge-scored CQS-craft is
    robust (p < 10⁻¹⁸ pooled, robust to all 7 alternative weightings, present
    in both tiers).
-2. **The effect is asymmetric:** rich preambles ≈ no preamble (small positive
-   delta, mostly p ≈ 0.06 in mixed-effects); negative-priming preambles
-   *actively hurt* (p < 10⁻⁵). The "junior developer" framing's negative
-   effect is unlikely to be a pure-priming artifact because that preamble
-   does not enumerate any rubric dimensions; it changes the model's
-   stylistic register.
+2. **The preamble channel is load-bearing in both directions:** rich
+   preambles produce small positive deltas vs `none` (β = +0.046 for
+   `long_directive`, p = 0.002; others mostly p ≈ 0.06–0.13), and
+   `negative_control` produces a larger-magnitude negative delta
+   (β = −0.060, p < 10⁻⁵) that pushes CQS-craft *below* the no-preamble
+   baseline. The cleanest demonstration of the channel's strength is this
+   degradation case: if preambles were inert or weakly additive, writing
+   one could not move output below what the model produces with no system
+   prompt at all. The negative > positive *magnitude gap* is a secondary
+   observation — partly genuine, partly an artifact of ceiling effects on
+   rubric dimensions where `none` already scores near the top. The
+   "junior developer" framing's negative effect is unlikely to be a
+   pure-priming artifact in the trivial sense, because that preamble does
+   not enumerate any rubric dimensions; it changes the model's stylistic
+   register, and judges (blind to the preamble) score the resulting code
+   lower on the dimensions that register affects.
 3. **`long_directive` is the only preamble that beats `none` at p < 0.01
    after controlling for model + task.** But `long_directive` is also the
    preamble whose clauses most directly enumerate the rubric dimensions
