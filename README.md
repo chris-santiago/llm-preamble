@@ -1,5 +1,7 @@
 # LLM Preamble Quality Experiments
 
+> Designed, executed, and analyzed using [**ml-lab**](https://github.com/chris-santiago/ml-lab) — a Claude Code plugin for rigorous, pre-registered ML hypothesis investigations (hypothesis → adversarial critique → PoC → empirical resolution → peer review). Every artifact in this repo (`HYPOTHESIS.md`, `SPEC_V2.md`, `CONCLUSIONS.md`, `REPORT_ADDENDUM.md`, `INVESTIGATION_LOG.jsonl`) is a canonical output of that workflow.
+
 If you ship a coding agent or design an LLM evaluation harness, the system prompt content materially changes the code your model produces. This repo measures *how much*, *under what conditions*, and — most importantly for practitioners — *why*. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings, $34 total.
 
 **TL;DR for builders:** there is no universal "best preamble." A preamble's effect is governed by overlap between (the dimensions the preamble enumerates) and (the dimensions your downstream evaluator measures). Bad preambles hurt much more than good preambles help. Modest effect sizes overall (~5 points out of 100). Empirical proof for each claim below.
