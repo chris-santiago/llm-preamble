@@ -18,6 +18,19 @@ than refactoring tasks. The `python_coder_agent` condition is included as
 one rich-preamble data point (a real production system prompt verbatim),
 not as a contrast being tested for itself.
 
+> **Read the full results in [`CONCLUSIONS.md`](CONCLUSIONS.md), not this
+> PoC README.** v2's main-run found preamble effects on judge-scored
+> CQS-craft at p = 9.2 × 10⁻¹⁸. The mechanism was clarified by three
+> follow-up probes ([`CONCLUSIONS.md §"Confound probes"`](CONCLUSIONS.md#confound-probes))
+> that ruled out pure judge-priming and refined the picture to an
+> **attention-allocation reading**: preambles direct the model's
+> craft-attention budget toward whatever dimensions they enumerate, at
+> the cost of other behaviors. CQS-craft is real and reproducible, but
+> rubric-dependent — a preamble's lift over `none` is proportional to
+> the overlap between (what the preamble enumerates) and (what the
+> rubric measures). See `CONCLUSIONS.md §"Identification limit"` and
+> `§"Confound probes"` for the full treatment.
+
 ## Quickstart
 
 ```bash

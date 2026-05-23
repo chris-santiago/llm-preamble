@@ -1,0 +1,15 @@
+Installed 8 packages in 132ms
+=== confound probes (A misaligned-expert / B bare-rubric / C anti-rubric) ===
+  task: task_expr_parser
+  probes: ['probe_A_nonrubric_expert', 'probe_B_bare_rubric', 'probe_C_antirubric_expert', 'none_control']
+  subjects: 10 models, 3 reasoning
+  judges:   10 (full cross-judge matrix)
+
+[1/2] generating 40 samples...
+  extracted ok: 40/40
+
+[2/2] judging 800 (gen, judge, kind) tuples...
+  parsed ok: 713/800
+
+report: /Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment_v2/confound_probe_results/REPORT.md
+total cost: $1.0360

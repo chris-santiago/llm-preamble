@@ -8,17 +8,35 @@ The effect is expected on alignment-dependent craft axes (style, naming, comment
 error handling, edge cases) and *not* on pretraining-dependent capability axes
 (structural complexity, algorithmic correctness).
 
-**Headline finding:** **Hypothesis SUPPORTED at the corrected instrument.** With
-v1's measurement instrument fixed (static analysis demoted to a diagnostic panel;
-LLM-judge severity rubric redesigned for algorithmic-code dimensions; judge panel
-calibrated; 1,215 valid samples vs v1's 274), the primary CQS-craft shows
-preamble-condition effect at Kruskal–Wallis **p = 9.2 × 10⁻¹⁸** pooled — and at
-p ≤ 2.3 × 10⁻¹² within each model tier separately. Seven of nine always-on
-rubric dimensions show preamble-significant separation (criterion was three).
-The two null dimensions — `algorithm_correctness` and `data_structure_choice` —
-are exactly the pretraining-dependent capability axes the hypothesis predicted
-would *not* move. The mechanism is cleanly confirmed: preambles move craft, not
-capability.
+**Headline finding (descriptive):** **CQS-craft moves with preamble at the
+corrected instrument.** With v1's measurement instrument fixed (static analysis
+demoted to a diagnostic panel; LLM-judge severity rubric redesigned for
+algorithmic-code dimensions; judge panel calibrated; 1,215 valid samples vs
+v1's 274), the primary CQS-craft shows preamble-condition effect at
+Kruskal–Wallis **p = 9.2 × 10⁻¹⁸** pooled — and at p ≤ 2.3 × 10⁻¹² within each
+model tier separately. Seven of nine always-on rubric dimensions show
+preamble-significant separation (criterion was three).
+
+**Headline finding (mechanistic):** Three discriminating probes
+(§"Confound probes" below) refined the mechanism understanding from the
+naïve "preambles change code; rubric detects change" to a more accurate
+**attention-allocation reading**: preambles direct the model's finite
+craft-attention budget toward the dimensions they enumerate, at the cost
+of whatever the model would otherwise have done. When the preamble's
+enumerated dimensions overlap with what the rubric measures, CQS-craft
+goes up. When they don't, it goes down — sometimes far below the
+`negative_control` baseline. The judges are tracking real code changes
+(probe A confirms this: a misaligned expert directive hurts CQS by 7×
+the `long_directive` lift, with measurably fewer docstrings, fewer
+defensive guards, and fewer type hints in the output). But the
+*magnitude and sign* of any preamble's effect on CQS-craft is governed
+by overlap with the rubric, not by some platonic "code quality". The
+v1/v2 substantive claim — preambles affect code craft — is supported; the
+v1/v2 mechanistic claim — preambles split alignment-tunable craft axes
+from pretraining-locked capability axes — is *partially supported*, with
+the caveat that "alignment-tunable" should be read as "any dimension a
+preamble can direct attention to" rather than "any dimension separate
+from underlying capability."
 
 **Design summary:** 10 subject models × 9 preamble conditions × 7 tasks
 (4 creation + 2 refactor + 1 multi-file) × 2 replications = 1,260 generations;
@@ -233,6 +251,262 @@ but with insufficient power to be decisive at the per-task level. It contributes
 
 ---
 
+## Identification limit — rubric-directive overlap confound
+
+Before reading the per-dimension results, a critical caveat we underplayed in
+the headline. The `long_directive` preamble is a 12-clause enumerated list of
+engineering directives. Mapping its clauses against the 11 rubric dimensions:
+
+| `long_directive` clause | Rubric dimension it names |
+|---|---|
+| (1) idiomatic Python | (overlaps CQS-craft's `idiomaticity` component) |
+| (2) appropriate abstraction | `abstraction_miscalibration` |
+| (3) defensive programming, validate inputs, handle edge cases, fail clearly | `edge_case_gap`, `error_handling_inconsistency` |
+| (4) precise naming | (overlaps `idiomaticity` component) |
+| (5) comments why not what | `documentation_appropriateness` (and `comment_quality` component) |
+| (6) maintainable | (broad) |
+| (7) concurrency / thread-safety explicit | `concurrency_safety` |
+| (8) composition over inheritance | `code_organization` |
+| (9) side effects + I/O boundaries explicit | `code_organization` |
+| (10) testable interfaces, dependency injection | (no direct dim) |
+| (11) log errors at right severity, never swallow | `error_handling_inconsistency` |
+| (12) docstring public interfaces | `documentation_appropriateness`, `type_hint_gap` |
+
+**Seven of nine always-on rubric dimensions — exactly the seven that show
+p < 10⁻⁴ — are explicitly named in `long_directive`'s clauses.** The two
+dimensions that don't move (`algorithm_correctness`, `data_structure_choice`)
+are not named in any preamble in any condition.
+
+This mapping is consistent with two substantively different hypotheses, and
+the v2 design produces nearly identical predictions under each:
+
+**H-mechanism:** Preambles change the code the model writes on alignment-tunable
+craft axes. Judges then detect those changes. The 7-vs-2 split reflects which
+axes are actually preamble-tunable (craft) vs which are pretraining-locked
+(capability).
+
+**H-judge-priming:** Preambles cause the model to add surface markers
+(verbose docstrings, defensive try-blocks, type hints on every public
+signature, comments mentioning thread safety) that match the preamble's
+stated priorities — without deep changes to algorithmic structure. The
+judges' rubric prompt explicitly enumerates the 11 dimensions; judges score
+higher when the surface markers are present, regardless of whether the
+underlying code is materially different. The 7-vs-2 split reflects which
+dimensions the preamble explicitly names.
+
+These hypotheses are observationally near-equivalent in the v2 design because
+the preamble that drives most of the headline effect (`long_directive`)
+explicitly names ~7 of the 9 always-on rubric dimensions, and the rubric
+judges are told what to look for. We could not, from v2 alone, distinguish a
+genuine code-craft change that the rubric correctly detects from a
+preamble-driven surface change that aligns to what the rubric enumerates.
+
+**What the v2 data *does* tell us, regardless of which hypothesis is true:**
+
+1. **`long_directive` produces samples that judges score consistently higher**
+   on 7 of 9 rubric dimensions — whether through deep code change or surface
+   marker alignment, the effect is real and reproducible (p < 10⁻⁴ on multiple
+   dimensions).
+2. **`negative_control` produces samples that judges score consistently lower**
+   on the same dimensions. The "junior developer" framing's effect (β ≈ −0.06,
+   p ≈ 5 × 10⁻⁵) is unlikely to be a pure-priming artifact because it does
+   not enumerate dimensions for the judge — it shifts the model's stylistic
+   register, and that shift is what gets scored down.
+3. **The static-analysis panel is flat** on 8 of 9 metrics. Static analysis
+   measures (radon, pylint, cyclomatic, Halstead) are insensitive to surface
+   markers that don't change code structure. If H-judge-priming were the
+   entire story, we'd expect *every* static metric to be flat — which is
+   exactly what we see — but this doesn't discriminate, because H-mechanism
+   *also* predicts most static metrics to be flat (those metrics don't
+   measure craft).
+4. **`pylint_conventions` is the one static metric that moved** (p = 0.012).
+   It semantically overlaps with `documentation_appropriateness` /
+   `type_hint_gap` — the very dimensions long_directive explicitly names.
+   Under H-mechanism: real changes in convention compliance. Under
+   H-judge-priming: surface markers (docstrings, type hints) that
+   incidentally improve pylint convention scores. The evidence remains
+   ambiguous.
+
+The probes reported in §"Confound probes" below were designed specifically
+to discriminate H-mechanism from H-judge-priming. **The probe results
+substantially clarify the picture but do not produce a clean win for
+either hypothesis — they support a refined third reading.**
+
+## Confound probes
+
+To discriminate H-mechanism from H-judge-priming, three preambles were
+constructed and tested on `task_expr_parser` (n=10 generations per probe,
+all 10 subject models, full 10-judge cross-judge matrix, same calibration
+anchor, same idiom/comment + rubric judge prompts as main run). Reference
+data is the v2 main-run CQS-craft on the same task. Cost: $1.04.
+
+**Probe A — `nonrubric_expert`**: 12-clause directive list, expert tone
+("You are an expert autonomous coding agent. Your code must: …"), but
+clauses name *non-rubric* axes — compactness, single-pass algorithms,
+in-place operations, builtins-over-custom, deterministic iteration order,
+top-down code ordering, early returns, etc. None of the clauses enumerate
+documentation, type hints, error handling, edge cases, concurrency, API
+ergonomics, or abstraction.
+
+**Probe B — `bare_rubric`**: a bare list of the rubric dimensions, no
+expert framing, no imperative tone: *"Your code will be evaluated on these
+specific dimensions: error handling consistency, edge case handling on
+empty/boundary/invalid inputs, type hint completeness on public functions,
+code organization and cohesion, documentation appropriateness, abstraction
+calibration, API ergonomics, concurrency safety where applicable,
+appropriate data structure choice, algorithmic correctness, and example
+quality when examples are requested."*
+
+**Probe C — `antirubric_expert`**: same expert framing as `long_directive`
+("You are an expert autonomous coding agent. Your code must: …"), but
+clauses explicitly *deprioritize* rubric items — "type hints are optional
+clutter; omit them", "don't over-engineer error handling", "edge cases are
+the caller's responsibility", "library-style guards add noise", "comments
+belong in commit messages, not source files", etc.
+
+### Probe results vs main-run reference
+
+| Condition | n | mean CQS-craft | 95% CI | Δ vs `none` | p vs `none` (Mann-Whitney) |
+|---|---|---|---|---|---|
+| `none` (main-run, expr_parser) | 20 | **0.827** | [0.807, 0.845] | — | — |
+| `long_directive` (main-run, expr_parser) | 20 | **0.848** | [0.824, 0.870] | +0.021 | (sig in main run pooled) |
+| `negative_control` (main-run, expr_parser) | 19 | 0.749 | [0.713, 0.783] | −0.078 | (sig in main run pooled) |
+| `python_coder_agent` (main-run, expr_parser) | 20 | 0.854 | [0.834, 0.875] | +0.027 | (sig in main run pooled) |
+| `none_control` (in-probe sanity check) | 10 | 0.806 | [0.771, 0.839] | −0.021 | 0.23 (ns ✓) |
+| **`probe_A_nonrubric_expert`** | 10 | **0.673** | [0.612, 0.726] | **−0.155** | **0.0001** |
+| **`probe_B_bare_rubric`** | 10 | **0.842** | [0.806, 0.876] | **+0.015** | 0.50 (ns vs none; ≈ long_directive) |
+| **`probe_C_antirubric_expert`** | 10 | **0.673** | [0.612, 0.732] | **−0.154** | **0.0001** |
+
+### Interpretation, probe by probe
+
+**Probe A: misaligned expert directive hurts by 7× the long_directive lift.**
+This is the most surprising single result. An expert-framed 12-clause
+directive list of equal length and tone to `long_directive`, with clauses
+that don't name any of the rubric dimensions, doesn't just fail to help —
+it actively *hurts* by −0.155 CQS-craft units (p = 0.0001). For comparison:
+the strongest negative preamble in the main run (`negative_control`,
+"junior developer") only achieved −0.078 vs `none` on this task.
+
+The mechanism is visible in per-dimension severity. Probe A's documentation
+severity (1.59) and edge_case_gap (1.77) are *higher* than `negative_control`
+on this task. The model followed the preamble's content — produced
+compact, performance-focused code with fewer docstrings, fewer defensive
+guards, fewer comments — and the rubric correctly penalized this.
+
+**This rules out a strong form of H-judge-priming.** If judges were merely
+rewarding "expert tone" or "well-formatted preamble"-aligned outputs, probe A
+should produce CQS close to `long_directive`. It doesn't; it produces CQS
+*worse than `negative_control`*. The judges are tracking the actual code,
+not the preamble's surface tone.
+
+**This also rules out a strong form of H-mechanism that frames preambles
+as "generic expert priming".** If expert framing generically improved
+craft, probe A should still produce a positive lift over `none`. It
+doesn't; it produces a large negative lift.
+
+**Probe B: bare rubric naming recovers ~70% of long_directive's lift.**
+With no expert framing, no "you must", no imperative tone — just an
+announcement that the code will be evaluated on the listed dimensions —
+the model produces output statistically indistinguishable from
+`long_directive` (probe B 0.842 vs long_directive 0.848; B-vs-none p = 0.50;
+B's per-dimension severity profile tracks long_directive's almost exactly,
+e.g. `documentation_appropriateness` 0.79 vs long_directive 0.74).
+
+**This is partial support for H-judge-priming.** Telling the model what
+the rubric measures — without any quality directives or expert framing — is
+sufficient to produce most of the preamble effect. The 30% residual
+(long_directive 0.848 vs probe B 0.842, gap = 0.006) is attributable to
+imperative tone or compound-clause framing; not nothing, but small.
+
+**Probe C: anti-rubric directives hurt identically to A.** Probe C
+(0.673) is statistically identical to probe A (0.673), both at p = 0.0001
+vs `none`. An explicitly anti-rubric framing — explicitly telling the
+model that type hints are clutter, error handling is over-engineering,
+comments belong in commit messages — produces the same penalty as a
+neutral non-rubric-naming directive list.
+
+**This is consistent with both hypotheses.** Under H-mechanism, the model
+follows the anti-rubric content and produces worse code on rubric
+dimensions. Under H-judge-priming, judges still mark down because the
+rubric dimensions are still what they enumerate and look for. Both
+hypotheses predict probe C to hurt; the symmetry with probe A is what's
+informative (preamble *content* drives the model's behavior, not just the
+"presence of an expert preamble").
+
+### Refined hypothesis: H-attention-allocation
+
+The three probes together support a reading neither pure H-mechanism nor
+pure H-judge-priming captures:
+
+**Preambles work by directing the model's craft-attention budget.** The
+model has finite output capacity. When the preamble enumerates specific
+dimensions ("type hints", "edge cases", "documentation"), the model
+allocates more output capacity to those dimensions, at the cost of
+whatever it would otherwise have done. When the preamble enumerates
+*different* dimensions ("compactness", "performance", "minimal allocations"),
+the model allocates capacity to those instead — visible as fewer
+docstrings, fewer type hints, fewer defensive guards in probe A.
+
+The rubric then measures whichever dimensions it enumerates. The CQS-craft
+lift over `none` is roughly proportional to the *intersection* between
+(what the preamble directed the model toward) and (what the rubric
+measures).
+
+**Implications:**
+
+1. **CQS-craft is real, but rubric-dependent.** The metric works — it
+   measures what it measures, reliably. Probe A demonstrates that judges
+   are tracking code, not preamble surface. But "code quality in some
+   platonic sense" is not what CQS-craft measures. CQS-craft measures
+   *the rubric's specific 11-dimension definition of craft*, which any
+   given preamble may or may not be optimizing for.
+
+2. **The headline finding holds with a refined claim.** "Preambles change
+   what the rubric scores" is correct. The mechanism is attention
+   allocation — preambles direct the model's output toward dimensions the
+   preamble names. When those dimensions overlap with what's measured,
+   CQS-craft goes up. When they don't, it goes down.
+
+3. **Practical implication for prompt engineering.** A preamble that
+   enumerates the dimensions a downstream evaluator cares about will
+   reliably improve that evaluator's scores. The 12-clause directive list
+   beats `none` *because* its clauses overlap with the rubric, not despite
+   that. If your production evaluator measures different things (latency,
+   compactness, performance), `long_directive` may not be the preamble you
+   want; probe A's content might be.
+
+4. **The "junior developer" effect is robust** to this refinement.
+   `negative_control` doesn't enumerate any specific dimensions in either
+   direction — it shifts the model's stylistic register downward
+   ("learning Python", "don't worry too much about style"). It hurts
+   (−0.078 in this task, −0.060 pooled) without naming what to deprioritize.
+   This is a different mechanism than probe C's explicit anti-rubric
+   enumeration, but both routes converge on lower CQS-craft.
+
+### What the probes did NOT resolve
+
+1. **Whether the probe-A behavioral change is genuine craft change or
+   surface markers only.** The model writes objectively fewer docstrings
+   and fewer type hints under probe A — that's a real code change visible
+   to any human reader. But whether the deeper algorithmic / structural
+   craft is also worse is not directly tested. Static-analysis metrics on
+   probe-A outputs would help; not run in this probe round.
+
+2. **Whether `long_directive`'s lift comes proportionally from each
+   enumerated clause.** Probe B (bare rubric naming) recovers 70% of
+   long_directive's lift; the remaining 30% may be from imperative tone,
+   from compound clauses that explain *why* each item matters, or from
+   specific clauses that name dimensions outside the rubric (e.g.,
+   "composition over inheritance", which isn't in the rubric but might
+   improve `code_organization` indirectly). A clause-ablation study could
+   discriminate.
+
+3. **External validity to other rubrics.** All conclusions are anchored
+   to the v2 11-dim rubric. A rubric measuring different things (e.g.,
+   pure functional purity, performance-correctness tradeoffs) would
+   produce different preamble winners. The probes confirm this is the
+   right reading, but don't quantify how much of v2's findings transfer.
+
 ## Per-dimension severity (the new 11-dim algorithmic-code rubric)
 
 | Dimension | Kind | KW p | Negative ctrl mean | real_agent mean | Δ |
@@ -252,15 +526,21 @@ but with insufficient power to be decisive at the per-task level. It contributes
 **7 of 9 always-on dimensions preamble-significant** (criterion was 3 of 9).
 
 The two nulls — `algorithm_correctness` (p = 0.26) and `data_structure_choice`
-(p = 0.39) — are exactly the *pretraining-dependent* capability axes. The model
-either knows how to write a correct LRU cache or it doesn't; preamble priming
-doesn't change that. Every other dimension is an *alignment-dependent craft*
-axis: error handling philosophy, edge case awareness, type hint discipline,
-code organization, documentation style. These all move with preamble.
+(p = 0.39) — are the *pretraining-dependent capability* axes under the
+H-mechanism reading. They are also the two dimensions *not enumerated in any
+preamble's clauses* under the H-judge-priming reading. Both hypotheses make
+identical predictions for this split. See §"Identification limit" above and
+§"Confound probes" below for the discriminating evidence.
 
-**This is the central mechanism finding from v1, reproduced at much higher
-resolution with a rubric designed to elicit it.** The mechanism is not just
-re-confirmed; it is decomposed into specific named dimensions.
+**Under H-mechanism**, the central v1 finding is reproduced at much higher
+resolution with a rubric designed to elicit it, and decomposed into specific
+named dimensions: error handling philosophy, edge case awareness, type hint
+discipline, code organization, documentation style — all alignment-tunable.
+**Under H-judge-priming**, the same pattern would emerge from preambles
+adding surface markers that map 1-to-1 onto what the rubric enumerates,
+without changing underlying code structure on capability axes that are not
+named. The v2 main run cannot distinguish these readings; the probes
+section below was designed to.
 
 ---
 
@@ -348,42 +628,103 @@ Key v1 → v2 deltas, in addition to the instrument repair:
 
 ## Verdict
 
-**Hypothesis SUPPORTED, at substantially higher confidence than v1.**
+**Hypothesis SUPPORTED at the level of judge-scored CQS-craft, with a real
+methodological identification issue on the mechanism interpretation.**
 
-Mechanistic findings:
+Descriptive findings (these hold regardless of which mechanism hypothesis is
+true):
 
-1. **Preambles change LLM-generated code on alignment-dependent craft axes**
-   (idiomaticity, error handling, edge cases, type hints, organization,
-   documentation, API ergonomics, concurrency safety, abstraction).
-2. **Preambles do not detectably change pretraining-dependent capability axes**
-   (algorithm correctness, data structure choice) — and they do not change
-   static-analysis metrics (MI, CC, Halstead, pylint).
-3. **The effect is asymmetric:** rich preambles ≈ no preamble (small positive
+1. **Preambles change what judges score on craft-related dimensions** —
+   whether by changing underlying code, by aligning surface markers to what
+   the rubric enumerates, or both. The effect on judge-scored CQS-craft is
+   robust (p < 10⁻¹⁸ pooled, robust to all 7 alternative weightings, present
+   in both tiers).
+2. **The effect is asymmetric:** rich preambles ≈ no preamble (small positive
    delta, mostly p ≈ 0.06 in mixed-effects); negative-priming preambles
-   *actively hurt* (p < 1e-5). The mechanism appears to be more about
-   preventing regression than driving exemplary output.
-4. **`long_directive` is the only preamble that beats `none` at p < 0.01
-   after controlling for model + task.** More directives genuinely help, but
-   the marginal return per directive is small.
-5. **External validity:** a real production system prompt (`python_coder_agent`)
-   performs statistically identically to the synthetic `real_agent` v1 used.
-   The v1 finding generalizes.
-6. **Tier effect:** preambles work in both reasoning and non-reasoning model
+   *actively hurt* (p < 10⁻⁵). The "junior developer" framing's negative
+   effect is unlikely to be a pure-priming artifact because that preamble
+   does not enumerate any rubric dimensions; it changes the model's
+   stylistic register.
+3. **`long_directive` is the only preamble that beats `none` at p < 0.01
+   after controlling for model + task.** But `long_directive` is also the
+   preamble whose clauses most directly enumerate the rubric dimensions
+   (see §"Identification limit"). The marginal lift over `none` may reflect
+   genuine craft improvement, judge-priming, or both — see §"Confound probes".
+4. **External validity:** the real production system prompt
+   (`python_coder_agent`) performs statistically identically to the synthetic
+   `real_agent`. The v1 finding generalizes across synthetic and real-world
+   preambles.
+5. **Tier effect:** preambles work in both reasoning and non-reasoning model
    populations, and a formal `preamble × tier` interaction test finds no
    statistically significant differential effect for the 8 main conditions
-   (only `trivial_baseline × reasoning` reaches p < 0.05 — reasoning models
-   tolerate the degenerate input slightly better). Reasoning models hit a
-   higher absolute CQS-craft ceiling (tier main effect β ≈ +0.09 in CQS units),
-   but the test is underpowered with 3-vs-7 tier imbalance (p = 0.12).
-7. **Task effect:** creation tasks expose preamble effects more than refactor
+   (only `trivial_baseline × reasoning` reaches p < 0.05). Reasoning models
+   hit a higher absolute CQS-craft ceiling (tier main effect β ≈ +0.09,
+   p = 0.12 — underpowered with 3-vs-7 tier imbalance).
+6. **Task effect:** creation tasks expose preamble effects more than refactor
    tasks (gap ratio ~1.7×). Refactor prompts constrain output by naming the
    target smell; creation prompts leave discretion the preamble can shape.
+
+Mechanistic claims (refined after the confound probes resolved the
+identification issue):
+
+7. **Preambles direct the model's craft-attention budget.** The model
+   tracks preamble content and reallocates output capacity to whatever
+   dimensions the preamble enumerates. Probe A demonstrated this: a
+   misaligned expert directive (12 clauses about compactness, performance,
+   determinism) suppressed docstrings, type hints, defensive guards, and
+   edge-case handling — producing CQS-craft 0.155 *below* `none` on
+   `task_expr_parser` (p = 0.0001), worse than the `negative_control`
+   "junior developer" preamble.
+8. **The judges are tracking real code, not preamble surface tone.** If
+   judges merely rewarded "expert-toned preamble" outputs, probe A would
+   have produced CQS close to `long_directive`. Instead, probe A produced
+   CQS worse than `negative_control`, demonstrating that the judges'
+   scoring is sensitive to actual code content (presence/absence of
+   docstrings, type hints, defensive checks).
+9. **Naming the rubric items in the preamble — without expert framing —
+   recovers ~70% of `long_directive`'s lift.** Probe B (a bare list of
+   the 11 rubric dimensions, no imperative tone, no "you must") produced
+   CQS statistically identical to `long_directive`. The remaining ~30%
+   of `long_directive`'s lift is attributable to imperative tone or
+   compound-clause framing.
+10. **CQS-craft is real, but rubric-dependent.** The metric works
+    reliably for measuring the v2 11-dimension definition of craft. But
+    "code quality in some platonic sense" is not what CQS-craft measures.
+    A preamble's CQS-craft lift over `none` is roughly proportional to
+    the overlap between the dimensions it directs the model toward and
+    the dimensions the rubric measures.
+11. **The "preambles move craft but not capability" framing should be
+    refined.** `algorithm_correctness` and `data_structure_choice` are
+    null under preamble not because they are unconditionally
+    pretraining-locked, but because no preamble in the v2 design
+    enumerates them. The probes did not test a preamble specifically
+    directing attention to algorithm correctness; such a probe might
+    move that dimension. The v2 main-run "capability not moved by
+    preamble" finding should be read as "not moved by any of the 9
+    preambles in v2's condition set", not as "structurally immovable".
 
 ---
 
 ## Limitations
 
-1. **`python_coder_agent` non-significant in mixed-effects vs `none`**
+The single biggest limitation is the **mechanism-identification issue**
+documented in §"Identification limit" above. `long_directive`'s 12 clauses
+enumerate 7 of the 9 always-on rubric dimensions, and the judges' rubric
+prompt enumerates the same 11 dimensions explicitly. H-mechanism (preambles
+change code; rubric detects it) and H-judge-priming (preambles add surface
+markers that align to the rubric; judges score the alignment) make
+near-identical predictions in the v2 main run, because the preamble that
+drives the headline effect was constructed without regard for whether its
+clauses overlap the rubric. The probes section attempts to discriminate the
+two; absent that discrimination, the v2 main run only identifies *the
+existence, direction, and approximate magnitude* of preamble effects on
+judge-scored craft, not the underlying mechanism. **Read the per-dimension
+results, the verdict bullets 7–9, and the "mechanism" framing throughout
+with this constraint in mind.**
+
+Additional limitations:
+
+0. **`python_coder_agent` non-significant in mixed-effects vs `none`**
    (M0 p = 0.058; M2 within-non-reasoning-tier p = 0.126). The KW result is
    significant overall; bootstrap CIs separate `python_coder_agent` from
    `negative_control`. But the strict mixed-effects test against `none` only

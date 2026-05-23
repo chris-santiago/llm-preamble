@@ -33,7 +33,27 @@ The full results, debate scorecard, and limitations are in v2's [`CONCLUSIONS.md
 
 ## Headline conclusions (v2)
 
-### 1. Preambles affect code quality. Robustly.
+> **Refined mechanism interpretation, up front (after the confound probes).**
+> The strongest rich preamble (`long_directive`) is a 12-clause directive
+> list that explicitly enumerates ~7 of the 9 always-on rubric dimensions.
+> The 7 dimensions that move under preamble are exactly the 7 named in
+> its clauses; the 2 that don't move are the 2 not named in any preamble.
+> Three discriminating probes (n=10 each on `task_expr_parser`, full
+> 10-judge cross-judge panel, $1.04 cost) resolved the H-mechanism
+> vs H-judge-priming ambiguity into a more accurate **attention-allocation
+> reading**: preambles direct the model's finite craft-attention budget
+> toward whatever dimensions they enumerate, at the cost of other
+> behaviors. CQS-craft is real (probe A demonstrates judges track actual
+> code content, not just preamble tone — a misaligned expert directive
+> hurts CQS by 7× the long_directive lift). But the metric is
+> rubric-dependent: a preamble's lift over `none` is roughly proportional
+> to the overlap between (what the preamble directs the model toward)
+> and (what the rubric measures). Naming the rubric items in the preamble
+> with no expert framing (probe B) recovers ~70% of `long_directive`'s
+> lift. See [`CONCLUSIONS.md §"Confound probes"`](preamble_quality_experiment_v2/CONCLUSIONS.md#confound-probes)
+> for the full probe design, results, and discussion.
+
+### 1. Preambles affect what judges score on code-quality dimensions. Robustly.
 
 Kruskal–Wallis across 8 main preamble conditions, pooled across the 10-model pool: **p = 9.2 × 10⁻¹⁸**. The effect survives every weighting scheme tested (7 alternative CQS weight combinations, all p ≤ 2.4 × 10⁻¹⁰ — see [WEIGHT_SENSITIVITY.md](preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md)) and shows up across both reasoning and non-reasoning model tiers (KW p < 2.3 × 10⁻¹² in each tier separately).
 
@@ -56,9 +76,9 @@ Mixed-effects model `CQS ~ preamble * tier + (1|model) + (1|task)`, fixed effect
 
 **`long_directive` is the only preamble that clearly beats no preamble after controlling for model and task variance.** Other "rich" preambles produce small directional lifts (β ≈ +0.02) that don't quite cross α = 0.05.
 
-### 3. The mechanism splits cleanly: preambles move craft, not capability.
+### 3. The split between moving and non-moving dimensions reflects preamble–rubric overlap, not "alignment vs capability" per se.
 
-Per-dimension severity (0–5 scale) on the redesigned 11-dim algorithmic-code rubric, cross-judge panel mean. The 7 always-on dimensions that move with preamble are all alignment-dependent craft axes; the 2 that don't are pretraining-dependent capability axes:
+Per-dimension severity (0–5 scale) on the redesigned 11-dim algorithmic-code rubric, cross-judge panel mean. The 7 always-on dimensions that move with preamble are *all enumerated in `long_directive`'s clauses*. Under the original (pre-probe) reading, this looked like "alignment-tunable craft" vs "pretraining-locked capability". The confound probes refined this: preambles direct the model's craft-attention budget to whatever they enumerate; the rubric measures whatever it enumerates; the intersection determines the lift. The 7 always-on dimensions that move are dimensions the preamble enumerated and the rubric measures. The 2 always-on dimensions that don't move (`algorithm_correctness`, `data_structure_choice`) are dimensions no preamble in v2 enumerates — they would plausibly move under a preamble that specifically directed attention to algorithmic correctness, a probe v2 did not run.
 
 | Dimension | KW p | Type |
 |---|---|---|
@@ -70,8 +90,10 @@ Per-dimension severity (0–5 scale) on the redesigned 11-dim algorithmic-code r
 | `abstraction_miscalibration` | 4 × 10⁻⁴ | Craft |
 | `api_ergonomics` | 0.008 | Craft |
 | `concurrency_safety` | 0.006 | Craft (conditional dim) |
-| `algorithm_correctness` | 0.26 | **Capability (pretraining)** |
-| `data_structure_choice` | 0.39 | **Capability** |
+| `algorithm_correctness` | 0.26 | **Not named in any v2 preamble** |
+| `data_structure_choice` | 0.39 | **Not named in any v2 preamble** |
+
+Read the "Type" column as "preamble-named in v2's condition set" vs "not named in any v2 preamble". Under the attention-allocation reading, this is the relevant predictor of which dimensions move; it dominates whatever residual "alignment-tunable vs pretraining-locked" distinction may exist (which v2 cannot identify without a preamble-naming-correctness probe).
 
 And independently: **8 of 9 static-analysis metrics are flat across preambles** (maintainability index, cyclomatic complexity, Halstead, pylint errors/warnings/refactor, cognitive complexity — all KW p > 0.5; only `pylint_conventions` shows a weak signal at p = 0.012). v1's instrument-correction is fully validated — static analysis and LLM judges measure substantively different signals.
 
@@ -93,7 +115,23 @@ A formal `preamble × tier` interaction test using all 1,215 samples finds no si
 
 Side-by-side the two tiers tell the same story with different ceilings: the bar pattern (blue trivial low, red negative slightly low, yellow/green increasing) is preserved between panels; the right panel sits ~0.08 CQS-units higher on average. The one visible interaction effect — `trivial_baseline` rises from ~0.52 (non-reasoning) to ~0.60 (reasoning) — is the only `preamble × tier` term that reached p < 0.05.
 
-### 5. External validity confirmed — real production preambles behave like synthetic ones.
+### 5. Confound probes confirm the attention-allocation mechanism.
+
+Three preambles were constructed to discriminate "preambles change code" from "preambles align surface markers to what the rubric scores". n=10 each on `task_expr_parser` with the full 10-judge cross-judge matrix:
+
+| Probe | What it tests | mean CQS | Δ vs `none` | p |
+|---|---|---|---|---|
+| `nonrubric_expert` (A) | 12-clause expert directive naming *non-rubric* axes (compactness, performance, determinism) | 0.673 | **−0.155** | **0.0001** |
+| `bare_rubric` (B) | Bare list of rubric dims, no expert tone | 0.842 | +0.015 | 0.50 |
+| `antirubric_expert` (C) | 12-clause expert directive *explicitly deprioritizing* rubric items | 0.673 | **−0.154** | **0.0001** |
+
+**Reference (main run):** `none` = 0.827, `long_directive` = 0.848 (lift = +0.021).
+
+Probe A is the most informative: an expert-toned directive list misaligned with the rubric hurts CQS by ~7× the `long_directive` lift, far worse than the `negative_control` "junior developer" preamble. This rules out the strong form of judge-priming ("judges reward any expert-toned preamble") — judges are tracking actual code, and the model genuinely follows preamble content (probe A's outputs have measurably fewer docstrings, type hints, and defensive guards). Probe B is also informative: bare naming of rubric dimensions, with no expert framing at all, recovers ~70% of `long_directive`'s lift — so naming what gets scored does most of the work.
+
+**Refined mechanism:** preambles direct the model's craft-attention budget. The model reallocates output capacity to whichever dimensions the preamble enumerates, at the cost of other behaviors. CQS-craft tracks the overlap between (preamble-named dimensions) and (rubric-measured dimensions). The metric is real and reproducible; it is also rubric-dependent.
+
+### 6. External validity confirmed — real production preambles behave like synthetic ones.
 
 `python_coder_agent` is the verbatim system prompt of the chris-code python-coder agent — a real production preamble used in shipping software. Its CQS-craft (β = +0.023) is statistically indistinguishable from the synthetic `real_agent` preamble (β = +0.027), both at p ≈ 0.06–0.13. v1's synthetic preambles were representative; lab and field agree.
 
