@@ -1,0 +1,49 @@
+Installed 17 packages in 80ms
+================================================================
+Pre-flight phases B, C, D (parallel where possible, single sem)
+================================================================
+
+[Phase B] F2 gate pilot — task_modeflag_sort rewrite, 30 samples ===
+  generating 30 samples...
+
+[Phase C] F4 style-directive probe — 42 outputs, anchored vs unanchored ===
+  generating 42 samples...
+
+[Phase D] F5 prevalence audit — 30 no-preamble generations across 9 tasks ===
+  generating 30 samples...
+  26/30 samples extracted ok
+  judging 78 judge calls...
+  30/42 samples extracted ok
+  judging unanchored: 90 calls...
+  no-preamble flag rate: 0% (0/14)
+  python_coder_agent flag rate: 0% (0/12)
+  GATE (40% req): FAIL
+  judging anchored:   90 calls...
+  18/30 extracted ok
+  judging 18 samples × 1 judge each = 18 calls...
+  per-dim prevalence (>10% threshold; * = active):
+    mode_flag_params                  0/18 (0%)
+    dict_domain_data                  0/18 (0%)
+    hidden_side_effects               0/18 (0%)
+    swallowed_excepts                 1/18 (6%)
+    broad_except                      1/18 (6%)
+    dead_code                         0/18 (0%)
+    orchestration_mixed_with_impl     0/18 (0%)
+    overgrown_class                   0/18 (0%)
+    return_shape_consistency          0/18 (0%)
+    type_hint_coverage                1/18 (6%)
+    exception_drift                   1/18 (6%)
+  ACTIVE DIMS: 0/11
+  SECONDARY CRITERION (≥4 active req): NOT ACHIEVABLE
+  comment_quality means (1-10 scale):
+    python_coder_agent: unanchored=8.21, anchored=8.50, Δ=+0.29
+    real_agent:         unanchored=8.45, anchored=8.71, Δ=+0.26
+  AMENDMENT trigger (|Δ|>0.5): NOT FIRED
+
+================================================================
+PRE-FLIGHT SUMMARY
+================================================================
+  Phase B (F2 trap gate):       FAIL
+  Phase C (F4 amendment):       NOT FIRED
+  Phase D (F5 criterion):       NOT ACHIEVABLE
+  Saved: preflight_results/preflight_summary.json

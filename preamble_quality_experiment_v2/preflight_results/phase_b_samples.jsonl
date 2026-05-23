@@ -1,0 +1,26 @@
+{"preamble": "none", "model": "deepseek/deepseek-v3.2", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "deepseek/deepseek-v3.2", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "google/gemma-4-31b-it", "mean_mode_flag_severity": 1.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "minimax/minimax-m2.5", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "mistralai/mistral-small-2603", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "mistralai/mistral-small-2603", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "nvidia/nemotron-3-super-120b-a12b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "nvidia/nemotron-3-super-120b-a12b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "openai/gpt-4o-mini", "mean_mode_flag_severity": 1.5, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "openai/gpt-4o-mini", "mean_mode_flag_severity": 1.0, "flagged_present": false}
+{"preamble": "none", "model": "qwen/qwen3.5-35b-a3b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "qwen/qwen3.5-35b-a3b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "deepseek/deepseek-v3.2", "mean_mode_flag_severity": 1.5, "flagged_present": false}
+{"preamble": "none", "model": "google/gemma-4-31b-it", "mean_mode_flag_severity": 1.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "google/gemma-4-31b-it", "mean_mode_flag_severity": 0.3333333333333333, "flagged_present": false}
+{"preamble": "none", "model": "minimax/minimax-m2.5", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "mistralai/mistral-small-2603", "mean_mode_flag_severity": 0.5, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "mistralai/mistral-small-2603", "mean_mode_flag_severity": 0.5, "flagged_present": false}
+{"preamble": "none", "model": "nvidia/nemotron-3-super-120b-a12b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "nvidia/nemotron-3-super-120b-a12b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "openai/gpt-4o-mini", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "openai/gpt-4o-mini", "mean_mode_flag_severity": 1.5, "flagged_present": false}
+{"preamble": "none", "model": "qwen/qwen3.5-35b-a3b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "qwen/qwen3.5-35b-a3b", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "none", "model": "deepseek/deepseek-v3.2", "mean_mode_flag_severity": 0.0, "flagged_present": false}
+{"preamble": "# Python Coder\n\nYou are a senior Python ", "model": "deepseek/deepseek-v3.2", "mean_mode_flag_severity": 0.0, "flagged_present": false}

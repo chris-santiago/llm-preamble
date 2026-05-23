@@ -1,0 +1,119 @@
+{
+  "weights": {
+    "idiom": 0.45,
+    "comment": 0.45,
+    "hygiene": 0.1
+  },
+  "subject_model": "openai/gpt-4o-mini",
+  "judge_panel": [
+    "openai/gpt-4o-mini",
+    "deepseek/deepseek-v3.2",
+    "mistralai/mistral-small-2603"
+  ],
+  "conditions": [
+    "none",
+    "real_agent",
+    "python_coder_agent"
+  ],
+  "tasks": [
+    {
+      "id": "task_lru_ttl_cache",
+      "category": "creation"
+    },
+    {
+      "id": "task_modeflag_sort",
+      "category": "refactor"
+    }
+  ],
+  "per_condition": {
+    "none": {
+      "cqs_craft": 0.79295,
+      "idiom": 0.825,
+      "comment": 0.725,
+      "rubric_severity_mean": 0.2273,
+      "n_samples": 2
+    },
+    "real_agent": {
+      "cqs_craft": 0.851,
+      "idiom": 0.85,
+      "comment": 0.825,
+      "rubric_severity_mean": 0.13635,
+      "n_samples": 2
+    },
+    "python_coder_agent": {
+      "cqs_craft": 0.80465,
+      "idiom": 0.85,
+      "comment": 0.725,
+      "rubric_severity_mean": 0.20454999999999998,
+      "n_samples": 2
+    }
+  },
+  "per_sample_results": [
+    {
+      "task_id": "task_lru_ttl_cache",
+      "category": "creation",
+      "preamble": "none",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.8191,
+      "idiom": 0.85,
+      "comment": 0.75,
+      "rubric_severity_mean": 0.0455,
+      "n_judges": 2
+    },
+    {
+      "task_id": "task_lru_ttl_cache",
+      "category": "creation",
+      "preamble": "real_agent",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.8425,
+      "idiom": 0.85,
+      "comment": 0.8,
+      "rubric_severity_mean": 0.0,
+      "n_judges": 2
+    },
+    {
+      "task_id": "task_lru_ttl_cache",
+      "category": "creation",
+      "preamble": "python_coder_agent",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.7957,
+      "idiom": 0.85,
+      "comment": 0.7,
+      "rubric_severity_mean": 0.0909,
+      "n_judges": 2
+    },
+    {
+      "task_id": "task_modeflag_sort",
+      "category": "refactor",
+      "preamble": "none",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.7668,
+      "idiom": 0.8,
+      "comment": 0.7,
+      "rubric_severity_mean": 0.4091,
+      "n_judges": 2
+    },
+    {
+      "task_id": "task_modeflag_sort",
+      "category": "refactor",
+      "preamble": "real_agent",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.8595,
+      "idiom": 0.85,
+      "comment": 0.85,
+      "rubric_severity_mean": 0.2727,
+      "n_judges": 2
+    },
+    {
+      "task_id": "task_modeflag_sort",
+      "category": "refactor",
+      "preamble": "python_coder_agent",
+      "model": "openai/gpt-4o-mini",
+      "cqs_craft": 0.8136,
+      "idiom": 0.85,
+      "comment": 0.75,
+      "rubric_severity_mean": 0.3182,
+      "n_judges": 2
+    }
+  ]
+}

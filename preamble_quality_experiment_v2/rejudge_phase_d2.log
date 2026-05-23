@@ -1,0 +1,22 @@
+Installed 6 packages in 7ms
+=== Phase D2 re-judge with 3-judge panel + calibration anchor ===
+  loaded 36 generations, 32 extracted ok
+  judge panel: ['openai/gpt-4o-mini', 'deepseek/deepseek-v3.2', 'mistralai/mistral-small-2603']
+  total judge calls: 96
+  judging...
+  judge parses ok: 96/96; cost $0.0725
+
+=== summary ===
+  decision_strict (panel mean ≥1.0 on ≥3 of 9): pass  (9/9)
+  decision_loose  (panel mean ≥0.5 on ≥3 of 9): pass  (9/9)
+  per-dim summary:
+    data_structure_choice: mean=0.94, ≥1.0 rate=62.5%, ≥0.5 rate=81.2%
+    algorithm_correctness: mean=0.77, ≥1.0 rate=46.9%, ≥0.5 rate=75.0%
+    error_handling_inconsistency: mean=1.56, ≥1.0 rate=100.0%, ≥0.5 rate=100.0%
+    api_ergonomics: mean=0.98, ≥1.0 rate=78.1%, ≥0.5 rate=100.0%
+    abstraction_miscalibration: mean=0.90, ≥1.0 rate=56.2%, ≥0.5 rate=78.1%
+    code_organization: mean=0.79, ≥1.0 rate=43.8%, ≥0.5 rate=78.1%
+    type_hint_gap: mean=0.86, ≥1.0 rate=53.1%, ≥0.5 rate=87.5%
+    edge_case_gap: mean=1.98, ≥1.0 rate=100.0%, ≥0.5 rate=100.0%
+    documentation_appropriateness: mean=0.79, ≥1.0 rate=40.6%, ≥0.5 rate=96.9%
+  artifacts: /Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment_v2/reprobe_results/PHASE_D2_RECHECK_REPORT.md

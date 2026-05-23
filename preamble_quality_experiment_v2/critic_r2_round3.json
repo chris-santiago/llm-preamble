@@ -1,0 +1,11 @@
+{
+  "challenges": [
+    {"finding_id": "F1", "challenge_verdict": "ACCEPT", "updated_severity": 9, "reasoning": "CONCEDE; severity reflects confirmed flaw magnitude, fix is pending implementation."},
+    {"finding_id": "F2", "challenge_verdict": "ACCEPT", "updated_severity": 3, "reasoning": "Empirical gate on the rewrite (≥40% no-preamble mode_flag rate to confirm discriminative space) closes the failure mechanism. Pass/fail binary precondition. Substantial sev reduction 6→3."},
+    {"finding_id": "F3", "challenge_verdict": "ACCEPT", "updated_severity": 2, "reasoning": "REBUT-DESIGN mechanistically sound; hygiene flooring is intentional per SPEC §6.5/§8."},
+    {"finding_id": "F4", "challenge_verdict": "PARTIAL", "updated_severity": 3, "reasoning": "Procedural commitment closes integrity gap, but a calibration probe using hand-authored seeded smells cannot surface a subtle style-directive confound that manifests only when subject models generate sparser comments under preamble instruction. Residual: complexity-blind judge prompt may silently suppress python_coder_agent comment scores in a way the probe's design does not target."},
+    {"finding_id": "F5", "challenge_verdict": "ACCEPT", "updated_severity": 2, "reasoning": "Branching recovery path (formally amend if ≥2 dims; flag misalignment if <2) is mechanistically complete. Primary CQS-craft independent of secondary criterion. Pre-reg drift logging closes integrity. Substantial sev reduction 5→2."},
+    {"finding_id": "F6", "challenge_verdict": "ACCEPT", "updated_severity": 1, "reasoning": "Rank-invariance argument stable; F1 clamp upstream handles sentinel pathway."},
+    {"finding_id": "F7", "challenge_verdict": "ACCEPT", "updated_severity": 0, "reasoning": "Within-pool length variation cannot bias between-group primary contrast."}
+  ]
+}

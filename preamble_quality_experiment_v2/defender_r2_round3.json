@@ -1,0 +1,13 @@
+{
+  "rebuttals": [
+    {"finding_id": "F1", "original_severity": 9, "rebuttal_type": "CONCEDE", "severity_adjustment": 0, "adjusted_severity": 9, "justification": "CONCEDE maintained.", "r2_challenge_response": "MAINTAINED"},
+    {"finding_id": "F2", "original_severity": 8, "rebuttal_type": "DEFER", "severity_adjustment": 0, "adjusted_severity": 3, "justification": "Empirical gate accepted.", "r2_challenge_response": "MAINTAINED"},
+    {"finding_id": "F3", "original_severity": 6, "rebuttal_type": "REBUT-DESIGN", "severity_adjustment": -4, "adjusted_severity": 2, "justification": "Hygiene flooring intentional.", "r2_challenge_response": "MAINTAINED"},
+    {"finding_id": "F4", "original_severity": 6, "rebuttal_type": "CONCEDE", "severity_adjustment": 0, "adjusted_severity": 3, "justification": "Critic's R3 PARTIAL correctly identifies that the calibration probe (hand-authored seeded smells) cannot surface a style-directive confound that manifests only in model-generated outputs under a minimalism preamble. DEFER question 4 fails: confound is asymmetric (python_coder_agent's minimalism directive deflates only its comment scores). Switching DEFER→CONCEDE. Fix: pre-main-run, generate ≥10 python_coder_agent outputs on 2-3 tasks, score with both current (unanchored) judge prompt and a complexity-anchored variant. If mean comment_quality difference > 0.5 points, amend judge prompt and log as pre-reg drift event per SPEC §7. Settles confound empirically before main-run data collection.", "r2_challenge_response": "CONCEDED — switched from DEFER. Probe design cannot surface mechanism; confound is asymmetric. Concrete empirical settling experiment committed."},
+    {"finding_id": "F5", "original_severity": 5, "rebuttal_type": "DEFER", "severity_adjustment": 0, "adjusted_severity": 2, "justification": "Branching recovery accepted.", "r2_challenge_response": "MAINTAINED"},
+    {"finding_id": "F6", "original_severity": 3, "rebuttal_type": "REBUT-DESIGN", "severity_adjustment": -2, "adjusted_severity": 1, "justification": "Rank-invariance accepted.", "r2_challenge_response": "MAINTAINED"},
+    {"finding_id": "F7", "original_severity": 2, "rebuttal_type": "REBUT-SCOPE", "severity_adjustment": -2, "adjusted_severity": 0, "justification": "Within-pool length variation does not bias between-group contrast.", "r2_challenge_response": "MAINTAINED"}
+  ],
+  "overall_verdict": "critique_wins",
+  "verdict_rationale": "F1 CONCEDE sev 9 dominant driver. F4 also CONCEDE at sev 3 (no longer ETA). All other findings terminal at defense_wins. Both CONCEDEd findings require remediation before main run: F1 clamp fix (implementation), F4 style-directive-confound probe (empirical pre-main-run test)."
+}

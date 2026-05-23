@@ -1,0 +1,11 @@
+{
+  "challenges": [
+    {"finding_id": "F1", "challenge_verdict": "ACCEPT", "updated_severity": 9, "reasoning": "CONCEDE held at sev 9. No counter."},
+    {"finding_id": "F2", "challenge_verdict": "PARTIAL", "updated_severity": 6, "reasoning": "Behavioral-spec rewrite principle is mechanistically sound and accepted. Residual is execution risk: the new prompt text isn't yet written; phrasings like 'support stable and unstable sorting modes' could re-collapse the space. R2 reduces sev 7→6 reflecting progress in principle but residual unvalidated wording."},
+    {"finding_id": "F3", "challenge_verdict": "ACCEPT", "updated_severity": 2, "reasoning": "Design rationale stable; nothing to revisit."},
+    {"finding_id": "F4", "challenge_verdict": "PARTIAL", "updated_severity": 4, "reasoning": "Complexity-relative anchor + high-adherence-model test is the right mechanism. Residual: amending the judge system prompt to include complexity normalization is functionally a metric instrument change that must be documented as a pre-registration amendment per SPEC §7. The settling is sound; the residual is procedural compliance. Sev 5→4."},
+    {"finding_id": "F5", "challenge_verdict": "PARTIAL", "updated_severity": 5, "reasoning": "Two-question validation (calibration probe + pilot non-zero-rate audit) is methodologically sound. Residual concern unchanged from R1: if pilot reveals <4 dims achieve non-zero prevalence, the locked ≥4-dim criterion is structurally unreachable, but the settling does not specify the recovery action (amend criterion vs. accept null on secondary). Sev held at 5."},
+    {"finding_id": "F6", "challenge_verdict": "ACCEPT", "updated_severity": 1, "reasoning": "Rank-invariance argument is mathematically correct. KW invariant to monotone transformations; condition-symmetric scale offsets preserve ranks. Condition-asymmetric (the actual bias threat) is the F1 pattern, separately addressed. Residual SE inflation is absorbed by n≥100 sample size. Sev 2→1 accepted."},
+    {"finding_id": "F7", "challenge_verdict": "ACCEPT", "updated_severity": 0, "reasoning": "REBUT-SCOPE stable; no new evidence."}
+  ]
+}

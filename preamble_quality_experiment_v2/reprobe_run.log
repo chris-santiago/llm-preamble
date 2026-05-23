@@ -1,0 +1,18 @@
+=== Combined re-probe: Phase C (anchored vs unanchored) + Phase D2 (prevalence) ===
+  models: ['qwen/qwen3.6-flash', 'deepseek/deepseek-v4-flash', 'minimax/minimax-m2.5']
+  tasks: ['task_lru_ttl_cache', 'task_expr_parser', 'task_mini_sql_engine']
+  preambles: ['none', 'python_coder_agent']  | reps: 2
+  total generations: 36
+
+[1/2] generating 36 samples...
+  extracted ok: 32/36
+
+[2/2] judging 96 (gen, prompt) pairs by openai/gpt-4o-mini...
+  judge parses ok: 96/96
+
+=== summary ===
+  total estimated cost from generations: $0.3473
+  Phase C decision: keep_unanchored  triggers=[]
+    pooled Δidiom=0.3125, Δcomment=-0.03125
+  Phase D2 decision: fail_escalate  (2/9 always-on dims ≥ 10% non-zero)
+  artifacts: /Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment_v2/reprobe_results/REPORT.md, generations.json, judgments.json, analysis.json

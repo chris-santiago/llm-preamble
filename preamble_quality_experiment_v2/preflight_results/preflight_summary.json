@@ -1,0 +1,106 @@
+{
+  "phase_b": {
+    "phase": "B",
+    "verdict": "FAIL",
+    "gate_threshold": 0.4,
+    "no_preamble_rate": 0.0,
+    "python_coder_agent_rate": 0.0,
+    "n_no_preamble": 14,
+    "n_python_coder_agent": 12
+  },
+  "phase_c": {
+    "phase": "C",
+    "trigger_threshold": 0.5,
+    "amendment_triggered": false,
+    "unanchored_means": {
+      "python_coder_agent": 8.205882352941176,
+      "real_agent": 8.448717948717949
+    },
+    "anchored_means": {
+      "python_coder_agent": 8.5,
+      "real_agent": 8.705128205128204
+    },
+    "deltas": {
+      "python_coder_agent": 0.29411764705882426,
+      "real_agent": 0.2564102564102555
+    },
+    "n_samples_python_coder_agent": 17,
+    "n_samples_real_agent": 13
+  },
+  "phase_d": {
+    "phase": "D",
+    "prevalence_threshold": 0.1,
+    "n_active_dims": 0,
+    "criterion_achievable": false,
+    "per_dim": {
+      "mode_flag_params": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "dict_domain_data": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "hidden_side_effects": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "swallowed_excepts": {
+        "n_active": 1,
+        "n_samples": 18,
+        "prevalence": 0.05555555555555555,
+        "active": false
+      },
+      "broad_except": {
+        "n_active": 1,
+        "n_samples": 18,
+        "prevalence": 0.05555555555555555,
+        "active": false
+      },
+      "dead_code": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "orchestration_mixed_with_impl": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "overgrown_class": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "return_shape_consistency": {
+        "n_active": 0,
+        "n_samples": 18,
+        "prevalence": 0.0,
+        "active": false
+      },
+      "type_hint_coverage": {
+        "n_active": 1,
+        "n_samples": 18,
+        "prevalence": 0.05555555555555555,
+        "active": false
+      },
+      "exception_drift": {
+        "n_active": 1,
+        "n_samples": 18,
+        "prevalence": 0.05555555555555555,
+        "active": false
+      }
+    },
+    "n_samples": 18
+  },
+  "all_pass": false
+}

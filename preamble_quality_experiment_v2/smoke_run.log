@@ -1,0 +1,25 @@
+Installed 30 packages in 233ms
+=== Preamble Quality v2 — Main Run ===
+  subjects (10): ['qwen/qwen3.6-flash', 'deepseek/deepseek-v4-flash', 'minimax/minimax-m2.5', 'deepseek/deepseek-v3.2', 'google/gemma-4-31b-it', 'mistralai/mistral-small-2603', 'nvidia/nemotron-3-super-120b-a12b', 'openai/gpt-4o-mini', 'google/gemini-3.1-flash-lite', 'google/gemini-2.5-flash']
+  judges (10):   ['qwen/qwen3.6-flash', 'deepseek/deepseek-v4-flash', 'minimax/minimax-m2.5', 'deepseek/deepseek-v3.2', 'google/gemma-4-31b-it', 'mistralai/mistral-small-2603', 'nvidia/nemotron-3-super-120b-a12b', 'openai/gpt-4o-mini', 'google/gemini-3.1-flash-lite', 'google/gemini-2.5-flash']
+  preambles (9): ['none', 'minimal', 'generic_coding', 'real_agent', 'negative_control', 'persona_only', 'long_directive', 'trivial_baseline', 'python_coder_agent']
+  tasks (7): ['task_lru_ttl_cache', 'task_expr_parser', 'task_flag_class', 'task_exception_pyramid', 'task_mini_sql_engine', 'task_rate_limiter_family', 'task_kv_store_package']
+  reps: 2, slice=True, resume=False
+[gen] 4/4 generations to run (0 already done)
+  [gen] 4/4 (0.06/s, eta 0s)
+  → 4 total gens; 4 extracted ok (4 new)
+[judge] 80 judge calls to run (0 already done)
+  [judge] 80/80 (0.60/s, eta 0s)
+  → 80 total judgments (80 new)
+[static] 4 samples to analyze
+  [static] 4/4
+/Users/chrissantiago/.cache/uv/environments-v2/preamble-quality-v2-main-111473ada3968138/lib/python3.13/site-packages/scipy/stats/_stats_py.py:8492: RuntimeWarning: invalid value encountered in scalar divide
+  h /= ties
+  → 4 total static analyses (4 new)
+
+[analyze] computing per-sample CQS-craft...
+  computed 4/4 CQS-craft scores
+[analyze] writing report...
+  → /Users/chrissantiago/Dropbox/GitHub/llm-preamble/preamble_quality_experiment_v2/experiment_v2_results/REPORT.md
+
+=== done ===

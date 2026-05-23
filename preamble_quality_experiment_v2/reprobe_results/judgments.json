@@ -1,0 +1,2180 @@
+[
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00018405,
+    "gen_idx": 0
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0001911,
+    "gen_idx": 0
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of a dictionary for cache storage and a doubly linked list for LRU ordering is appropriate."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and meets the stated complexity requirements."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear return values for missing or expired keys."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is well-structured, with appropriate separation of concerns between methods."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear boundaries between public and private methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and empty cache correctly."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided examples effectively demonstrate the usage of the LRUCache class."
+      }
+    },
+    "cost": 0.0005001,
+    "gen_idx": 0
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00022005,
+    "gen_idx": 1
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002277,
+    "gen_idx": 1
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly linked list for LRU operations is appropriate for O(1) insertions and deletions."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and maintains expected O(1) complexity."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid capacity."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured, encapsulating all necessary functionality without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of methods and responsibilities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and zero capacity correctly."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during concurrent access."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided examples effectively demonstrate the usage and behavior of the cache."
+      }
+    },
+    "cost": 0.0005379,
+    "gen_idx": 1
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002241,
+    "gen_idx": 2
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00023175,
+    "gen_idx": 2
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of lists for tokens and tuples for token representation is appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly parses and evaluates arithmetic expressions according to the defined grammar."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "While most error handling is consistent, the handling of unexpected tokens could be more uniform."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and straightforward, allowing users to evaluate expressions easily."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with a clear separation of concerns between tokenization and parsing."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized logically, with distinct functions and classes for different responsibilities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods and functions have appropriate type hints, enhancing code readability."
+      },
+      "edge_case_gap": {
+        "severity": 1,
+        "rationale": "While most edge cases are handled, there could be more explicit handling for invalid inputs beyond just empty strings."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of the functions and classes."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00051855,
+    "gen_idx": 2
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0004179,
+    "gen_idx": 3
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00042555,
+    "gen_idx": 3
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of lists for tokens and tuples for token representation is appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements expression parsing and evaluation according to the defined grammar."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "While most error handling is consistent, there are some cases where specific error messages could be improved for clarity."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and straightforward, allowing users to evaluate expressions easily."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with appropriate classes and methods for parsing and evaluating expressions."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized into distinct functions and classes, each with a clear responsibility."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 1,
+        "rationale": "While most edge cases are handled, there could be additional checks for malformed expressions beyond just numbers."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00070875,
+    "gen_idx": 3
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00020655,
+    "gen_idx": 4
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002142,
+    "gen_idx": 4
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used (lists and dictionaries) are appropriate for the operations being performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented correctly produce the expected outputs for the given operations."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "There is minimal error handling, particularly in methods like 'join' and 'order_by', which could fail without proper checks."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is designed to be fluent and intuitive, allowing for clear chaining of methods."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-abstracted for its purpose, encapsulating table operations without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear method boundaries and responsibilities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API."
+      },
+      "edge_case_gap": {
+        "severity": 3,
+        "rationale": "Edge cases such as empty tables or invalid column names are not handled, which could lead to runtime errors."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0005034,
+    "gen_idx": 4
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00017445,
+    "gen_idx": 5
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0001821,
+    "gen_idx": 5
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used (lists and dictionaries) are appropriate for the operations being performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented correctly perform the intended operations and produce the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "There is a lack of error handling for cases where columns or keys may not exist, which could lead to runtime errors."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is designed to be fluent and intuitive, allowing for easy chaining of methods."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured with a clear focus on providing a query engine without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with each method serving a distinct purpose and clear separation of functionality."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API."
+      },
+      "edge_case_gap": {
+        "severity": 3,
+        "rationale": "The code does not handle edge cases such as empty tables or missing keys in rows, which could lead to unexpected behavior."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0004767,
+    "gen_idx": 5
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0002172,
+    "gen_idx": 6
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00022425,
+    "gen_idx": 6
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly-linked list and a dictionary is appropriate for implementing an LRU cache."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and maintains O(1) operations."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, raising exceptions for invalid inputs and managing expired entries properly."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined methods for cache operations."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is well-abstracted, with clear separation between public methods and internal helpers."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with a clear structure separating internal methods from the public API."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public and internal methods."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid TTL values effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the purpose and behavior of classes and methods."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided examples effectively demonstrate the usage and behavior of the LRUCache."
+      }
+    },
+    "cost": 0.00054225,
+    "gen_idx": 6
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00018345,
+    "gen_idx": 7
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0001911,
+    "gen_idx": 7
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a dictionary for cache storage and a doubly linked list for LRU tracking is appropriate and efficient."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements an LRU cache with TTL expiry and handles edge cases as expected."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid parameters."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is well-structured, with appropriate separation of concerns between methods."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with a clear structure and logical grouping of methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid parameters effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided examples effectively demonstrate the usage of the LRUCache class."
+      }
+    },
+    "cost": 0.0005013,
+    "gen_idx": 7
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0002211,
+    "gen_idx": 8
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00022875,
+    "gen_idx": 8
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of lists for storing tokens is appropriate for the lexer."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements the parsing of arithmetic expressions according to the defined grammar."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with exceptions raised for invalid tokens and division by zero."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and easy to use, with a single evaluate function for users."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with clear separation of concerns between lexer and parser."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized into classes and methods that each have a single responsibility."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "Edge cases such as division by zero and invalid characters are handled appropriately."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and match the complexity of the code, providing necessary information."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00050775,
+    "gen_idx": 8
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0002175,
+    "gen_idx": 9
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00022515,
+    "gen_idx": 9
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of lists for tokens and the use of tuples for token representation are appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements the parsing and evaluation of mathematical expressions according to the specified rules."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for various syntax errors and division by zero."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and concise, with a single function for evaluation that is easy to use."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with appropriate separation of concerns between tokenization and parsing."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized into classes and methods that each handle distinct responsibilities, enhancing readability."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods and parameters have appropriate type hints, providing clarity on expected types."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as invalid numbers and division by zero appropriately."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and provide sufficient information about the purpose and usage of classes and methods."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00051855,
+    "gen_idx": 9
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00024165,
+    "gen_idx": 10
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002493,
+    "gen_idx": 10
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used (lists and dictionaries) are appropriate for the operations being performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements the SQL-like query operations and produces the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "There is a lack of error handling for potential issues such as missing keys in rows or invalid predicates."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is designed in a fluent style that is intuitive and easy to use."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The abstraction level is appropriate, encapsulating query logic without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of concerns in the query methods."
+      },
+      "type_hint_gap": {
+        "severity": 1,
+        "rationale": "Most public methods have type hints, but the return type of 'execute' could be more explicitly defined."
+      },
+      "edge_case_gap": {
+        "severity": 3,
+        "rationale": "The code does not handle edge cases such as empty tables or invalid column names in the select operation."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0005397,
+    "gen_idx": 10
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00019665,
+    "gen_idx": 11
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002043,
+    "gen_idx": 11
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used (lists and dictionaries) are appropriate for the operations being performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for filtering, joining, and grouping are correct and produce the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "Error handling is inconsistent, as some methods silently skip missing columns while others do not handle potential key errors."
+      },
+      "api_ergonomics": {
+        "severity": 1,
+        "rationale": "The API is mostly ergonomic, but the use of positional arguments in methods like 'select' and 'order_by' could be improved with keyword arguments."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-abstracted for its purpose, providing a clear and cohesive interface for SQL-like operations."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with each method serving a distinct purpose and clear boundaries."
+      },
+      "type_hint_gap": {
+        "severity": 1,
+        "rationale": "Type hints are mostly complete, but the return types of some methods could be more explicitly defined."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "Some edge cases, such as handling empty tables or invalid column names, are not adequately addressed."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0005097,
+    "gen_idx": 11
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0001848,
+    "gen_idx": 13
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00019245,
+    "gen_idx": 13
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a dictionary for cache storage and a doubly linked list for LRU management is appropriate."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The implementation correctly adheres to the LRU caching mechanism and handles TTL as specified."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid inputs."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured, with a clear separation of concerns between the public interface and internal helpers."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with logical grouping of methods and clear boundaries between public and private methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid maxsize correctly."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "The docstring provides a clear overview of the class functionality and method behaviors."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The usage examples effectively demonstrate the API's functionality and expected behavior."
+      }
+    },
+    "cost": 0.00050805,
+    "gen_idx": 13
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00030615,
+    "gen_idx": 14
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0003144,
+    "gen_idx": 14
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of data structures, such as lists for tokens, is appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly evaluates arithmetic expressions according to the specified rules."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with exceptions raised for unexpected characters and division by zero."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and easy to use, with a single function for evaluation."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with clear separation between tokenization and parsing."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized into distinct sections for tokens, tokenizer, parser, and public API."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently throughout the public API and internal methods."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "All relevant edge cases, such as division by zero and malformed input, are handled appropriately."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and match the complexity of the code, providing necessary information."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0005982,
+    "gen_idx": 14
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00030675,
+    "gen_idx": 15
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0003144,
+    "gen_idx": 15
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of data structures, such as lists for tokens, is appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly parses and evaluates arithmetic expressions as intended."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "While most errors are handled consistently, the handling of invalid characters could be more descriptive."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and easy to use, with a single function for evaluation."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with clear separation between lexer and parser responsibilities."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized logically, with distinct sections for token types, lexer, parser, and public API."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API and methods."
+      },
+      "edge_case_gap": {
+        "severity": 1,
+        "rationale": "Some edge cases, such as invalid characters and malformed numbers, are handled, but additional cases could be considered."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings and comments are appropriate and provide clear explanations of the code's functionality."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.000603,
+    "gen_idx": 15
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00025785,
+    "gen_idx": 16
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002655,
+    "gen_idx": 16
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of dictionaries for rows and lists for collections of rows is appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for selection, filtering, joining, grouping, and ordering produce correct results as per the defined functionality."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "There is no error handling for cases where columns or keys may not exist in the rows, which could lead to KeyErrors."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is designed with a fluent interface that is intuitive and easy to use."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured with clear responsibilities, focusing on table operations without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized with clear separation between public methods and utility methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have appropriate type hints, providing clarity on expected input and output types."
+      },
+      "edge_case_gap": {
+        "severity": 3,
+        "rationale": "The code does not handle edge cases such as empty tables or missing columns in the select method."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0005631,
+    "gen_idx": 16
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00019515,
+    "gen_idx": 17
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002034,
+    "gen_idx": 17
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of lists and dictionaries is appropriate for the in-memory table representation."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for selection, filtering, joining, and grouping are correct and produce the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "The code raises KeyErrors for missing columns in the select method without handling them gracefully."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is fluent and easy to use, with clear method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured with methods that each serve a single purpose."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized with clear method boundaries and responsibilities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have appropriate type hints for parameters and return types."
+      },
+      "edge_case_gap": {
+        "severity": 3,
+        "rationale": "The code does not handle edge cases such as empty tables or missing keys in the group_by method."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0004866,
+    "gen_idx": 17
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0002577,
+    "gen_idx": 18
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00026475,
+    "gen_idx": 18
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly-linked list combined with a dictionary is appropriate for implementing an LRU cache."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and meets the stated complexity requirements."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid inputs."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is appropriately abstracted, with a clear separation of concerns between public and internal methods."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with a logical structure separating public API and internal helper methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods and parameters are properly type-annotated, providing full coverage."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid maxsize correctly."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of the methods."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during access and modification."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The usage example effectively demonstrates the API and expected behavior of the LRUCache."
+      }
+    },
+    "cost": 0.00058275,
+    "gen_idx": 18
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00022245,
+    "gen_idx": 19
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002301,
+    "gen_idx": 19
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly linked list for the LRU cache is appropriate for efficient insertions and deletions."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The implementation correctly adheres to the LRU caching mechanism and handles TTL expiry as specified."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid inputs."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured, with a clear separation of concerns between public and private methods."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with logical grouping of methods and clear boundaries between public and internal functionality."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid parameters appropriately."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of the methods."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided example demonstrates the API's functionality effectively and covers typical use cases."
+      }
+    },
+    "cost": 0.0005457,
+    "gen_idx": 19
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.0003543,
+    "gen_idx": 20
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00036255,
+    "gen_idx": 20
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used, such as lists for tokens and classes for expressions, are appropriate for their intended purposes."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements the parsing and evaluation of arithmetic expressions as specified."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with specific exceptions raised for different error conditions."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and easy to use, with a single function for evaluation."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with appropriate abstractions for tokens, expressions, and parsing."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized into distinct sections for tokenization, AST nodes, parsing, and the public API."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the code."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The code handles various edge cases, including malformed expressions and division by zero."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of classes and methods."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00064935,
+    "gen_idx": 20
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002988,
+    "gen_idx": 21
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00030585,
+    "gen_idx": 21
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of a list for tokens is appropriate given the need for ordered access."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements a recursive-descent parser that adheres to the specified grammar and precedence rules."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with all malformed inputs raising descriptive exceptions."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and concise, with well-defined function signatures and no unnecessary complexity."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured, with clear separation of concerns between the lexer and parser."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized logically, with each class and method serving a distinct purpose."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The code handles edge cases such as division by zero and unexpected tokens appropriately."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and match the complexity of the code, providing necessary information."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00058965,
+    "gen_idx": 21
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00019815,
+    "gen_idx": 22
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002064,
+    "gen_idx": 22
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of using lists and dictionaries is appropriate for the in-memory table representation."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for querying and manipulating the table produce correct results as per the defined operations."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "While the join method raises an error for duplicate keys, other methods do not handle potential key errors or invalid inputs."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is fluent and intuitive, allowing for easy chaining of methods."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured with a clear focus on table operations without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized with clear separation of query methods and utility functions."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "The code does not handle edge cases such as empty tables or missing columns in the select method."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0004938,
+    "gen_idx": 22
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.000198,
+    "gen_idx": 23
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00020505,
+    "gen_idx": 23
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The use of lists and dictionaries is appropriate for the operations being performed on tabular data."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for selection, filtering, joining, grouping, and ordering are correct and produce the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "While most methods handle errors consistently, the `group_by` method does not raise an error if the specified column is not found."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is clear and intuitive, with method names that accurately describe their functionality."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured, with methods that each perform a single, cohesive task."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation between core query operators and utility methods."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have appropriate type hints, providing clarity on expected input and output types."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "Some edge cases, such as handling empty tables or missing columns in `group_by`, are not explicitly addressed."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the purpose and behavior of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00050745,
+    "gen_idx": 23
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00023025,
+    "gen_idx": 24
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002385,
+    "gen_idx": 24
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a dictionary for cache storage and a doubly linked list for LRU management is appropriate."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The implementation correctly adheres to the LRU caching algorithm with TTL functionality."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, raising exceptions for invalid capacity and handling expired entries appropriately."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined methods for getting and putting cache entries."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured, encapsulating the LRU cache logic without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of methods for different functionalities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and capacity limits effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses threading locks to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The usage example effectively demonstrates the API's functionality and expected behavior."
+      }
+    },
+    "cost": 0.0005499,
+    "gen_idx": 24
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002085,
+    "gen_idx": 25
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00021615,
+    "gen_idx": 25
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of data structures (dict for cache and OrderedDict for access order) is appropriate for the LRU cache implementation."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and meets the stated complexity requirements."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid capacity."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is appropriately abstracted, focusing on a single cohesive responsibility of managing an LRU cache."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of methods and responsibilities."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are fully utilized throughout the public API, enhancing code clarity."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and capacity limits effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a reentrant lock to ensure thread safety, addressing concurrency concerns."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The provided examples effectively demonstrate the usage of the LRUCache class and its methods."
+      }
+    },
+    "cost": 0.00053415,
+    "gen_idx": 25
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 8,
+      "comment_quality": 9
+    },
+    "cost": 0.00036315,
+    "gen_idx": 27
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0003714,
+    "gen_idx": 27
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used, such as enums and dataclasses, are appropriate for the task."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly parses and evaluates arithmetic expressions as specified."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, raising appropriate exceptions for malformed input and division by zero."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and straightforward, with a single function that has a well-defined purpose."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-abstracted into distinct components: lexer, parser, and evaluator."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized with clear sections for lexer, parser, and evaluator."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public functions and classes have appropriate type hints."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The code handles edge cases such as division by zero and malformed expressions."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Documentation is clear and matches the complexity of the code, providing necessary details."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0006528,
+    "gen_idx": 27
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.0002295,
+    "gen_idx": 29
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00023775,
+    "gen_idx": 29
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used (lists and dictionaries) are appropriate for the operations being performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for selection, filtering, joining, and grouping are correct and produce the expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "There is minimal error handling; for instance, missing keys in rows are handled gracefully, but other potential errors are not addressed."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is fluent and easy to use, with clear method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The class is well-structured with a clear purpose, and methods are cohesive and focused."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of methods and logical flow."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have appropriate type hints, providing clarity on expected input and output types."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "Some edge cases, such as handling of empty tables or invalid predicates, are not explicitly managed."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.00053235,
+    "gen_idx": 29
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 8
+    },
+    "cost": 0.00020265,
+    "gen_idx": 30
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002103,
+    "gen_idx": 30
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly linked list for maintaining the order of cache entries is appropriate for LRU cache implementation."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL, ensuring O(1) operations and proper eviction of expired entries."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with clear exceptions raised for invalid capacity and proper handling of expired entries."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-named methods and appropriate parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is well-abstracted, with a clear separation of concerns between the cache and node management."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with methods clearly defined for specific tasks, enhancing readability and maintainability."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API and internal methods."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases effectively, including expired entries and capacity limits."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of each method."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses a lock to ensure thread safety during cache operations."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The usage example effectively demonstrates the API's functionality and expected behavior."
+      }
+    },
+    "cost": 0.0005361,
+    "gen_idx": 30
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00028305,
+    "gen_idx": 31
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0002901,
+    "gen_idx": 31
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The choice of a doubly linked list combined with a dictionary is appropriate for implementing an LRU cache."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly implements LRU caching with TTL and meets the stated complexity requirements."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, raising exceptions for invalid inputs and managing expired entries properly."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and intuitive, with well-defined method names and parameters."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The implementation is well-structured, with appropriate separation of concerns and no unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear boundaries between methods and logical grouping of functionality."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as expired entries and invalid parameters effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality and usage of the methods."
+      },
+      "concurrency_safety": {
+        "severity": 0,
+        "rationale": "The implementation uses threading locks effectively to ensure thread safety."
+      },
+      "example_quality": {
+        "severity": 0,
+        "rationale": "The usage example is relevant and demonstrates the API's functionality clearly."
+      }
+    },
+    "cost": 0.0006027,
+    "gen_idx": 31
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00044895,
+    "gen_idx": 33
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0004566,
+    "gen_idx": 33
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used, such as lists for tokens and dataclasses for AST nodes, are appropriate for their intended purposes."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithm correctly parses and evaluates arithmetic expressions according to the specified grammar and precedence rules."
+      },
+      "error_handling_inconsistency": {
+        "severity": 0,
+        "rationale": "Error handling is consistent, with specific exceptions raised for parsing and evaluation errors."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The public API is clear and concise, with a well-defined function signature and comprehensive documentation."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-structured with appropriate abstractions for tokenization, parsing, and evaluation."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is organized into distinct sections for exceptions, tokenization, parsing, and evaluation, enhancing readability."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "Type hints are used consistently and appropriately throughout the public API and internal methods."
+      },
+      "edge_case_gap": {
+        "severity": 0,
+        "rationale": "The implementation handles edge cases such as division by zero and malformed expressions effectively."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Documentation is thorough and matches the complexity of the code, providing clear explanations and examples."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0007518,
+    "gen_idx": 33
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00034245,
+    "gen_idx": 34
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0003501,
+    "gen_idx": 34
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used, such as lists and dictionaries, are appropriate for the operations performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for filtering, joining, and aggregating data produce correct results as per the defined operations."
+      },
+      "error_handling_inconsistency": {
+        "severity": 2,
+        "rationale": "While some methods raise exceptions for invalid operations, others may return None or fail silently without consistent error handling."
+      },
+      "api_ergonomics": {
+        "severity": 1,
+        "rationale": "The API is generally user-friendly, but the use of positional arguments in methods like 'join' could be improved with keyword arguments for clarity."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The code is well-abstracted, with each method serving a clear purpose without unnecessary complexity."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized, with clear separation of methods and responsibilities within the Table class."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations, enhancing code readability and usability."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "Some edge cases, such as handling of empty tables or invalid column names in methods like 'select' and 'aggregate', are not explicitly addressed."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are appropriately detailed and match the complexity of the code, providing clear guidance on usage."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0006621,
+    "gen_idx": 34
+  },
+  {
+    "kind": "c_unanchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.00042375,
+    "gen_idx": 35
+  },
+  {
+    "kind": "c_anchored",
+    "judge_error": null,
+    "parsed": {
+      "idiomaticity": 9,
+      "comment_quality": 9
+    },
+    "cost": 0.0004314,
+    "gen_idx": 35
+  },
+  {
+    "kind": "d2_rubric",
+    "judge_error": null,
+    "parsed": {
+      "data_structure_choice": {
+        "severity": 0,
+        "rationale": "The data structures used, such as lists and dictionaries, are appropriate for the operations performed."
+      },
+      "algorithm_correctness": {
+        "severity": 0,
+        "rationale": "The algorithms implemented for selection, filtering, joining, and grouping are correct and produce expected results."
+      },
+      "error_handling_inconsistency": {
+        "severity": 1,
+        "rationale": "There is minimal error handling, such as not checking for invalid column names in methods like 'order_by' or 'group_by'."
+      },
+      "api_ergonomics": {
+        "severity": 0,
+        "rationale": "The API is designed to be fluent and composable, making it easy for users to chain operations."
+      },
+      "abstraction_miscalibration": {
+        "severity": 0,
+        "rationale": "The classes and methods are well-structured and appropriately abstracted for the functionality they provide."
+      },
+      "code_organization": {
+        "severity": 0,
+        "rationale": "The code is well-organized with clear separation of concerns between the Table and GroupedTable classes."
+      },
+      "type_hint_gap": {
+        "severity": 0,
+        "rationale": "All public methods have complete and correct type annotations, enhancing code readability."
+      },
+      "edge_case_gap": {
+        "severity": 2,
+        "rationale": "Some edge cases, such as handling empty tables in methods like 'join' and 'group_by', are not explicitly addressed."
+      },
+      "documentation_appropriateness": {
+        "severity": 0,
+        "rationale": "Docstrings are clear and appropriately describe the functionality of the methods."
+      },
+      "concurrency_safety": null,
+      "example_quality": null
+    },
+    "cost": 0.0007344,
+    "gen_idx": 35
+  }
+]
