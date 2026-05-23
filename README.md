@@ -2,7 +2,7 @@
 
 > Designed, executed, and analyzed using [**ml-lab**](https://github.com/chris-santiago/ml-lab) — a Claude Code plugin for rigorous, pre-registered ML hypothesis investigations (hypothesis → adversarial critique → PoC → empirical resolution → peer review). Every artifact in this repo (`HYPOTHESIS.md`, `SPEC_V2.md`, `CONCLUSIONS.md`, `REPORT_ADDENDUM.md`, `INVESTIGATION_LOG.jsonl`) is a canonical output of that workflow.
 
-If you ship a coding agent or design an LLM evaluation harness, the system prompt content materially changes the code your model produces. This repo measures *how much*, *under what conditions*, and — most importantly for practitioners — *why*. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings, $34 total.
+If you ship a coding agent or design an LLM evaluation harness, the system prompt content materially changes the code your model produces. This repo measures *how much*, *under what conditions*, and — most importantly for practitioners — *why*. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings.
 
 **TL;DR for builders:** there is no universal "best preamble." A preamble's effect is governed by overlap between (the dimensions the preamble enumerates) and (the dimensions your downstream evaluator measures). Bad preambles hurt much more than good preambles help. Modest effect sizes overall (~5 points out of 100). Empirical proof for each claim below.
 
@@ -152,7 +152,7 @@ The 7 dimensions that move are exactly the 7 enumerated by `long_directive`. The
 
 The five findings collapse into a procedure:
 
-1. **Write down the dimensions your downstream evaluator scores.** This is the most important step. If you don't have an evaluator, build one before iterating on preambles — otherwise you cannot tell if your preamble changes are helping. If your evaluator is "user thumbs-up", treat that as a noisy proxy for "the dimensions the user notices", and try to articulate what those are.
+1. **Write down the dimensions your downstream evaluator scores.** This is the most important step. If you don't have an evaluator, build one before iterating on preambles — otherwise you cannot tell if your preamble changes are helping. If your evaluator is end-user thumbs-up, treat that as a noisy proxy for the dimensions your end-users actually notice, and try to articulate what those are.
 
 2. **Audit your existing preamble for negative-quality framing.** Any phrase that anchors competence downward ("junior", "learning", "casual", "don't worry too much about") costs more CQS than any positive framing can recover. Remove these first.
 
@@ -219,9 +219,9 @@ Static-analysis metrics (radon MI, pylint, cyclomatic complexity, Halstead) are 
 
 ## The mechanism — what the confound probes showed
 
-After the v2 main run completed, the user raised a sharp concern: `long_directive`'s 12 clauses enumerate 7 of 9 always-on rubric dimensions. Does it beat other preambles only because its content overlaps the rubric, or does it have a real quality advantage?
+After the v2 main run completed, a sharp confound surfaced: `long_directive`'s 12 clauses enumerate 7 of 9 always-on rubric dimensions. Does it beat other preambles only because its content overlaps the rubric, or does it have a real quality advantage?
 
-Three discriminating probes were constructed (n=10 each, full 10-judge cross-judge panel, $1.04 total). The probe outputs:
+Three discriminating probes were constructed (n=10 each, full 10-judge cross-judge panel). The probe outputs:
 
 ```
                                                          CQS-craft     Δ vs none
@@ -292,7 +292,6 @@ Full discussion and per-dimension data: [CONCLUSIONS.md §"Confound probes"](pre
 - **Preambles.** 9 — v1's 8 (`none`, `minimal`, `generic_coding`, `real_agent`, `negative_control`, `persona_only`, `long_directive`, `trivial_baseline`) plus `python_coder_agent` (a real production system prompt from the [chris-code python-coder agent](https://github.com/chris-santiago/claude-config) — verbatim).
 - **Statistical analysis.** Kruskal–Wallis omnibus; bootstrap 95% CI (n_boot = 2000); mixed-effects via `statsmodels` `mixedlm` REML with random intercepts on subject `model` and `task`, plus fixed `preamble × tier` interaction; weight-sensitivity panel over 7 alternative CQS schemes.
 - **Pre-registration discipline.** Five documented amendments (rubric redesign, drop trap task, reasoning-inclusive pool, explicit reasoning param, multi-judge calibrated rubric) — all logged as drift events in [SPEC_V2.md §12](preamble_quality_experiment_v2/SPEC_V2.md). Three-round structured adversarial debate preceded the main run.
-- **Cost.** $33 total (v2 main run + post-hoc probes).
 
 ---
 
@@ -351,11 +350,11 @@ To reproduce:
 export OPENROUTER_API_KEY=<your key>
 cd preamble_quality_experiment_v2/
 
-uv run preamble_quality_v2_main.py --slice    # 4-sample smoke test (~$0.12)
-uv run preamble_quality_v2_main.py            # full main run (~1 hour, ~$32)
+uv run preamble_quality_v2_main.py --slice    # 4-sample smoke test
+uv run preamble_quality_v2_main.py            # full main run (~1 hour)
 uv run analysis_addendum.py                   # mixed-effects + weight sensitivity
-uv run confound_probes.py                     # post-hoc probes (~5 min, ~$1)
+uv run confound_probes.py                     # post-hoc probes (~5 min)
 uv run figures.py                             # regenerate the 5 figures
 ```
 
-All scripts use PEP 723 inline dependencies — `uv run` installs everything; no virtualenv needed. The full investigation cost $33 end-to-end.
+All scripts use PEP 723 inline dependencies — `uv run` installs everything; no virtualenv needed.
