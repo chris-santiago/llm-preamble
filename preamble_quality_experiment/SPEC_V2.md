@@ -2,7 +2,7 @@
 
 **Status:** design — pre-registration input for an `/ml-lab` investigation.
 **Predecessor artifacts:** `HYPOTHESIS.md`, `CONCLUSIONS.md`, `REPORT_ADDENDUM.md`,
-`RELATED_WORK.md`. The v1 conclusions are the empirical basis for every change
+`../RELATED_WORK.md`. The v1 conclusions are the empirical basis for every change
 here; this spec does not re-derive them.
 
 ## 1. Scope

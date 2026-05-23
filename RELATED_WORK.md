@@ -111,7 +111,7 @@ under-measured.
   generation. Whether persona/preamble effects on craft persist or compound over
   multi-turn agentic sessions is open across this literature.
 
-> **Update from v2 (`../preamble_quality_experiment_v2/`):** v2's three
+> **Update from v2 (`preamble_quality_experiment_v2/`):** v2's three
 > post-main-run confound probes (`CONCLUSIONS.md §"Confound probes"`)
 > refined the "alignment vs pretraining" framing the v1 work invoked
 > from PRISM. The probes showed that what governs whether a dimension

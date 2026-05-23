@@ -13,11 +13,12 @@
 
 **Structure:**
 ```
+RELATED_WORK.md                   # repo-level literature situating (covers v1 + v2)
 preamble_quality_experiment/      # v1 — completed cycle; see CONCLUSIONS.md
   preamble_quality_experiment2.py # main experiment runner
   reanalyze.py                    # re-run analysis without re-generating
   experiment2_results/            # full_results.jsonl + figures
-  {HYPOTHESIS,SPEC_V2,CONCLUSIONS,REPORT_ADDENDUM,RELATED_WORK}.md
+  {HYPOTHESIS,SPEC_V2,CONCLUSIONS,REPORT_ADDENDUM}.md
   INVESTIGATION_LOG.jsonl         # append-only ml-lab event log
 preamble_quality_experiment_v2/   # v2 — in-progress cycle
   preamble_quality_v2_poc.py      # proof-of-concept

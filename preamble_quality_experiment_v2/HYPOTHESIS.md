@@ -42,7 +42,7 @@ capability — style, idiom, naming, comment quality, abstraction
 calibration — shaped during instruction-tuning. They do not measurably
 move *pretraining-dependent* axes — structural complexity, functional
 correctness as captured by static analysis. This split is the v1 finding
-and the published literature it cites (`RELATED_WORK.md`; USC PRISM 2026;
+and the published literature it cites (`../RELATED_WORK.md`; USC PRISM 2026;
 Zheng et al. EMNLP 2024).
 
 > **Post-hoc mechanism refinement (after the confound probes, see
@@ -136,7 +136,7 @@ comment quality, abstraction calibration — shaped during instruction-tuning.
 They do not measurably move *pretraining-dependent* axes — structural
 complexity, functional correctness as captured by static analysis. This
 split is the v1 finding and the published literature it cites
-(`RELATED_WORK.md`; USC PRISM 2026; Zheng et al. EMNLP 2024). Preambles
+(`../RELATED_WORK.md`; USC PRISM 2026; Zheng et al. EMNLP 2024). Preambles
 that frame the model as competent should lift craft scores; "junior
 developer" framing should lower them; static-analysis metrics should
 remain insensitive to preamble condition across all tasks.
@@ -199,7 +199,7 @@ quality, abstraction calibration — shaped during instruction-tuning. They do
 not measurably move *pretraining-dependent* axes — structural complexity,
 functional correctness as captured by static analysis. This split is the
 finding of the v1 investigation and the published literature it cites
-(`RELATED_WORK.md`; USC PRISM 2026; Zheng et al. EMNLP 2024). Preambles that
+(`../RELATED_WORK.md`; USC PRISM 2026; Zheng et al. EMNLP 2024). Preambles that
 combine a credible expert persona with explicit quality directives should
 produce the largest craft gains; a "junior developer" framing should
 reliably produce the lowest craft scores; static-analysis metrics should

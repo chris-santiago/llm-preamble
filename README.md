@@ -305,6 +305,12 @@ Full discussion and per-dimension data: [CONCLUSIONS.md §"Confound probes"](pre
 
 ---
 
+## Related work
+
+See [`RELATED_WORK.md`](RELATED_WORK.md) for how these findings situate within the 2024–2026 literature on persona/system-prompt effects and LLM-as-judge evaluation — including the USC PRISM "alignment vs pretraining" split, the Zheng et al. (EMNLP 2024) persona-accuracy null, prior static-metric-insensitivity results on prompt-pattern variation, and the Panickssery et al. (NeurIPS 2024) self-preference bias result. The v2 confound probes refine PRISM's framing from "alignment-tunable vs pretraining-locked" to **preamble–evaluator overlap density**.
+
+---
+
 ## Investigation comparison: v1 vs v2
 
 | Investigation | Date | Status | What it added |
@@ -321,6 +327,7 @@ Full v2 conclusions: [CONCLUSIONS.md](preamble_quality_experiment_v2/CONCLUSIONS
 ```
 .
 ├── README.md                                 this file
+├── RELATED_WORK.md                           literature situating (covers v1 + v2)
 ├── preamble_quality_experiment/              v1 (instrument-correction motivation)
 └── preamble_quality_experiment_v2/           v2 (active design)
     ├── HYPOTHESIS.md                         three hypothesis cycles, current = Re-revised ACTIVE
