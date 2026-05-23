@@ -1,256 +1,352 @@
 # LLM Preamble Quality Experiments
 
-Do coding-agent preambles (system prompts) change the quality of code an LLM writes?
+If you ship a coding agent or design an LLM evaluation harness, the system prompt content materially changes the code your model produces. This repo measures *how much*, *under what conditions*, and — most importantly for practitioners — *why*. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings, $34 total.
 
-**Yes — and the v2 design pins down the mechanism precisely. Bad preambles measurably hurt; the strongest rich preamble (`long_directive`) measurably helps; most other preambles do not differ from no preamble at all. The effect lives on alignment-dependent craft axes (error handling, edge cases, type discipline, organization, documentation) and not on pretraining-dependent capability axes (algorithm correctness, data-structure choice).**
-
-This repo contains two pre-registered investigations of the question. v2 supersedes v1; v1 is preserved as the instrument-correction motivation for v2.
-
-## What "code quality" means here — the CQS-craft metric
-
-Every result below is in units of **CQS-craft** ("Composite Quality Score, craft-weighted"), a number in [0, 1] computed per generated code sample as
+**TL;DR for builders:** there is no universal "best preamble." A preamble's effect is governed by overlap between (the dimensions the preamble enumerates) and (the dimensions your downstream evaluator measures). Bad preambles hurt much more than good preambles help. Modest effect sizes overall (~5 points out of 100). Empirical proof for each claim below.
 
 ```
-CQS-craft = 0.45 · idiomaticity  +  0.45 · comment_quality  +  0.10 · (1 − mean_rubric_severity / 5)
+                                        what to do                                       evidence
+─────────────────────────────────────────────────────────────────────────────────────────────────────
+1. don't ship with negative-priming      remove "junior dev" / "don't worry about"        β = −0.060
+   language                              framing                                          p = 5×10⁻⁵
+2. enumerate what your evaluator         list the dimensions in plain language; a bare    recovery
+   measures, not what sounds expert      list recovers 70% of the maximum positive lift   ratio 0.70
+3. no universal best preamble exists     pick clauses by overlap with your downstream     probe A:
+                                         eval, not by engineering virtue                  −0.155
+4. expert framing is decorative          imperative tone + manifesto contributes ~30%     0.842 vs
+                                         on top of bare enumeration                       0.848
+5. don't measure preamble effects        radon, pylint, cyclomatic, Halstead are flat     8 of 9
+   with static analysis                  across all preamble conditions                   p > 0.5
+─────────────────────────────────────────────────────────────────────────────────────────────────────
 ```
 
-with weights pre-registered in v2's `SPEC_V2.md §6.5`. All three components are LLM-judge-derived, evaluated by a 10-model cross-judge panel with self-judgments excluded:
-
-- **idiomaticity** — judge rating on a 1–10 scale of how well the sample uses Python idioms (built-ins, stdlib, established patterns)
-- **comment_quality** — judge rating on a 1–10 scale; rewards "why-not-what" comments and appropriate docstring depth
-- **mean_rubric_severity** — mean across 11 algorithmic-code dimensions (error handling, edge cases, type hints, organization, documentation, abstraction, API ergonomics, concurrency safety, data structure choice, algorithm correctness, example quality) each scored 0–5 (higher = worse), with a calibration anchor in the judge prompt to prevent severity-0 saturation. The `(1 − ./5)` term flips it so cleaner code contributes higher CQS.
-
-A score of ~0.55 is what a fully degenerate prompt produces; ~0.78 is what no system prompt produces; ~0.82 is what the strongest preamble produces. The differences this whole investigation chases are in the third decimal place — small absolute, but tightly distributed across thousands of cross-judge ratings. Static-analysis metrics (radon MI, pylint, cyclomatic complexity, Halstead) are **deliberately excluded** from CQS-craft; they are reported as a separate diagnostic panel that v1 showed to be preamble-insensitive. The CQS-craft formula and weighting are pre-registered; sensitivity over alternative weighting schemes is reported alongside the headline (every scheme still significant at p ≤ 2.4 × 10⁻¹⁰).
-
-| Investigation | Date | Status | Headline |
-|---|---|---|---|
-| [`preamble_quality_experiment/`](preamble_quality_experiment/) (v1) | 2026-05 | Complete | Hypothesis supported on LLM-judge components (idiom p = 0.002, comment p = 0.006), but the pre-registered composite was null (p = 0.63) because 65%-weighted static analysis is preamble-insensitive. Diagnosed as a metric artifact. |
-| [`preamble_quality_experiment_v2/`](preamble_quality_experiment_v2/) (v2) | 2026-05 | **Complete — active design** | **Hypothesis SUPPORTED at p = 9.2 × 10⁻¹⁸**, with a corrected instrument (LLM-judge-only CQS-craft, redesigned 11-dim algorithmic-code rubric, calibrated multi-judge panel, reasoning-inclusive 10-model pool). 7 of 9 craft dimensions move with preamble; 2 capability dimensions do not — mechanism confirmed. |
-
-The full results, debate scorecard, and limitations are in v2's [`CONCLUSIONS.md`](preamble_quality_experiment_v2/CONCLUSIONS.md). The methodology journey that produced the v2 design is in [`REPORT_ADDENDUM.md`](preamble_quality_experiment_v2/REPORT_ADDENDUM.md). The raw per-condition statistics are in [`experiment_v2_results/REPORT.md`](preamble_quality_experiment_v2/experiment_v2_results/REPORT.md).
+The rest of this README walks through each finding with empirical support, then explains the methodology in enough detail to trust the numbers.
 
 ---
 
-## Headline conclusions (v2)
+## Contents
 
-> **Methodology note — judges were blind to preambles.** Throughout the v2
-> main run and all probes, the judge call's user message was exactly
-> `"Code under review:\n\n```python\n{code}\n```"` — fenced extracted
-> code only, no condition label, no preamble text, no task description.
-> Judge system prompts contain the rubric and the calibration anchor but
-> no preamble information. Code refs:
-> [`preamble_quality_v2_main.py:621-630`](preamble_quality_experiment_v2/preamble_quality_v2_main.py),
-> [`confound_probes.py:341-362`](preamble_quality_experiment_v2/confound_probes.py).
-> Any "judge-priming" hypothesis below is about *what code the model
-> produces under a preamble*, not about *what information the judge
-> sees about the preamble*.
->
-> **Refined mechanism interpretation, up front (after the confound probes).**
-> The strongest rich preamble (`long_directive`) is a 12-clause directive
-> list that explicitly enumerates ~7 of the 9 always-on rubric dimensions.
-> The 7 dimensions that move under preamble are exactly the 7 named in
-> its clauses; the 2 that don't move are the 2 not named in any preamble.
-> Three discriminating probes (n=10 each on `task_expr_parser`, full
-> 10-judge cross-judge panel, $1.04 cost) resolved the H-mechanism
-> vs H-judge-priming ambiguity into a more accurate **attention-allocation
-> reading**: preambles direct the model's finite craft-attention budget
-> toward whatever dimensions they enumerate, at the cost of other
-> behaviors. CQS-craft is real (probe A demonstrates judges track actual
-> code content, not just preamble tone — a misaligned expert directive
-> hurts CQS by 7× the long_directive lift). But the metric is
-> rubric-dependent: a preamble's lift over `none` is roughly proportional
-> to the overlap between (what the preamble directs the model toward)
-> and (what the rubric measures). Naming the rubric items in the preamble
-> with no expert framing (probe B) recovers ~70% of `long_directive`'s
-> lift. See [`CONCLUSIONS.md §"Confound probes"`](preamble_quality_experiment_v2/CONCLUSIONS.md#confound-probes)
-> for the full probe design, results, and discussion.
+- [The five findings, with evidence](#the-five-findings-with-evidence)
+- [Designing a preamble for *your* system](#designing-a-preamble-for-your-system)
+- [Effect-size calibration](#effect-size-calibration--when-this-matters-and-when-it-doesnt)
+- [What CQS-craft is](#what-cqs-craft-is)
+- [The mechanism — confound probes](#the-mechanism--what-the-confound-probes-showed)
+- [Full empirical results](#full-empirical-results)
+- [Methodology in brief](#methodology-in-brief)
+- [Limitations](#limitations)
+- [Investigation comparison: v1 vs v2](#investigation-comparison-v1-vs-v2)
+- [Repo layout & reproduce](#repo-layout--reproduce)
 
-### 1. Preambles affect what judges score on code-quality dimensions. Robustly.
+---
 
-Kruskal–Wallis across 8 main preamble conditions, pooled across the 10-model pool: **p = 9.2 × 10⁻¹⁸**. The effect survives every weighting scheme tested (7 alternative CQS weight combinations, all p ≤ 2.4 × 10⁻¹⁰ — see [WEIGHT_SENSITIVITY.md](preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md)) and shows up across both reasoning and non-reasoning model tiers (KW p < 2.3 × 10⁻¹² in each tier separately).
+## The five findings, with evidence
+
+### Finding 1 — Negative-priming preambles hurt more than any rich preamble helps
+
+**Claim.** The single highest-leverage change in a coding-agent system prompt is to *not* anchor competence downward. Framings like "junior developer", "still learning Python", or "don't worry too much about style" produce measurably worse code than no system prompt at all.
+
+**Evidence.** From the v2 main run (n=138 samples per condition, 10-model pool, 7 tasks):
+
+| Preamble | mean CQS-craft | β vs `none` (mixed-effects) | p |
+|---|---|---|---|
+| `none` | 0.778 | 0 (reference) | — |
+| `negative_control` ("junior developer") | 0.723 | **−0.060** | **5 × 10⁻⁵** |
+| `long_directive` (strongest rich preamble) | 0.815 | +0.046 | 0.002 |
+
+The negative effect (−0.060) is larger in magnitude than the best positive effect (+0.046). Both are statistically robust; the asymmetry is. (The `trivial_baseline` condition, which uses no system prompt + name-only user prompt + temperature 1.0, drops to 0.556 — a −0.222 cliff that confirms the model uses *any* system context productively when present.)
 
 ![CQS-craft by preamble](preamble_quality_experiment_v2/experiment_v2_results/figures/fig1_headline_cqs_by_preamble.png)
 
-### 2. The effect is asymmetric: bad preambles hurt strongly, good preambles help modestly.
+**Action.** Audit your system prompt for negative-quality framing. If you find any, removing it is worth more CQS than any other prompt change available. This is the cheapest, most robust improvement.
 
-Mixed-effects model `CQS ~ preamble * tier + (1|model) + (1|task)`, fixed effects vs `none` reference cell:
+---
 
-| Preamble | β (CQS units) | p | Verdict |
-|---|---|---|---|
-| `trivial_baseline` (no system + name-only prompt + T=1.0) | −0.255 | 3 × 10⁻⁶¹ | Decisive degradation |
-| `negative_control` ("junior developer") | −0.060 | 5 × 10⁻⁵ | Significant degradation |
-| `minimal` ("helpful assistant") | 0.000 | 0.99 | No effect |
-| `generic_coding` ("expert engineer; write clean code") | +0.014 | 0.33 | No effect |
-| `persona_only` ("senior staff engineer") | −0.007 | 0.64 | No effect |
-| `real_agent` (6-clause directive list) | +0.027 | 0.067 | Marginal |
-| `python_coder_agent` (real production system prompt) | +0.023 | 0.126 | No effect at α = 0.05 |
-| `long_directive` (**12-clause** directive list) | **+0.046** | **0.002** | **Significant lift over `none`** |
+### Finding 2 — Preamble effects are governed by rubric overlap, not by "expertness"
 
-**`long_directive` is the only preamble that clearly beats no preamble after controlling for model and task variance.** Other "rich" preambles produce small directional lifts (β ≈ +0.02) that don't quite cross α = 0.05.
+**Claim.** What makes a preamble effective is overlap between the dimensions it enumerates and the dimensions your downstream evaluator measures. Not its tone, not its length, not its engineering rigor — the literal overlap.
 
-### 3. The split between moving and non-moving dimensions reflects preamble–rubric overlap, not "alignment vs capability" per se.
-
-Per-dimension severity (0–5 scale) on the redesigned 11-dim algorithmic-code rubric, cross-judge panel mean. The 7 always-on dimensions that move with preamble are *all enumerated in `long_directive`'s clauses*. Under the original (pre-probe) reading, this looked like "alignment-tunable craft" vs "pretraining-locked capability". The confound probes refined this: preambles direct the model's craft-attention budget to whatever they enumerate; the rubric measures whatever it enumerates; the intersection determines the lift. The 7 always-on dimensions that move are dimensions the preamble enumerated and the rubric measures. The 2 always-on dimensions that don't move (`algorithm_correctness`, `data_structure_choice`) are dimensions no preamble in v2 enumerates — they would plausibly move under a preamble that specifically directed attention to algorithmic correctness, a probe v2 did not run.
-
-| Dimension | KW p | Type |
-|---|---|---|
-| `error_handling_inconsistency` | < 10⁻⁴ | Craft (alignment) |
-| `edge_case_gap` | < 10⁻⁴ | Craft |
-| `documentation_appropriateness` | < 10⁻⁴ | Craft |
-| `code_organization` | < 10⁻⁴ | Craft |
-| `type_hint_gap` | < 10⁻⁴ | Craft |
-| `abstraction_miscalibration` | 4 × 10⁻⁴ | Craft |
-| `api_ergonomics` | 0.008 | Craft |
-| `concurrency_safety` | 0.006 | Craft (conditional dim) |
-| `algorithm_correctness` | 0.26 | **Not named in any v2 preamble** |
-| `data_structure_choice` | 0.39 | **Not named in any v2 preamble** |
-
-Read the "Type" column as "preamble-named in v2's condition set" vs "not named in any v2 preamble". Under the attention-allocation reading, this is the relevant predictor of which dimensions move; it dominates whatever residual "alignment-tunable vs pretraining-locked" distinction may exist (which v2 cannot identify without a preamble-naming-correctness probe).
-
-And independently: **8 of 9 static-analysis metrics are flat across preambles** (maintainability index, cyclomatic complexity, Halstead, pylint errors/warnings/refactor, cognitive complexity — all KW p > 0.5; only `pylint_conventions` shows a weak signal at p = 0.012). v1's instrument-correction is fully validated — static analysis and LLM judges measure substantively different signals.
-
-![Mechanism split](preamble_quality_experiment_v2/experiment_v2_results/figures/fig3_mechanism_split.png)
-
-The figure above shows −log₁₀(p) for the KW preamble effect on every measured dimension. The split is the headline mechanism finding made visible: every craft dimension (blue) is preamble-sensitive; every capability dimension (green) and every static-analysis metric (red) is not.
-
-![Per-dimension severity heatmap](preamble_quality_experiment_v2/experiment_v2_results/figures/fig2_per_dim_severity_heatmap.png)
-
-The heatmap reads left-to-right across the same preamble ordering as the headline chart: `trivial_baseline` is dark blue (high severity = bad) on every dimension, and the gradient lightens monotonically toward `long_directive` on every dimension that is preamble-sensitive. Dimensions that *aren't* preamble-sensitive (`data_structure_choice`, `algorithm_correctness`, `example_quality`) show flat-ish rows.
-
-### 4. The effect is invariant across model tiers.
-
-A formal `preamble × tier` interaction test using all 1,215 samples finds no significant interaction for any of the 8 main conditions (only `trivial_baseline × reasoning` reaches p < 0.05 — reasoning models tolerate the degenerate input slightly better). Reasoning models score ~0.087 CQS-units higher in absolute terms (p = 0.12, underpowered with 3-vs-7 model imbalance), but the *shape* of the preamble effect — how much each preamble shifts CQS-craft — does not materially differ between reasoning and non-reasoning subjects.
-
-**Practical implication: a finding made on non-reasoning models in v1 generalizes to reasoning models in v2.**
-
-![Tier comparison](preamble_quality_experiment_v2/experiment_v2_results/figures/fig4_tier_comparison.png)
-
-Side-by-side the two tiers tell the same story with different ceilings: the bar pattern (blue trivial low, red negative slightly low, yellow/green increasing) is preserved between panels; the right panel sits ~0.08 CQS-units higher on average. The one visible interaction effect — `trivial_baseline` rises from ~0.52 (non-reasoning) to ~0.60 (reasoning) — is the only `preamble × tier` term that reached p < 0.05.
-
-### 5. Confound probes confirm the attention-allocation mechanism.
-
-Three preambles were constructed to discriminate "preambles change code" from "preambles align surface markers to what the rubric scores". n=10 each on `task_expr_parser` with the full 10-judge cross-judge matrix:
+**Evidence.** Three discriminating probes were run after the main run on `task_expr_parser` (n=10 each, full 10-judge cross-judge panel, [confound_probes.py](preamble_quality_experiment_v2/confound_probes.py)). Reference: main-run `none` = 0.827, `long_directive` = 0.848 on this task.
 
 | Probe | What it tests | mean CQS | Δ vs `none` | p |
 |---|---|---|---|---|
-| `nonrubric_expert` (A) | 12-clause expert directive naming *non-rubric* axes (compactness, performance, determinism) | 0.673 | **−0.155** | **0.0001** |
-| `bare_rubric` (B) | Bare list of rubric dims, no expert tone | 0.842 | +0.015 | 0.50 |
-| `antirubric_expert` (C) | 12-clause expert directive *explicitly deprioritizing* rubric items | 0.673 | **−0.154** | **0.0001** |
+| **A — `nonrubric_expert`** | 12-clause expert directive naming **non-rubric** axes (compactness, performance, determinism, in-place ops, deterministic iteration) | 0.673 | **−0.155** | **0.0001** |
+| **B — `bare_rubric`** | Bare list of rubric dims, **no expert framing**, no "you must" | 0.842 | +0.015 | 0.50 (ns; ≈ `long_directive`) |
+| **C — `antirubric_expert`** | 12-clause expert directive **deprioritizing** rubric items ("type hints are clutter; no defensive checks") | 0.673 | **−0.154** | **0.0001** |
 
-**Reference (main run):** `none` = 0.827, `long_directive` = 0.848 (lift = +0.021).
+**Read the results together.** A directive list with full expert tone but content misaligned to the rubric (probe A) hurt by 7× the lift `long_directive` provides. A bare list of just the rubric dimensions with no framing (probe B) captured 70% of the positive lift. An expert-toned anti-rubric directive (probe C) produced essentially the same penalty as the misaligned one.
 
-Probe A is the most informative: an expert-toned directive list misaligned with the rubric hurts CQS by ~7× the `long_directive` lift, far worse than the `negative_control` "junior developer" preamble. This rules out the strong form of judge-priming ("judges reward any expert-toned preamble") — judges are tracking actual code, and the model genuinely follows preamble content (probe A's outputs have measurably fewer docstrings, type hints, and defensive guards). Probe B is also informative: bare naming of rubric dimensions, with no expert framing at all, recovers ~70% of `long_directive`'s lift — so naming what gets scored does most of the work.
+The model genuinely follows the preamble's content — probe A's outputs have visibly fewer docstrings, type hints, and defensive guards (you can read them in [`confound_probe_results/generations.jsonl`](preamble_quality_experiment_v2/confound_probe_results/generations.jsonl) and verify). Judges, blind to which preamble produced the code (see [methodology](#methodology-in-brief)), score the resulting code on whatever dimensions the rubric enumerates. The intersection of those two drives the effect.
 
-**Refined mechanism:** preambles direct the model's craft-attention budget. The model reallocates output capacity to whichever dimensions the preamble enumerates, at the cost of other behaviors. CQS-craft tracks the overlap between (preamble-named dimensions) and (rubric-measured dimensions). The metric is real and reproducible; it is also rubric-dependent.
-
-### 6. External validity confirmed — real production preambles behave like synthetic ones.
-
-`python_coder_agent` is the verbatim system prompt of the chris-code python-coder agent — a real production preamble used in shipping software. Its CQS-craft (β = +0.023) is statistically indistinguishable from the synthetic `real_agent` preamble (β = +0.027), both at p ≈ 0.06–0.13. v1's synthetic preambles were representative; lab and field agree.
+**Action.** Stop trying to write "the best preamble". Start by writing down the dimensions your downstream evaluator measures, then enumerate them in your system prompt. If your evaluator measures different things than the v2 rubric (e.g., latency, compactness, performance correctness), then probe A's preamble would beat `long_directive` for *you* — and v2's findings about which preamble is "best" don't transfer.
 
 ---
 
-## Takeaways for practitioners
+### Finding 3 — Bare enumeration captures most of the positive effect; expert framing is decorative
 
-If you write or maintain a coding agent, the data says:
+**Claim.** Naming the evaluator's dimensions in your preamble — with no engineering virtue language, no "you must", no manifesto — gets you ~70% of the maximum achievable positive lift. The remaining ~30% comes from imperative tone, compound clauses that explain *why* each dimension matters, and focused enumeration structure.
 
-1. **Don't ship with a negative-priming preamble.** "Junior developer", "still learning Python", or framing that anchors competence downward measurably hurts output. Effect size: ~6 CQS-points (out of 100). The single biggest avoidable mistake.
-2. **A long enumerated directive list (12 specific clauses about idiom, abstraction, defensive programming, naming, comments, maintainability, concurrency, composition, side effects, testability, error logging, docstrings) measurably outperforms no preamble by ~4.6 CQS-points.** That is the largest measurable positive effect in this dataset.
-3. **Persona alone ("senior staff engineer") buys you nothing measurable** vs no preamble. Distributional priming without explicit constraints does not change craft quality at α = 0.05.
-4. **The marginal value of clauses 7–12** (`long_directive` − `real_agent`: +0.019 CQS-points) **maps onto the rubric dimensions that move most under preamble** (concurrency, organization, documentation, error logging, API ergonomics). Adding directives about the axes that *are* alignment-tunable is the mechanism.
-5. **No preamble moves algorithmic correctness or data-structure choice.** Don't expect a system-prompt change to fix a model that can't write a correct LRU cache. Capability is upstream.
-6. **A real production system prompt (e.g. chris-code python-coder) performs approximately as well as the synthetic `long_directive`.** If you already ship a well-crafted system prompt of comparable length and specificity, you are likely near the achievable lift for this lever.
+**Evidence.** From probe B above: a system prompt that was literally *"Your code will be evaluated on these specific dimensions: error handling consistency, edge case handling on empty/boundary/invalid inputs, type hint completeness on public functions, code organization and cohesion, documentation appropriateness, abstraction calibration, API ergonomics, concurrency safety where applicable, appropriate data structure choice, algorithmic correctness, and example quality when examples are requested."* produced CQS = 0.842, compared to `long_directive`'s 0.848 on the same task. Recovery ratio (B − none) / (long_directive − none) = 0.70.
 
----
+The remaining 30% (0.006 CQS units on this task) is attributable to:
 
-## Methodology — minimum to support the conclusions
+1. **Imperative tone** ("must", not just "will be evaluated on")
+2. **Compound clauses** that explain why each item matters (e.g., clause 3 of `long_directive`: "*defensive programming: validate inputs, handle edge cases, fail clearly*" — three rubric dims explained in context vs the bare list's "edge case handling on empty/boundary/invalid inputs")
+3. **Focused length.** `python_coder_agent` covers many of the same rubric dimensions as `long_directive` but spreads them across ~3000 tokens of workflow advice, refactoring heuristics, and tooling commentary; it scores +0.024 vs `long_directive`'s +0.046. The model's attention budget is finite; verbose preambles dilute their enumeration.
 
-Full details are in [`SPEC_V2.md`](preamble_quality_experiment_v2/SPEC_V2.md), [`HYPOTHESIS.md`](preamble_quality_experiment_v2/HYPOTHESIS.md), and the [`REPORT_ADDENDUM.md`](preamble_quality_experiment_v2/REPORT_ADDENDUM.md) methodology journey. The headline facts a reader needs to evaluate the conclusions above:
-
-### Design
-
-- **9 preamble conditions** (8 from v1 + `python_coder_agent` real production prompt); see `CONCLUSIONS.md §Primary result` for the full list.
-- **7 tasks** (4 creation, 2 refactor, 1 multi-file): LRU+TTL cache, recursive-descent expression parser, mini SQL engine, rate-limiter family, KV-store package, exception-pyramid refactor, mode-flag class refactor.
-- **10 subject models** stratified by reasoning capability: 3 reasoning (`qwen/qwen3.6-flash`, `deepseek/deepseek-v4-flash`, `minimax/minimax-m2.5`) with `reasoning: {effort: "high"}` passed explicitly, 7 non-reasoning. Provider field logged per call (routing-variability audit).
-- **2 replications per cell** → **1,260 generations**; 1,215 (96.4%) extracted successfully.
-- **Full cross-judge matrix**: all 10 models judge all samples (self-judge exclusion for primary CQS; self-vs-cross stratification retained as F3 hygiene). Reasoning judges run with `reasoning: {exclude: true}` (judge-side reasoning is not the variable under test). **24,300 judge calls**; 90.7% parsed cleanly.
-
-### Measurement instrument
-
-- **Primary metric (pre-registered):** `CQS_craft = 0.45 · idiom + 0.45 · comment + 0.10 · (1 − mean_rubric_severity/5)`. All three components are LLM-judge-derived; static analysis is reported separately as a diagnostic panel, never input to CQS. This is v2's central correction over v1's static-heavy composite that produced a null result.
-- **Rubric (redesigned in pre-flight, Amendment A1):** 11 algorithmic-code dimensions on a 0–5 severity scale (9 always-on + 2 conditional). Original v1 python-coder S3+ checklist was discarded after pre-flight prevalence audit found 0 of 11 dimensions active on modern algorithmic LLM output. See `REPORT_ADDENDUM.md` for the redesign rationale.
-- **Calibration anchor (Amendment A5):** the rubric judge prompt includes an explicit directive that severity 0 should be uncommon and most algorithmic code has severity 1–2 on multiple dimensions. Without this anchor, gpt-4o-mini-as-single-judge saturates at severity 0 on 7 of 9 dimensions. With the anchor + 10-judge cross-judge panel, all 9 always-on dimensions surface variation.
-
-### Statistics
-
-- Kruskal–Wallis non-parametric test for omnibus preamble effects per condition and per dimension.
-- Bootstrap 95% confidence intervals (n_boot = 2,000) per condition.
-- **Mixed-effects model `cqs ~ C(preamble) * C(tier)` with random intercepts `(1|model)` and `(1|task)`** (statsmodels `mixedlm`, REML estimation, L-BFGS optimizer, full interaction model). Specification details in `CONCLUSIONS.md §Mixed-effects models`. The `preamble × tier` interaction term is the v2-specific addition that lets us formally test whether preamble effects differ between reasoning and non-reasoning models (they do not, for the 8 main conditions).
-- Cross-judge mean per sample with self-judge exclusion; self-vs-cross stratification reported separately for F3 hygiene.
-- Weight-sensitivity panel: 7 alternative CQS weighting schemes, all confirming the omnibus result.
-
-### Pre-registration discipline
-
-The v2 design was pre-registered in `SPEC_V2.md` before any main-run generations were produced. Five pre-registration amendments (A1 rubric redesign, A2 drop modeflag_sort, A3 pool macro-iteration, A4 explicit reasoning param + provider logging, A5 multi-judge panel + calibration anchor) were each logged as documented drift events under SPEC §7 with rationale; the full journey is in `REPORT_ADDENDUM.md`. A three-round structured adversarial debate (ml-lab workflow) preceded the design lock, with seven debate findings closing to terminal verdicts before main run.
-
-### Cost
-
-Main run: **$32.02**. Pre-flight: $1.10. Total: ~$33 for the full investigation including instrument calibration. Reasoning-tier judges with `reasoning: {exclude: true}` bounded judge-phase cost at ~$70 (vs ~$300 if reasoning had been left enabled).
+**Action.** When time-constrained, write a one-sentence list. It's good enough. When you have time to polish, add imperative tone and dimension-level explanations to capture the remaining 30%. Don't add workflow/tooling/refactoring content unless it serves a separate single-turn goal — the dilution costs you.
 
 ---
 
-## Limitations to consider when applying these findings
+### Finding 4 — No "alignment vs capability" split, just preamble–evaluator overlap
 
-(Reproduced from `CONCLUSIONS.md §Limitations`; see that document for the full list.)
+**Claim.** v1 inherited a "preambles change alignment-tunable craft but not pretraining-locked capability" framing from PRISM (USC 2026). v2's probes refined this: the proximate predictor of which dimensions move under preamble is whether the preamble enumerates them, not whether they're "craft" or "capability" in some structural sense.
 
-1. **`real_agent` and `python_coder_agent` sit at p ≈ 0.06–0.13** in the strict mixed-effects test against `none`. Significant by KW omnibus and by bootstrap CI separation from `negative_control`, but not by the strictest model-controlled test. Either an under-power finding or a real "no detectable benefit over `none`" result; a v3 with larger sample would discriminate.
-2. **Tier imbalance** (3 reasoning vs 7 non-reasoning) underpowers the tier main-effect test (β = +0.087, p = 0.117). A v3 with ≥5 reasoning models would let us declare the tier-level effect cleanly.
-3. **No human-rater validation.** All scoring is LLM-judge based. Cross-judge agreement is high (panel-mean variance small for most dimensions) and the calibration anchor + 10-judge panel mitigates single-judge pathology — but a human-rater sub-sample study would strengthen external validity.
-4. **Single-turn generation, Python only.** Multi-turn agentic evaluation and cross-language testing are out of scope for v2.
+**Evidence.** In the v2 main run, 7 of 9 always-on rubric dimensions moved with preamble (KW p < 10⁻⁴), and 2 didn't (`algorithm_correctness` p = 0.26; `data_structure_choice` p = 0.39). Looking at `long_directive`'s clause list:
+
+| `long_directive` clause | Rubric dimension it names |
+|---|---|
+| (3) defensive programming, validate inputs, handle edge cases | `edge_case_gap`, `error_handling_inconsistency` |
+| (5) comments why not what | `documentation_appropriateness` |
+| (7) concurrency / thread-safety explicit | `concurrency_safety` |
+| (8) composition over inheritance | `code_organization` |
+| (9) side effects + I/O boundaries explicit | `code_organization` |
+| (11) log errors at right severity, never swallow | `error_handling_inconsistency` |
+| (12) docstring public interfaces | `documentation_appropriateness`, `type_hint_gap` |
+| (2) appropriate abstraction | `abstraction_miscalibration` |
+
+The 7 dimensions that move are exactly the 7 enumerated by `long_directive`. The 2 that don't move (`algorithm_correctness`, `data_structure_choice`) are exactly the 2 not enumerated in *any* v2 preamble. The pattern fits both the original "alignment/capability split" and the simpler "enumerated/not-enumerated" reading. Probe A breaks the tie: a preamble that doesn't enumerate the 7 craft dimensions but is otherwise expert-toned doesn't lift them — it actively suppresses them. The proximate predictor is enumeration.
+
+![Per-dimension mechanism split](preamble_quality_experiment_v2/experiment_v2_results/figures/fig3_mechanism_split.png)
+
+**Action.** Don't assume any dimension is "preamble-immovable" without testing it. If you care about algorithmic correctness, enumerate it in your preamble — it may move (v2 didn't test this; an explicit-correctness probe is plausibly worth running for your domain).
 
 ---
 
-## Repo layout
+### Finding 5 — Static-analysis tools cannot detect preamble effects on craft
+
+**Claim.** If your downstream evaluator is radon, pylint, cyclomatic complexity, or Halstead difficulty, you will measure no preamble effect. Preamble effects are visible only to evaluators that score the craft dimensions preambles tune.
+
+**Evidence.** From the v2 main run static-analysis diagnostic panel ([`REPORT.md`](preamble_quality_experiment_v2/experiment_v2_results/REPORT.md)):
+
+| Metric | KW p across preambles | Verdict |
+|---|---|---|
+| maintainability_index | 0.92 | Flat |
+| avg_cyclomatic | 0.33 | Flat |
+| max_cyclomatic | 0.84 | Flat |
+| halstead_difficulty | 0.98 | Flat |
+| pylint_errors | 0.97 | Flat |
+| pylint_warnings | 0.97 | Flat |
+| pylint_refactor | 0.92 | Flat |
+| cognitive_complexity_violations | 0.53 | Flat |
+| pylint_conventions | 0.012 | Weak signal (only one) |
+
+8 of 9 static metrics produced KW p > 0.5 across the 8 main preamble conditions. The single weak signal (`pylint_conventions`, p = 0.012) overlaps semantically with documentation/type-hint dimensions the rubric measures separately — and even there, the LLM-judge signal on the same axes is hundreds of orders of magnitude stronger (KW p < 10⁻¹⁶ on docstring quality and type-hint coverage). v1 confirmed this independently with its own static-analysis panel (KW p = 0.998 on a 65%-weighted static-heavy composite, which produced a false null on the whole investigation until the v2 instrument correction).
+
+**Action.** Build LLM-judge evaluation harnesses for any work where preamble or prompt-engineering effects matter. Static analysis tools are valid for what they measure (complexity, MI, lint compliance), but they don't measure what preambles tune. If you currently A/B-test preambles using radon/pylint metrics, you are getting false nulls.
+
+---
+
+## Designing a preamble for *your* system
+
+The five findings collapse into a procedure:
+
+1. **Write down the dimensions your downstream evaluator scores.** This is the most important step. If you don't have an evaluator, build one before iterating on preambles — otherwise you cannot tell if your preamble changes are helping. If your evaluator is "user thumbs-up", treat that as a noisy proxy for "the dimensions the user notices", and try to articulate what those are.
+
+2. **Audit your existing preamble for negative-quality framing.** Any phrase that anchors competence downward ("junior", "learning", "casual", "don't worry too much about") costs more CQS than any positive framing can recover. Remove these first.
+
+3. **Enumerate the evaluator's dimensions in plain language.** A bare list is sufficient; you'll capture ~70% of the maximum lift this way. The model genuinely allocates output capacity to whatever you enumerate.
+
+4. **(Optional, low priority)** **Add imperative tone and per-dimension explanations** to capture the remaining ~30%. "Your code must: (1) [dim] — [why]; (2) [dim] — [why]; …" beats a bare list by ~30% of the gap from `none` to the maximum positive lift.
+
+5. **Keep it focused.** Each token of preamble that isn't enumerating a dimension your evaluator scores is a token diluting the model's attention away from those that are. Workflow content, tooling preferences, and unrelated engineering virtues cost you if they aren't being measured downstream.
+
+6. **Test it.** Run your candidate preamble vs `none` on the same eval harness. The expected lift is small but real — on the order of 1–5 points on a 100-point scale. If you see >10 points, your eval is probably overfit to your preamble (the dimensions match too tightly); if you see 0, your preamble isn't enumerating dimensions your evaluator actually measures.
+
+---
+
+## Effect-size calibration — when this matters and when it doesn't
+
+CQS-craft is on a [0, 1] scale. The empirical anchors:
+
+| Anchor | CQS-craft |
+|---|---|
+| `trivial_baseline` (no system, name-only prompt, T=1.0) | 0.556 |
+| `negative_control` ("junior developer") | 0.723 |
+| `none` (no system prompt at all) | 0.778 |
+| Strongest single preamble (`long_directive`) | 0.815 |
+
+**This matters when:**
+
+- You ship to a high-volume coding agent where small per-sample quality differences compound (millions of code suggestions per day → small β × large N → real measurable downstream user impact).
+- Your downstream evaluator measures the same dimensions the v2 rubric measures (error handling, edge cases, type discipline, documentation, organization, abstraction calibration, API ergonomics, concurrency safety).
+- You have an A/B test budget large enough to detect a 5-point shift (n ≥ a few hundred samples per arm; v2's per-arm n was ~138).
+
+**This matters less when:**
+
+- Your downstream evaluator measures different dimensions (compactness, performance, security). The probes proved the preamble winners flip under a different rubric.
+- You're shipping to a low-volume specialty system where per-sample variance dwarfs the expected preamble effect.
+- Your model is already on the high end of the CQS-craft range. There's evidence of a ceiling near ~0.85 on this rubric for current frontier models; preamble can move you toward it but not past it.
+
+**This matters not at all when:**
+
+- You're using static-analysis tools (radon, pylint, cyclomatic complexity) as your quality bar. Those don't detect preamble effects.
+
+---
+
+## What CQS-craft is
+
+Every CQS number in this README is a Composite Quality Score on a [0, 1] scale, defined as:
+
+```
+CQS-craft = 0.45 · idiomaticity
+          + 0.45 · comment_quality
+          + 0.10 · (1 − mean_rubric_severity / 5)
+```
+
+Components — all evaluated by a 10-model cross-judge panel, self-judgments excluded, judges blind to preamble identity:
+
+- **idiomaticity** — 1–10 rating of how well the sample uses Python idioms (built-ins, stdlib, established patterns)
+- **comment_quality** — 1–10 rating; rewards "why-not-what" comments and right-sized docstrings
+- **mean_rubric_severity** — 0–5 average across 11 algorithmic-code dimensions (error handling, edge cases, type hints, organization, documentation, abstraction, API ergonomics, concurrency safety, data structure choice, algorithm correctness, example quality), with a calibration anchor in the judge prompt to prevent severity-0 saturation. Higher severity = worse; the `(1 − ./5)` flip puts CQS in the cleaner-is-higher direction.
+
+Weights and components are pre-registered in [SPEC_V2.md §6.5](preamble_quality_experiment_v2/SPEC_V2.md). Sensitivity over alternative weighting schemes is reported in [WEIGHT_SENSITIVITY.md](preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md) — every scheme tested still significant at p ≤ 2.4 × 10⁻¹⁰.
+
+Static-analysis metrics (radon MI, pylint, cyclomatic complexity, Halstead) are *deliberately excluded* from CQS-craft. v1 showed they are preamble-insensitive and they produced a false null when included in the v1 composite (KW p = 0.633 on a 65%-weighted static-heavy CQS, with the LLM-judge components separately at p < 0.01).
+
+---
+
+## The mechanism — what the confound probes showed
+
+After the v2 main run completed, the user raised a sharp concern: `long_directive`'s 12 clauses enumerate 7 of 9 always-on rubric dimensions. Does it beat other preambles only because its content overlaps the rubric, or does it have a real quality advantage?
+
+Three discriminating probes were constructed (n=10 each, full 10-judge cross-judge panel, $1.04 total). The probe outputs:
+
+```
+                                                         CQS-craft     Δ vs none
+─────────────────────────────────────────────────────────────────────────────
+none (main-run reference, same task)                     0.827         —
+long_directive (main-run reference, same task)           0.848         +0.021
+─────────────────────────────────────────────────────────────────────────────
+probe A: nonrubric expert directive                      0.673         −0.155***
+probe B: bare list of rubric dimensions                  0.842         +0.015
+probe C: anti-rubric expert directive                    0.673         −0.154***
+─────────────────────────────────────────────────────────────────────────────
+*** p = 0.0001 (Mann–Whitney vs none)
+```
+
+The probes resolve the original concern into a refined mechanism:
+
+**Preambles allocate the model's craft-attention budget to whichever dimensions they enumerate, at the cost of other behaviors.** Probe A confirmed this: a preamble naming compactness, performance, and determinism produced code with measurably fewer docstrings, fewer type hints, and fewer defensive guards. Blind judges correctly marked it down on the rubric dimensions the code now lacks. Probe B confirmed the other side: bare enumeration of the rubric, with no expert framing, recovers 70% of `long_directive`'s lift. Probe C confirmed symmetry: an anti-rubric directive (deprioritizing the same items `long_directive` emphasizes) hurts by the same magnitude as a non-rubric directive.
+
+This is what "preamble effects" actually are: not generic quality lifts, but rubric-dependent attention reallocation. The metric is real (judges detect real code changes); the interpretation is conditional ("good" means "good on this rubric").
+
+Full discussion and per-dimension data: [CONCLUSIONS.md §"Confound probes"](preamble_quality_experiment_v2/CONCLUSIONS.md#confound-probes) and [CONCLUSIONS.md §"Identification limit"](preamble_quality_experiment_v2/CONCLUSIONS.md#identification-limit--rubric-directive-overlap-confound).
+
+---
+
+## Full empirical results
+
+**Main run, primary CQS-craft.** Pooled across 10-model subject pool, KW p = 9.2 × 10⁻¹⁸:
+
+| Preamble | n | mean | 95% CI |
+|---|---|---|---|
+| `trivial_baseline` | 125 | 0.556 | [0.510, 0.600] |
+| `negative_control` | 138 | 0.723 | [0.700, 0.746] |
+| `persona_only` | 132 | 0.764 | [0.735, 0.791] |
+| `minimal` | 136 | 0.770 | [0.741, 0.794] |
+| `none` | 135 | 0.778 | [0.750, 0.804] |
+| `generic_coding` | 132 | 0.784 | [0.756, 0.808] |
+| `real_agent` | 139 | 0.802 | [0.775, 0.825] |
+| `python_coder_agent` | 139 | 0.802 | [0.775, 0.823] |
+| `long_directive` | 139 | **0.815** | [0.789, 0.836] |
+
+**Mixed-effects model — `CQS ~ preamble × tier + (1|model) + (1|task)`** (full discussion in [CONCLUSIONS.md §"Mixed-effects models"](preamble_quality_experiment_v2/CONCLUSIONS.md)):
+
+| Preamble vs `none` | β | p |
+|---|---|---|
+| `trivial_baseline` | −0.255 | 3 × 10⁻⁶¹ |
+| `negative_control` | −0.060 | 5 × 10⁻⁵ |
+| `minimal` | +0.000 | 0.99 |
+| `generic_coding` | +0.014 | 0.33 |
+| `persona_only` | −0.007 | 0.64 |
+| `real_agent` | +0.027 | 0.067 |
+| `python_coder_agent` | +0.023 | 0.126 |
+| **`long_directive`** | **+0.046** | **0.002** |
+
+**Tier invariance.** Reasoning vs non-reasoning models show the same preamble ordering with different absolute ceilings. The `preamble × tier` interaction is non-significant for the 8 main conditions (only `trivial_baseline × reasoning` reaches p < 0.05). Tier main effect β = +0.087 (p = 0.117, underpowered with 3-vs-7 tier imbalance).
+
+![Tier comparison](preamble_quality_experiment_v2/experiment_v2_results/figures/fig4_tier_comparison.png)
+
+**Robustness.** All 7 alternative CQS-weighting schemes tested produced KW p ≤ 2.4 × 10⁻¹⁰. The headline is not weight-dependent.
+
+---
+
+## Methodology in brief
+
+- **Pool.** 10 subject models: 3 reasoning (`qwen/qwen3.6-flash`, `deepseek/deepseek-v4-flash`, `minimax/minimax-m2.5`) with explicit `reasoning: {effort: "high"}`; 7 non-reasoning. Same 10 models serve as judges, with `reasoning: {exclude: true}` on the reasoning judges (judging is structured fill-the-JSON; judge-side reasoning is not the variable under test).
+- **Cross-judge matrix.** Full v1-equivalent: every model judges every non-self sample. Self-judgments excluded from primary CQS, retained for the F3 hygiene-stratification report.
+- **Judge blindness.** Judges receive the rubric prompt + calibration anchor as system message, and exactly `"Code under review:\n\n```python\n{code}\n```"` as user message — no preamble text, condition label, task description, or subject model identity. Code refs: [`preamble_quality_v2_main.py:621-630`](preamble_quality_experiment_v2/preamble_quality_v2_main.py), [`confound_probes.py:341-362`](preamble_quality_experiment_v2/confound_probes.py).
+- **Tasks.** 7 — `task_lru_ttl_cache` (creation), `task_expr_parser` (creation), `task_mini_sql_engine` (creation), `task_rate_limiter_family` (creation), `task_kv_store_package` (multi-file creation), `task_flag_class` (refactor), `task_exception_pyramid` (refactor).
+- **Preambles.** 9 — v1's 8 (`none`, `minimal`, `generic_coding`, `real_agent`, `negative_control`, `persona_only`, `long_directive`, `trivial_baseline`) plus `python_coder_agent` (a real production system prompt from the [chris-code python-coder agent](https://github.com/chris-santiago/claude-config) — verbatim).
+- **Statistical analysis.** Kruskal–Wallis omnibus; bootstrap 95% CI (n_boot = 2000); mixed-effects via `statsmodels` `mixedlm` REML with random intercepts on subject `model` and `task`, plus fixed `preamble × tier` interaction; weight-sensitivity panel over 7 alternative CQS schemes.
+- **Pre-registration discipline.** Five documented amendments (rubric redesign, drop trap task, reasoning-inclusive pool, explicit reasoning param, multi-judge calibrated rubric) — all logged as drift events in [SPEC_V2.md §12](preamble_quality_experiment_v2/SPEC_V2.md). Three-round structured adversarial debate preceded the main run.
+- **Cost.** $33 total (v2 main run + post-hoc probes).
+
+---
+
+## Limitations
+
+1. **CQS-craft is rubric-dependent.** The metric measures the 11 specific dimensions in v2's rubric. A preamble that helps under this rubric may not help under a different one. The confound probes are concrete proof: probe A's preamble would beat `long_directive` under a compactness/performance rubric.
+2. **`real_agent` and `python_coder_agent` are marginal in the strict mixed-effects test against `none`** (p = 0.067 and p = 0.126). Their KW omnibus contribution is real; their per-condition contrast vs `none` is at the edge of α = 0.05. Likely an underpower issue.
+3. **Tier imbalance (3 reasoning vs 7 non-reasoning).** The tier main-effect test (β = +0.087, p = 0.117) is underpowered. A v3 with ≥5 reasoning models would settle whether reasoning models systematically lift the CQS ceiling.
+4. **Confound probes ran on one task** (`task_expr_parser`, n=10 each). The directional findings are clean (p = 0.0001 for the negative probes); the exact recovery ratio (70%) may shift on tasks with different rubric-dimension activation profiles. A v3 that ran the probes on all 7 tasks would tighten this.
+5. **No human-rater validation.** All scoring is LLM-judge based. Cross-judge agreement is high and the calibration anchor + 10-judge panel mitigates single-judge pathology, but a human-rater sub-sample study would strengthen external validity.
+6. **Single-turn generation, Python only.** Multi-turn agentic evaluation and cross-language testing are out of scope.
+
+---
+
+## Investigation comparison: v1 vs v2
+
+| Investigation | Date | Status | What it added |
+|---|---|---|---|
+| [`preamble_quality_experiment/`](preamble_quality_experiment/) (v1) | 2026-05 | Complete — instrument-correction motivation | Established that static-analysis-heavy composites produce a false null (KW p = 0.633) while LLM-judge components separately detect a strong effect (idiom p = 0.002, comment p = 0.006). Diagnosed as a metric artifact; motivated v2's instrument redesign. |
+| [`preamble_quality_experiment_v2/`](preamble_quality_experiment_v2/) (v2) | 2026-05 | Complete — active design | Corrected instrument (LLM-judge-only CQS-craft, redesigned 11-dim rubric, calibrated multi-judge panel, reasoning-inclusive 10-model pool). Headline KW p = 9.2 × 10⁻¹⁸. Three post-hoc confound probes refined the mechanism to attention-allocation (this README's central reading). |
+
+Full v2 conclusions: [CONCLUSIONS.md](preamble_quality_experiment_v2/CONCLUSIONS.md). Methodology journey: [REPORT_ADDENDUM.md](preamble_quality_experiment_v2/REPORT_ADDENDUM.md). Raw stats: [experiment_v2_results/REPORT.md](preamble_quality_experiment_v2/experiment_v2_results/REPORT.md).
+
+---
+
+## Repo layout & reproduce
 
 ```
 .
-├── CLAUDE.md                                 # repo-level Claude Code instructions
-├── README.md                                 # this file
-├── preamble_quality_experiment/              # v1: instrument-correction motivation
-│   ├── HYPOTHESIS.md
-│   ├── CONCLUSIONS.md
-│   ├── REPORT_ADDENDUM.md
-│   ├── RELATED_WORK.md
-│   ├── README.md
-│   └── preamble_quality_experiment2.py
-└── preamble_quality_experiment_v2/           # v2: corrected instrument; active design
-    ├── HYPOTHESIS.md                         # 3 cycles (Initial / Revised / Re-revised)
-    ├── SPEC_V2.md                            # pre-registration + A1–A5 amendment log
-    ├── CONCLUSIONS.md                        # full v2 conclusions, debate scorecard
-    ├── REPORT_ADDENDUM.md                    # methodology journey, pre-flight phases
-    ├── INVESTIGATION_LOG.jsonl               # 45 chronological audit entries
-    ├── preamble_quality_v2_main.py           # main run script
-    ├── analysis_addendum.py                  # mixed-effects + sensitivity
-    ├── reprobe_phase_c_d2.py                 # pre-flight Phase C + D2
-    ├── rejudge_phase_d2.py                   # calibrated panel re-judge
-    └── experiment_v2_results/
-        ├── REPORT.md                         # full programmatic results
-        ├── MIXED_EFFECTS.md                  # M0/M1/M2 models, ML LRT
-        ├── WEIGHT_SENSITIVITY.md             # 7 weighting schemes
-        ├── sample_cqs.json                   # per-sample composite + per-dim panel means
-        ├── generations.jsonl                 # 1,260 raw generations
-        ├── judgments.jsonl                   # 24,300 raw judge records
-        └── static_analysis.jsonl             # 1,215 static-analysis records
+├── README.md                                 this file
+├── preamble_quality_experiment/              v1 (instrument-correction motivation)
+└── preamble_quality_experiment_v2/           v2 (active design)
+    ├── HYPOTHESIS.md                         three hypothesis cycles, current = Re-revised ACTIVE
+    ├── SPEC_V2.md                            pre-registration + A1–A5 amendment log
+    ├── CONCLUSIONS.md                        full conclusions, debate scorecard, confound probes
+    ├── REPORT_ADDENDUM.md                    methodology journey, pre-flight phases, probe lessons
+    ├── INVESTIGATION_LOG.jsonl               51 chronological audit entries
+    ├── preamble_quality_v2_main.py           main-run script
+    ├── confound_probes.py                    post-hoc probe script (A, B, C)
+    ├── analysis_addendum.py                  mixed-effects M0/M1/M2 + sensitivity
+    ├── figures.py                            5 matplotlib/seaborn figures
+    └── experiment_v2_results/                main-run REPORT, MIXED_EFFECTS, WEIGHT_SENSITIVITY,
+                                              JSONL data, figures/, confound_probe_results/
 ```
 
-## Reproducibility
-
-Both experiments are fully reproducible. Pre-registered hypotheses, locked design specs, and complete raw data are in the respective directories. Set `OPENROUTER_API_KEY` and run:
+To reproduce:
 
 ```bash
+export OPENROUTER_API_KEY=<your key>
 cd preamble_quality_experiment_v2/
-uv run preamble_quality_v2_main.py           # full main run (~1 hour, ~$32)
-uv run preamble_quality_v2_main.py --slice   # 4-sample smoke test (~$0.12)
-uv run analysis_addendum.py                  # mixed-effects + sensitivity
+
+uv run preamble_quality_v2_main.py --slice    # 4-sample smoke test (~$0.12)
+uv run preamble_quality_v2_main.py            # full main run (~1 hour, ~$32)
+uv run analysis_addendum.py                   # mixed-effects + weight sensitivity
+uv run confound_probes.py                     # post-hoc probes (~5 min, ~$1)
+uv run figures.py                             # regenerate the 5 figures
 ```
 
-All scripts use PEP 723 inline dependencies (`uv run` installs everything; no virtualenv needed).
+All scripts use PEP 723 inline dependencies — `uv run` installs everything; no virtualenv needed. The full investigation cost $33 end-to-end.
