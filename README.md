@@ -4,13 +4,14 @@
 
 If you ship a coding agent or design an LLM evaluation harness, the system prompt content materially changes the code your model produces. This repo measures *how much*, *under what conditions*, and — most importantly for practitioners — *why*. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings.
 
-**TL;DR for builders:** there is no universal "best preamble." A preamble's effect is governed by overlap between (the dimensions the preamble enumerates) and (the dimensions your downstream evaluator measures). Bad preambles hurt much more than good preambles help. Modest effect sizes overall (~5 points out of 100). Empirical proof for each claim below.
+**TL;DR for builders:** the preamble channel is genuinely load-bearing — content choices measurably move outputs in either direction relative to a no-preamble baseline. There is no universal "best preamble"; a preamble's effect is governed by overlap between (the dimensions the preamble enumerates) and (the dimensions your downstream evaluator measures). Modest effect sizes in either direction (~3–6 points out of 100). Empirical proof for each claim below.
 
 ```
                                         what to do                                       evidence
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
-1. don't ship with negative-priming      remove "junior dev" / "don't worry about"        β = −0.060
-   language                              framing                                          p = 5×10⁻⁵
+1. treat preamble content as             remove "junior dev" / "don't worry about"        β = −0.060
+   load-bearing — output moves           framing first — biggest single-clause lever      p = 5×10⁻⁵
+   in either direction
 2. enumerate what your evaluator         list the dimensions in plain language; a bare    recovery
    measures, not what sounds expert      list recovers 70% of the maximum positive lift   ratio 0.70
 3. no universal best preamble exists     pick clauses by overlap with your downstream     probe A:
@@ -43,9 +44,9 @@ The rest of this README walks through each finding with empirical support, then 
 
 ## The five findings, with evidence
 
-### Finding 1 — Negative-priming preambles hurt more than any rich preamble helps
+### Finding 1 — Preamble content is load-bearing: outputs move measurably in *either* direction relative to a no-preamble baseline
 
-**Claim.** The single highest-leverage change in a coding-agent system prompt is to *not* anchor competence downward. Framings like "junior developer", "still learning Python", or "don't worry too much about style" produce measurably worse code than no system prompt at all.
+**Claim.** The preamble channel is powerful enough that content choices move outputs measurably above *and* below a no-system-prompt baseline. The cleanest evidence is the degradation case: framings like "junior developer", "still learning Python", or "don't worry too much about style" produce *worse* code than supplying no system prompt at all. That's the sharp test — the model isn't just amplified by good preambles or unaffected by bad ones, it's actively responsive to content in both directions. Preambles are not decorative; they steer.
 
 **Evidence.** From the v2 main run (n=138 samples per condition, 10-model pool, 7 tasks):
 
@@ -55,11 +56,11 @@ The rest of this README walks through each finding with empirical support, then 
 | `negative_control` ("junior developer") | 0.723 | **−0.060** | **5 × 10⁻⁵** |
 | `long_directive` (strongest rich preamble) | 0.815 | +0.046 | 0.002 |
 
-The negative effect (−0.060) is larger in magnitude than the best positive effect (+0.046). Both are statistically robust; the asymmetry is. (The `trivial_baseline` condition, which uses no system prompt + name-only user prompt + temperature 1.0, drops to 0.556 — a −0.222 cliff that confirms the model uses *any* system context productively when present.)
+Both effects are statistically robust. Critically, `none` is not the floor — adding negative-quality framing pushes the model *below* what it produces with no instruction at all. That's the demonstration that the channel carries real signal: if preambles were inert or weakly additive, you could not degrade from baseline by writing one. (`trivial_baseline`, which uses no system prompt + a name-only user prompt + temperature 1.0, scores 0.556 — a −0.222 cliff that confirms the model uses *any* coherent context productively when present, and that the −0.060 negative-priming effect is a content-level signal rather than the absence of context.) The negative effect being larger in magnitude than the positive is a secondary observation — partly real, partly bounded by ceiling effects on rubric dimensions where `none` already scores near the top.
 
 ![CQS-craft by preamble](preamble_quality_experiment_v2/experiment_v2_results/figures/fig1_headline_cqs_by_preamble.png)
 
-**Action.** Audit your system prompt for negative-quality framing. If you find any, removing it is worth more CQS than any other prompt change available. This is the cheapest, most robust improvement.
+**Action.** Treat preamble content as load-bearing — what you write changes the output, including for the worse. The cheapest single audit available: scan your system prompt for negative-quality framing ("junior", "learning", "casual", "don't worry too much about"). Removing those is worth more CQS than any other prompt change you can make, because the channel reaches just as far in the negative direction as it does in the positive.
 
 ---
 
