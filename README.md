@@ -6,10 +6,26 @@ Do coding-agent preambles (system prompts) change the quality of code an LLM wri
 
 This repo contains two pre-registered investigations of the question. v2 supersedes v1; v1 is preserved as the instrument-correction motivation for v2.
 
+## What "code quality" means here — the CQS-craft metric
+
+Every result below is in units of **CQS-craft** ("Composite Quality Score, craft-weighted"), a number in [0, 1] computed per generated code sample as
+
+```
+CQS-craft = 0.45 · idiomaticity  +  0.45 · comment_quality  +  0.10 · (1 − mean_rubric_severity / 5)
+```
+
+with weights pre-registered in v2's `SPEC_V2.md §6.5`. All three components are LLM-judge-derived, evaluated by a 10-model cross-judge panel with self-judgments excluded:
+
+- **idiomaticity** — judge rating on a 1–10 scale of how well the sample uses Python idioms (built-ins, stdlib, established patterns)
+- **comment_quality** — judge rating on a 1–10 scale; rewards "why-not-what" comments and appropriate docstring depth
+- **mean_rubric_severity** — mean across 11 algorithmic-code dimensions (error handling, edge cases, type hints, organization, documentation, abstraction, API ergonomics, concurrency safety, data structure choice, algorithm correctness, example quality) each scored 0–5 (higher = worse), with a calibration anchor in the judge prompt to prevent severity-0 saturation. The `(1 − ./5)` term flips it so cleaner code contributes higher CQS.
+
+A score of ~0.55 is what a fully degenerate prompt produces; ~0.78 is what no system prompt produces; ~0.82 is what the strongest preamble produces. The differences this whole investigation chases are in the third decimal place — small absolute, but tightly distributed across thousands of cross-judge ratings. Static-analysis metrics (radon MI, pylint, cyclomatic complexity, Halstead) are **deliberately excluded** from CQS-craft; they are reported as a separate diagnostic panel that v1 showed to be preamble-insensitive. The CQS-craft formula and weighting are pre-registered; sensitivity over alternative weighting schemes is reported alongside the headline (every scheme still significant at p ≤ 2.4 × 10⁻¹⁰).
+
 | Investigation | Date | Status | Headline |
 |---|---|---|---|
 | [`preamble_quality_experiment/`](preamble_quality_experiment/) (v1) | 2026-05 | Complete | Hypothesis supported on LLM-judge components (idiom p = 0.002, comment p = 0.006), but the pre-registered composite was null (p = 0.63) because 65%-weighted static analysis is preamble-insensitive. Diagnosed as a metric artifact. |
-| [`preamble_quality_experiment_v2/`](preamble_quality_experiment_v2/) (v2) | 2026-05 | **Complete — active design** | **Hypothesis SUPPORTED at p = 9.2 × 10⁻¹⁸**, with a corrected instrument (LLM-judge-only CQS, redesigned 11-dim algorithmic-code rubric, calibrated multi-judge panel, reasoning-inclusive 10-model pool). 7 of 9 craft dimensions move with preamble; 2 capability dimensions do not — mechanism confirmed. |
+| [`preamble_quality_experiment_v2/`](preamble_quality_experiment_v2/) (v2) | 2026-05 | **Complete — active design** | **Hypothesis SUPPORTED at p = 9.2 × 10⁻¹⁸**, with a corrected instrument (LLM-judge-only CQS-craft, redesigned 11-dim algorithmic-code rubric, calibrated multi-judge panel, reasoning-inclusive 10-model pool). 7 of 9 craft dimensions move with preamble; 2 capability dimensions do not — mechanism confirmed. |
 
 The full results, debate scorecard, and limitations are in v2's [`CONCLUSIONS.md`](preamble_quality_experiment_v2/CONCLUSIONS.md). The methodology journey that produced the v2 design is in [`REPORT_ADDENDUM.md`](preamble_quality_experiment_v2/REPORT_ADDENDUM.md). The raw per-condition statistics are in [`experiment_v2_results/REPORT.md`](preamble_quality_experiment_v2/experiment_v2_results/REPORT.md).
 
