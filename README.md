@@ -260,6 +260,8 @@ Full discussion and per-dimension data: [CONCLUSIONS.md §"Confound probes"](pre
 
 ## Full empirical results
 
+> Verbatim text of every preamble named below: [`PREAMBLES.md`](PREAMBLES.md).
+
 **Main run, primary CQS-craft.** Pooled across 10-model subject pool, KW p = 9.2 × 10⁻¹⁸:
 
 | Preamble | n | mean | 95% CI |
