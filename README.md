@@ -24,6 +24,8 @@ If you ship a coding agent or design an LLM evaluation harness, the system promp
 
 The rest of this README walks through each finding with empirical support, then explains the methodology in enough detail to trust the numbers.
 
+**The 12 preambles tested verbatim** are in [`PREAMBLES.md`](PREAMBLES.md) — 9 main-run conditions + 3 post-hoc confound probes, with the exact text and per-condition CQS-craft means. Worth opening before reading the findings if you want to see what each named condition actually says.
+
 ---
 
 ## Contents
@@ -338,6 +340,7 @@ Full v2 conclusions: [CONCLUSIONS.md](preamble_quality_experiment_v2/CONCLUSIONS
 ```
 .
 ├── README.md                                 this file
+├── PREAMBLES.md                              verbatim text of all 12 preambles tested
 ├── RELATED_WORK.md                           literature situating (covers v1 + v2)
 ├── preamble_quality_experiment/              v1 (instrument-correction motivation)
 └── preamble_quality_experiment_v2/           v2 (active design)
