@@ -46,6 +46,9 @@ uv run preamble_quality_experiment/reanalyze.py                               # 
 # v2
 uv run preamble_quality_experiment_v2/preamble_quality_v2_poc.py              # ~30s, ~$0.01
 uv run preamble_quality_experiment_v2/preflight.py                            # gate-1 pre-flight phases
+
+# docs site (Zensical, classic Material look — see zensical.toml)
+uvx zensical serve -o                                                         # start dev site, open browser
 ```
 
 No test suite, no linter config, no CI. Scripts are run directly; analysis output is JSONL + PNG written next to the script.
