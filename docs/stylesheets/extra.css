@@ -15,7 +15,12 @@
  *   --accent:     #005B96   deep blue
  * ========================================================================== */
 
-:root {
+/* Match Zensical's own selector pattern (`:root,[data-md-color-scheme=default]`)
+ * exactly so source-order tiebreak is unambiguous regardless of how browsers
+ * interpret selector-list specificity. Both selectors target the html element
+ * when the light/default scheme is active. */
+:root,
+[data-md-color-scheme="default"] {
   /* Backgrounds + typography */
   --md-default-bg-color:                 #f9f6f1;
   --md-default-bg-color--light:          rgba(249, 246, 241, 0.7);
