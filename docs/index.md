@@ -1,8 +1,6 @@
 # LLM Preamble Experiments
 
-> Designed, executed, and analyzed using [**ml-lab**](https://github.com/chris-santiago/ml-lab) — a Claude Code plugin for rigorous, pre-registered ML hypothesis investigations (hypothesis → adversarial critique → PoC → empirical resolution → peer review). Every artifact in this repo (`HYPOTHESIS.md`, `SPEC_V2.md`, `CONCLUSIONS.md`, `REPORT_ADDENDUM.md`, `INVESTIGATION_LOG.jsonl`) is a canonical output of that workflow.
-
-Empirical investigation of whether coding-agent preambles measurably change the quality of code that LLMs produce. **They do** — and the channel is load-bearing in both directions. Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings.
+Empirical investigation of whether coding-agent preambles measurably change the quality of code that LLMs produce. **They do — and the channel is load-bearing in both directions.** Two pre-registered investigations, 1,290 generations, 25,140 cross-judge ratings.
 
 ## TL;DR
 
@@ -35,3 +33,7 @@ The full headline table with empirical evidence per claim is in [the five findin
 ## What this site is
 
 A Diátaxis-organized companion to the [llm-preamble repo](https://github.com/chris-santiago/llm-preamble). The repo's `README.md`, `PREAMBLES.md`, `RELATED_WORK.md`, and per-cycle `CONCLUSIONS.md` remain the source-of-truth artifacts; this site reorganizes them for navigation and adds the explanation pages that consolidate mechanism arguments developed during and after the investigation. Every page links back to the underlying source — script, results file, or markdown artifact — under the repo root.
+
+## ML-Lab
+
+Designed, executed, and analyzed using [**ml-lab**](https://github.com/chris-santiago/ml-lab) — a Claude Code plugin for rigorous, pre-registered ML hypothesis investigations (hypothesis → adversarial critique → PoC → empirical resolution → peer review). Every artifact in this repo (`HYPOTHESIS.md`, `SPEC_V2.md`, `CONCLUSIONS.md`, `REPORT_ADDENDUM.md`, `INVESTIGATION_LOG.jsonl`) is a canonical output of that workflow.
