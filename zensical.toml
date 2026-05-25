@@ -27,18 +27,83 @@ edit_uri = "edit/main/docs/"
 
 # Top-level navigation. Order matches the spec:
 #   Home / Findings / How-to / Reference / Explanation / Methodology / Reproduce / About
-# Each section currently points at a stub `index.md`; real pages get appended
-# in later tasks.
+# Each section enumerates its full page list so the sidebar shows every page
+# directly (paired with `navigation.expand` + `navigation.indexes` below, the
+# section index serves as both landing AND header for the expanded list).
 nav = [
-    { "Home"        = "index.md" },
-    { "Findings"    = [ "findings/index.md" ] },
-    { "How-to"      = [ "how-to/index.md" ] },
-    { "Reference"   = [ "reference/index.md" ] },
-    { "Explanation" = [ "explanation/index.md" ] },
-    { "Methodology" = [ "methodology/index.md" ] },
-    { "Reproduce"   = [ "reproduce/index.md" ] },
-    { "About"       = [ "about/index.md" ] },
+    { "Home" = "index.md" },
+
+    { "Findings" = [
+        "findings/index.md",
+        "findings/1-load-bearing-channel.md",
+        "findings/2-overlap-not-expertness.md",
+        "findings/3-bare-enumeration.md",
+        "findings/4-no-alignment-vs-capability-split.md",
+        "findings/5-static-analysis-misses.md",
+    ] },
+
+    { "How-to" = [
+        "how-to/index.md",
+        "how-to/design-a-preamble.md",
+        "how-to/interpret-cqs-craft.md",
+        "how-to/ab-test-a-preamble.md",
+        "how-to/extend-the-rubric.md",
+        "how-to/add-a-condition.md",
+        "how-to/run-a-confound-probe.md",
+    ] },
+
+    { "Reference" = [
+        "reference/index.md",
+        "reference/preambles.md",
+        "reference/rubric.md",
+        "reference/models.md",
+        "reference/tasks.md",
+        "reference/generation-protocol.md",
+        "reference/judge-protocol.md",
+        "reference/statistical-methods.md",
+        "reference/results-schema.md",
+        "reference/glossary.md",
+    ] },
+
+    { "Explanation" = [
+        "explanation/index.md",
+        "explanation/attention-allocation-mechanism.md",
+        "explanation/load-bearing-channel-reframe.md",
+        "explanation/enumeration-vs-demonstration.md",
+        "explanation/system-vs-user-channel.md",
+        "explanation/why-static-metrics-fail.md",
+        "explanation/v1-vs-v2-instrument-correction.md",
+        "explanation/confound-probes-identification.md",
+        "explanation/related-work.md",
+    ] },
+
+    { "Methodology" = [
+        "methodology/index.md",
+        "methodology/pre-registration.md",
+        "methodology/ml-lab-workflow.md",
+        "methodology/investigation-logs.md",
+        "methodology/amendments.md",
+        "methodology/limitations.md",
+    ] },
+
+    { "Reproduce" = [
+        "reproduce/index.md",
+        "reproduce/quickstart.md",
+        "reproduce/main-run.md",
+        "reproduce/analysis.md",
+        "reproduce/confound-probes.md",
+    ] },
+
+    { "About" = [
+        "about/index.md",
+        "about/v3-idea.md",
+        "about/attribution.md",
+    ] },
 ]
+
+# Load the palette override CSS (warm off-white + deep blue accent adapted
+# from astro-portfolio).
+extra_css = [ "stylesheets/extra.css" ]
 
 # ----------------------------------------------------------------------------
 # Theme
@@ -81,6 +146,7 @@ features = [
     "content.tooltips",
 
     # Navigation behavior.
+    "navigation.expand",             # expand all sidebar groups by default so child pages are visible
     "navigation.footer",
     "navigation.indexes",
     "navigation.instant",            # instant nav (XHR, no full reload)
