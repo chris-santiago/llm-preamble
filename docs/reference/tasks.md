@@ -75,7 +75,7 @@ Both refactor tasks ship a "before" code block (`TASK5_BEFORE`, `TASK6_BEFORE`) 
 
 **Name.** Refactor boolean-flag class with global state into clean design.
 
-> Refactor the following Python code. The class uses boolean mode-flags to select behavior variants at runtime, and relies on hidden module-global state for caching and statistics. […]
+> Refactor the following Python code. The class uses boolean mode-flags to select behavior variants at runtime, and relies on hidden module-global state for caching and statistics. \[…\]
 > - Eliminate boolean mode-flags; use composition, strategy pattern, or explicit subclasses
 > - Remove all module-global state; the class must be fully self-contained and independently testable
 > - Preserve all observable behaviors (filtering, deduplication, normalization, validation, caching, statistics)
@@ -88,7 +88,7 @@ The "before" code is `TASK5_BEFORE`, defined in [`preamble_quality_v2_main.py`](
 
 **Name.** Flatten exception pyramid: make errors explicit and loud.
 
-> Refactor the following Python code. It uses deeply nested try/except blocks with broad exception catches and silently swallows most errors. […]
+> Refactor the following Python code. It uses deeply nested try/except blocks with broad exception catches and silently swallows most errors. \[…\]
 > - Eliminate all nested try/except structures — maximum 1 level of nesting
 > - Remove all bare `except Exception: pass` clauses; every exception must either be re-raised, logged with full context, or converted to a specific typed exception
 > - Preserve the function signature: `load_and_merge_configs(primary_path, override_path=None)`
@@ -102,6 +102,6 @@ The "before" code is `TASK6_BEFORE`.
 
 ## Creation vs. refactor stratification
 
-The v2 hypothesis predicts a **larger preamble effect on creation tasks than on refactor tasks** — refactor prompts are tightly constrained by the input code and leave less surface for preamble-driven craft choices. The per-task and category-stratified CQS tables are in [`experiment_v2_results/REPORT.md`](../../preamble_quality_experiment_v2/experiment_v2_results/REPORT.md) §3.
+The v2 hypothesis predicts a **larger preamble effect on creation tasks than on refactor tasks** — refactor prompts are tightly constrained by the input code and leave less surface for preamble-driven craft choices. The per-task and category-stratified CQS tables are in [`experiment_v2_results/REPORT.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/REPORT.md) §3.
 
 For the user-message construction (including the `trivial_baseline` override where the user message is just the task name), see [`build_user_prompt()` at line 642](../../preamble_quality_experiment_v2/preamble_quality_v2_main.py#L642).

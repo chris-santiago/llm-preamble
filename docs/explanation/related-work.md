@@ -90,7 +90,7 @@ under-measured.
 ## Prompt format as an independent variable
 
 A line of work adjacent to v2's "bare enumeration captures ~70% of the
-positive lift" finding ([`README.md` Finding 3](README.md)) asks the broader
+positive lift" finding ([Finding 3](../findings/3-bare-enumeration.md)) asks the broader
 question of **format-at-fixed-content** as a controlled prompt variable.
 
 - **Liu et al., "Beyond Prompt Content: Enhancing LLM Performance via

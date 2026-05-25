@@ -73,4 +73,4 @@ Once generation and judging are complete, re-run analysis (analysis is invoked a
 
 ## What to check in the new report
 
-Is the new condition's CQS-craft inside the empirical envelope (~[0.55, 0.85])? An outlier is suspicious. Does the per-dimension table show the wins/losses you predicted? Has the Kruskal–Wallis p across `MAIN_CONDITIONS` shifted materially? Document either outcome — negative results are valid.
+Is the new condition's CQS-craft inside the empirical envelope (~\[0.55, 0.85\])? An outlier is suspicious. Does the per-dimension table show the wins/losses you predicted? Has the Kruskal–Wallis p across `MAIN_CONDITIONS` shifted materially? Document either outcome — negative results are valid.

@@ -65,7 +65,7 @@ JUDGE_MODELS   = ALL_MODELS    # 10 (full v1-equivalent cross-judge matrix)
 
 Each extracted generation produces 10 judges × 2 kinds = **20 judge calls**, of which 2 are same-family self-judgments that are dropped from primary CQS (see below).
 
-**Total scale of the run.** 1260 generations × 2 judge kinds × 10 judges = 25,200 nominal judge calls; in practice 24,300 judge calls were issued (extraction failures skip judging). 22,028 parsed cleanly. See [`experiment_v2_results/REPORT.md`](../../preamble_quality_experiment_v2/experiment_v2_results/REPORT.md).
+**Total scale of the run.** 1260 generations × 2 judge kinds × 10 judges = 25,200 nominal judge calls; in practice 24,300 judge calls were issued (extraction failures skip judging). 22,028 parsed cleanly. See [`experiment_v2_results/REPORT.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/REPORT.md).
 
 ---
 

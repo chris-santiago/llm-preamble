@@ -6,7 +6,7 @@ This page documents how a v2 judgment is produced: what the judge sees, what it 
 
 - Main-run judge call: [`preamble_quality_v2_main.py:621–630`](../../preamble_quality_experiment_v2/preamble_quality_v2_main.py#L621) (the `_post()` return) and [`judge_one()` at lines 685–713](../../preamble_quality_experiment_v2/preamble_quality_v2_main.py#L685).
 - Confound-probe judge call: [`confound_probes.py:341–362`](../../preamble_quality_experiment_v2/confound_probes.py#L341).
-- Methodology summary: [README "Methodology in brief"](../../README.md) and [CONCLUSIONS.md "Methodology note — judges are blind to preambles"](../../preamble_quality_experiment_v2/CONCLUSIONS.md).
+- Methodology summary: [Methodology overview](../methodology/index.md) and [CONCLUSIONS.md "Methodology note — judges are blind to preambles"](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md).
 
 ---
 
@@ -14,12 +14,12 @@ This page documents how a v2 judgment is produced: what the judge sees, what it 
 
 Across the v2 main run, the five pre-flight phases, and the three confound probes, **judges never see preamble information.** The judge call constructs its messages from a fixed template:
 
-```python
+````python
 async def judge_one(client, sem, *, gen_record, judge_model, kind):
     prompt = RUBRIC_JUDGE_PROMPT if kind == "rubric" else IDIOM_COMMENT_PROMPT
     user = f"Code under review:\n\n```python\n{gen_record['code']}\n```"
     ...
-```
+````
 
 What the judge receives:
 
@@ -28,7 +28,7 @@ What the judge receives:
 
 What the judge does **not** receive: the preamble text, the condition ID (`none`, `long_directive`, etc.), the subject model name, the task prompt, the rep index, or any other generation metadata.
 
-This blindness is what licenses the "H-judge-priming" hypothesis to be about code-level surface markers, not leaked preamble information — see [CONCLUSIONS.md §"Methodology note"](../../preamble_quality_experiment_v2/CONCLUSIONS.md).
+This blindness is what licenses the "H-judge-priming" hypothesis to be about code-level surface markers, not leaked preamble information — see [CONCLUSIONS.md §"Methodology note"](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md).
 
 ---
 
@@ -41,7 +41,7 @@ Each extracted generation is judged on **both** kinds:
 | `idiom_comment` | `IDIOM_COMMENT_PROMPT` (unanchored; Phase C resolved) | `{"idiomaticity": <1-10>, "comment_quality": <1-10>}` |
 | `rubric` | `RUBRIC_JUDGE_PROMPT` (calibration-anchored; 11 dims) | `{"<dim_id>": {"severity": <0-5 or null>, "rationale": "<one sentence>"}, ...}` |
 
-The decision to keep the idiom_comment prompt **unanchored** for the main run is the Phase C resolution of F4 — see [CONCLUSIONS.md F4](../../preamble_quality_experiment_v2/CONCLUSIONS.md) (pooled |Δ| 0.31 on idiom, 0.03 on comment between anchored and unanchored re-probe; both below the 0.5 trigger).
+The decision to keep the idiom_comment prompt **unanchored** for the main run is the Phase C resolution of F4 — see [CONCLUSIONS.md F4](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md) (pooled |Δ| 0.31 on idiom, 0.03 on comment between anchored and unanchored re-probe; both below the 0.5 trigger).
 
 Judges return strict JSON with no markdown fences and no prose; the response is parsed with a greedy `\{.*\}` regex (`_extract_json` at [line 535](../../preamble_quality_experiment_v2/preamble_quality_v2_main.py#L535)). Parse failures are logged and excluded from aggregation.
 
@@ -68,7 +68,7 @@ g-2.5       C      C    C     C       S*      C        C         C       S*     
 
 `S` = self (same model), `S*` = self by family (cross-family within a provider prefix; e.g. `deepseek-v3.2` ↔ `deepseek-v4-flash`, gemma ↔ gemini), `C` = cross. **All S and S\* judgments are excluded from primary CQS-craft.** Cross-judgments only enter the aggregate.
 
-Self-vs-cross stratification is retained for F3 hygiene reporting; the empirical effect is small (idiom Δ +0.02 with p ≈ 3×10⁻⁴, comment Δ +0.29 with p < 10⁻⁴ — present but not enough to threaten the headline). See [CONCLUSIONS.md F3](../../preamble_quality_experiment_v2/CONCLUSIONS.md) and the [glossary entry](glossary.md#self-judgment-exclusion).
+Self-vs-cross stratification is retained for F3 hygiene reporting; the empirical effect is small (idiom Δ +0.02 with p ≈ 3×10⁻⁴, comment Δ +0.29 with p < 10⁻⁴ — present but not enough to threaten the headline). See [CONCLUSIONS.md F3](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md) and the [glossary entry](glossary.md#self-judgment-exclusion).
 
 The family-membership rule is the provider prefix:
 

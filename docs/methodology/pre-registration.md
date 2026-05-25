@@ -60,6 +60,6 @@ Five amendments (A1–A5) were filed during pre-flight. See [Amendments](amendme
 
 ## Why this matters
 
-Without a pre-registered metric and rubric, the rubric redesign in [Amendment A1](amendments.md#a1-rubric-redesign) would look like p-hacking — swapping in dimensions that respond to preambles after seeing which ones don't. The amendment log makes it visible that the rubric was redesigned **before the main run** in response to a specific empirical failure (Phase D prevalence audit: 0 of 11 original dimensions active), and the redesign was itself validated by a pre-flight re-probe (Phase D2: 9 of 9 new dimensions active under the multi-judge panel).
+Without a pre-registered metric and rubric, the rubric redesign in [Amendment A1](amendments.md#a1-rubric-redesign-2026-05-22-spec-64) would look like p-hacking — swapping in dimensions that respond to preambles after seeing which ones don't. The amendment log makes it visible that the rubric was redesigned **before the main run** in response to a specific empirical failure (Phase D prevalence audit: 0 of 11 original dimensions active), and the redesign was itself validated by a pre-flight re-probe (Phase D2: 9 of 9 new dimensions active under the multi-judge panel).
 
 The [ml-lab debate protocol](ml-lab-workflow.md) and the [append-only investigation log](investigation-logs.md) are the two mechanisms that keep the pre-registration boundary honest: every spec edit is paired with a logged event that names the trigger and the verification.

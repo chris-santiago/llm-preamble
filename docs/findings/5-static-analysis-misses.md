@@ -2,7 +2,7 @@
 
 **Claim.** If your downstream evaluator is radon, pylint, cyclomatic complexity, or Halstead difficulty, you will measure no preamble effect. Preamble effects are visible only to evaluators that score the craft dimensions preambles tune.
 
-**Evidence.** From the v2 main run static-analysis diagnostic panel ([`REPORT.md`](preamble_quality_experiment_v2/experiment_v2_results/REPORT.md)):
+**Evidence.** From the v2 main run static-analysis diagnostic panel ([`REPORT.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/REPORT.md)):
 
 | Metric | KW p across preambles | Verdict |
 |---|---|---|
@@ -20,4 +20,4 @@
 
 **Action.** Build LLM-judge evaluation harnesses for any work where preamble or prompt-engineering effects matter. Static analysis tools are valid for what they measure (complexity, MI, lint compliance), but they don't measure what preambles tune. If you currently A/B-test preambles using radon/pylint metrics, you are getting false nulls.
 
-**Related work.** Independent confirmation in arXiv 2504.13656 ("Do Prompt Patterns Affect Code Quality?"), which found no significant differences in maintainability, security, or reliability across prompt patterns — all static-analysis-based. Concurrent argument that static analysis is insufficient as a quality measure (arXiv 2508.14419, 2506.10330) and should instead be used as a feedback signal. See [`RELATED_WORK.md` § "Prompt variation does not move static code-quality metrics"](RELATED_WORK.md#prompt-variation-does-not-move-static-code-quality-metrics).
+**Related work.** Independent confirmation in arXiv 2504.13656 ("Do Prompt Patterns Affect Code Quality?"), which found no significant differences in maintainability, security, or reliability across prompt patterns — all static-analysis-based. Concurrent argument that static analysis is insufficient as a quality measure (arXiv 2508.14419, 2506.10330) and should instead be used as a feedback signal. See [Related work § "Prompt variation does not move static code-quality metrics"](../explanation/related-work.md#prompt-variation-does-not-move-static-code-quality-metrics).

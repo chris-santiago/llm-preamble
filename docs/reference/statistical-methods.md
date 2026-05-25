@@ -6,8 +6,8 @@ The v2 main run reports three classes of statistic: a non-parametric omnibus tes
 
 - Bootstrap CI + Kruskal–Wallis: [`preamble_quality_v2_main.py` lines 885–902](../../preamble_quality_experiment_v2/preamble_quality_v2_main.py#L885).
 - Mixed-effects (M0/M1/M2): [`analysis_addendum.py`](../../preamble_quality_experiment_v2/analysis_addendum.py).
-- Fitted output: [`experiment_v2_results/MIXED_EFFECTS.md`](../../preamble_quality_experiment_v2/experiment_v2_results/MIXED_EFFECTS.md).
-- Weight-sensitivity panel: [`experiment_v2_results/WEIGHT_SENSITIVITY.md`](../../preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md).
+- Fitted output: [`experiment_v2_results/MIXED_EFFECTS.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/MIXED_EFFECTS.md).
+- Weight-sensitivity panel: [`experiment_v2_results/WEIGHT_SENSITIVITY.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md).
 
 ---
 
@@ -47,7 +47,7 @@ def bootstrap_ci(values, n_boot: int = 2000, alpha: float = 0.05):
     return float(arr.mean()), lo, hi
 ```
 
-Reported in [`REPORT.md`](../../preamble_quality_experiment_v2/experiment_v2_results/REPORT.md) for every per-condition mean, tier-stratified mean, and category-stratified mean.
+Reported in [`REPORT.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/REPORT.md) for every per-condition mean, tier-stratified mean, and category-stratified mean.
 
 ---
 
@@ -77,7 +77,7 @@ The stratified per-tier fits (reasoning-only and non-reasoning-only) are retaine
 
 ## Weight sensitivity
 
-Seven alternative CQS-component weight schemes are evaluated to show that the headline does not depend on the pre-registered `0.45 / 0.45 / 0.10` choice. For each scheme, the per-condition mean is recomputed and a fresh KW p across the 8 main conditions is reported. See [`WEIGHT_SENSITIVITY.md`](../../preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md) for the full table; all seven schemes return KW p ≤ 2.4 × 10⁻¹⁰.
+Seven alternative CQS-component weight schemes are evaluated to show that the headline does not depend on the pre-registered `0.45 / 0.45 / 0.10` choice. For each scheme, the per-condition mean is recomputed and a fresh KW p across the 8 main conditions is reported. See [`WEIGHT_SENSITIVITY.md`](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/experiment_v2_results/WEIGHT_SENSITIVITY.md) for the full table; all seven schemes return KW p ≤ 2.4 × 10⁻¹⁰.
 
 Schemes tested:
 

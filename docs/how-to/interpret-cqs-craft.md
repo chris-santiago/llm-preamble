@@ -1,6 +1,6 @@
 # Effect-size calibration — when this matters and when it doesn't
 
-CQS-craft is on a [0, 1] scale. The empirical anchors:
+CQS-craft is on a \[0, 1\] scale. The empirical anchors:
 
 | Anchor | CQS-craft |
 |---|---|

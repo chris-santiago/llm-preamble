@@ -44,7 +44,7 @@ The fraction of rubric dimensions that a preamble explicitly enumerates. `long_d
 
 ### Attention-allocation
 
-The post-confound-probe reading of the v2 mechanism: preambles direct the model's finite craft-attention budget toward whatever dimensions they enumerate, at the cost of other behaviors. CQS-craft is real and reproducible, but rubric-dependent — a preamble's lift over `none` is proportional to the overlap between (what the preamble enumerates) and (what the rubric measures). See [README §"Finding 2"](../../README.md) and [CONCLUSIONS.md §"Refined hypothesis: H-attention-allocation"](../../preamble_quality_experiment_v2/CONCLUSIONS.md).
+The post-confound-probe reading of the v2 mechanism: preambles direct the model's finite craft-attention budget toward whatever dimensions they enumerate, at the cost of other behaviors. CQS-craft is real and reproducible, but rubric-dependent — a preamble's lift over `none` is proportional to the overlap between (what the preamble enumerates) and (what the rubric measures). See [Finding 2](../findings/2-overlap-not-expertness.md) and [CONCLUSIONS.md §"Refined hypothesis: H-attention-allocation"](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md).
 
 ---
 
@@ -56,7 +56,7 @@ The rule that a judgment is dropped from primary CQS whenever the judge model an
 
 ### ETA (empirical-test-agreed verdict)
 
-A debate-scorecard verdict used in the ml-lab investigation cycle: the critic and defender agree the question cannot be resolved by argument alone, so it is **deferred to an empirical pre-flight probe** whose outcome is binding. In v2, findings F2, F4, and F5 closed via ETA — the trap task was dropped after Phase B, the anchored-vs-unanchored prompt confound was resolved by a Phase C re-probe, and the rubric was redesigned after Phase D found 0/11 dimensions active on modern code. See [CONCLUSIONS.md §"Pre-flight debate scorecard"](../../preamble_quality_experiment_v2/CONCLUSIONS.md).
+A debate-scorecard verdict used in the ml-lab investigation cycle: the critic and defender agree the question cannot be resolved by argument alone, so it is **deferred to an empirical pre-flight probe** whose outcome is binding. In v2, findings F2, F4, and F5 closed via ETA — the trap task was dropped after Phase B, the anchored-vs-unanchored prompt confound was resolved by a Phase C re-probe, and the rubric was redesigned after Phase D found 0/11 dimensions active on modern code. See [CONCLUSIONS.md §"Pre-flight debate scorecard"](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md).
 
 ---
 
@@ -68,4 +68,4 @@ A debate-scorecard verdict: the defender's position prevailed at debate close wi
 
 ### critique_wins
 
-A debate-scorecard verdict: the critic's position prevailed at debate close without requiring an empirical probe. In v2, finding F1 closed `critique_wins` — the judge OOR-clamp bug was conceded by the defender at severity 9 (FATAL) and fixed before main run (drop-not-clip with a structured OOR log; main-run OOR rate = 0). See [CONCLUSIONS.md §"Pre-flight debate scorecard"](../../preamble_quality_experiment_v2/CONCLUSIONS.md).
+A debate-scorecard verdict: the critic's position prevailed at debate close without requiring an empirical probe. In v2, finding F1 closed `critique_wins` — the judge OOR-clamp bug was conceded by the defender at severity 9 (FATAL) and fixed before main run (drop-not-clip with a structured OOR log; main-run OOR rate = 0). See [CONCLUSIONS.md §"Pre-flight debate scorecard"](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md).

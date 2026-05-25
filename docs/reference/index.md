@@ -2,7 +2,7 @@
 
 Lookup-oriented documentation for the v2 investigation. Each page is canonical for one slice of the experimental design or output — extract one fact, link out, return.
 
-For narrative discussion, see the [conclusions](../../preamble_quality_experiment_v2/CONCLUSIONS.md) and the [README findings](../../README.md). For the verbatim text of every preamble tested, see [preambles](preambles.md).
+For narrative discussion, see the [conclusions](https://github.com/chris-santiago/llm-preamble/blob/main/preamble_quality_experiment_v2/CONCLUSIONS.md) and the [findings](../findings/index.md). For the verbatim text of every preamble tested, see [preambles](preambles.md).
 
 ## Pages
 

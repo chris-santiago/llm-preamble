@@ -8,7 +8,7 @@ The five findings collapse into a procedure:
 
 3. **Enumerate the evaluator's dimensions in plain language.** A bare list is sufficient; you'll capture ~70% of the maximum lift this way. The model genuinely allocates output capacity to whatever you enumerate.
 
-4. **(Optional, low priority)** **Add imperative tone and per-dimension explanations** to capture the remaining ~30%. "Your code must: (1) [dim] — [why]; (2) [dim] — [why]; …" beats a bare list by ~30% of the gap from `none` to the maximum positive lift.
+4. **(Optional, low priority)** **Add imperative tone and per-dimension explanations** to capture the remaining ~30%. "Your code must: (1) \[dim\] — \[why\]; (2) \[dim\] — \[why\]; …" beats a bare list by ~30% of the gap from `none` to the maximum positive lift.
 
 5. **Keep it focused.** Each token of preamble that isn't enumerating a dimension your evaluator scores is a token diluting the model's attention away from those that are. Workflow content, tooling preferences, and unrelated engineering virtues cost you if they aren't being measured downstream.
 

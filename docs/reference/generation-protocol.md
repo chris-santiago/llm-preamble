@@ -30,7 +30,7 @@ REPLICATIONS_DEFAULT = 2
 | `JUDGE_TEMPERATURE` | `0.0` | All judge calls |
 | `JUDGE_MAX_TOKENS` | `1800` | All judge calls |
 | `JUDGE_TIMEOUT` | `120.0 s` | Judge request timeout |
-| `CONCURRENCY` | `50` | Single `asyncio.Semaphore` shared by all generation and judging tasks. This is the repo-wide default for OpenRouter async scripts; see [global CLAUDE.md](../../CLAUDE.md). |
+| `CONCURRENCY` | `50` | Single `asyncio.Semaphore` shared by all generation and judging tasks. This is the repo-wide default for OpenRouter async scripts; see [project CLAUDE.md](https://github.com/chris-santiago/llm-preamble/blob/main/CLAUDE.md). |
 | `RETRY_ATTEMPTS` | `2` | Per `_post()` call, with `1.5 × (attempt + 1)` second backoff |
 | `REPLICATIONS_DEFAULT` | `2` | Reps per (preamble × task × model) cell |
 
@@ -81,7 +81,7 @@ async with sem:
 return {"content": "", ..., "error": last_err}
 ```
 
-Failures (HTTP non-200, `error` key in response, or raised exception) trigger a 1.5s × (attempt + 1) sleep and a retry. After `RETRY_ATTEMPTS = 2`, a failure record is returned with `error` populated. **Extraction failures are excluded from scoring; they are never zero-imputed** — see [README "Known gotchas"](../../CLAUDE.md).
+Failures (HTTP non-200, `error` key in response, or raised exception) trigger a 1.5s × (attempt + 1) sleep and a retry. After `RETRY_ATTEMPTS = 2`, a failure record is returned with `error` populated. **Extraction failures are excluded from scoring; they are never zero-imputed** — see [project CLAUDE.md "Known gotchas"](https://github.com/chris-santiago/llm-preamble/blob/main/CLAUDE.md).
 
 ---
 
