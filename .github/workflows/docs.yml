@@ -1,21 +1,33 @@
 name: Documentation
+
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# One Pages deployment at a time. Don't cancel an in-progress production
+# deploy when a new run queues — we want the running one to finish, then
+# the next queued run to take over.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # Build job uploads the `site/` artifact. Separate from deploy so a
+  # retried/partial upload can't co-exist with a completed one inside the
+  # same run (the failure mode that produced "Multiple artifacts named
+  # 'github-pages'" on a prior deploy).
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/configure-pages@v6
       - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v6
       - uses: actions/setup-python@v6
         with:
           python-version: 3.x
@@ -24,5 +36,15 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site
-      - uses: actions/deploy-pages@v5
-        id: deployment
+
+  # Deploy runs only after build succeeds. deploy-pages downloads the
+  # uploaded artifact and pushes it to the Pages CDN.
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
