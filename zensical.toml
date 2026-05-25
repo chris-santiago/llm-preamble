@@ -1,0 +1,178 @@
+# ============================================================================
+# Zensical configuration for the llm-preamble documentation site.
+#
+# Theme: classic (Material for MkDocs look-and-feel)
+# Docs:  https://zensical.org/docs/setup/basics/
+# ============================================================================
+
+[project]
+
+site_name = "LLM Preamble Experiments"
+site_description = "Empirical investigation of whether coding-agent preambles measurably change LLM code quality."
+site_author = "Chris Santiago"
+site_url = "https://chris-santiago.github.io/llm-preamble/"
+docs_dir = "docs"
+site_dir = "site"
+
+copyright = """
+Copyright &copy; 2026 Chris Santiago
+"""
+
+# Link the site back to the GitHub repo. With `content.action.edit` enabled
+# (below), each page gets an "edit" pencil that points to the underlying .md
+# on the configured branch.
+repo_url = "https://github.com/chris-santiago/llm-preamble"
+repo_name = "chris-santiago/llm-preamble"
+edit_uri = "edit/main/docs/"
+
+# Top-level navigation. Order matches the spec:
+#   Home / Findings / How-to / Reference / Explanation / Methodology / Reproduce / About
+# Each section currently points at a stub `index.md`; real pages get appended
+# in later tasks.
+nav = [
+    { "Home"        = "index.md" },
+    { "Findings"    = [ "findings/index.md" ] },
+    { "How-to"      = [ "how-to/index.md" ] },
+    { "Reference"   = [ "reference/index.md" ] },
+    { "Explanation" = [ "explanation/index.md" ] },
+    { "Methodology" = [ "methodology/index.md" ] },
+    { "Reproduce"   = [ "reproduce/index.md" ] },
+    { "About"       = [ "about/index.md" ] },
+]
+
+# ----------------------------------------------------------------------------
+# Theme
+# ----------------------------------------------------------------------------
+[project.theme]
+
+# Use the Material-for-MkDocs-style "classic" variant.
+variant = "classic"
+
+language = "en"
+
+features = [
+    # Announcement bar dismissal.
+    "announce.dismiss",
+
+    # Per-page edit / view-source buttons (pointing at the .md file on GitHub).
+    # NOTE: these link to the page's own Markdown source. Zensical's classic
+    # theme does NOT natively support a per-page link to an *arbitrary* .py
+    # file. To render a "source: path/to/script.py" link, we'd need a custom
+    # template override (project.theme.custom_dir + overrides/partials/...)
+    # that reads a front-matter key like `source_path:` and emits an <a> to
+    # `{repo_url}/blob/main/{source_path}`.
+    # TODO(task-N): add overrides/partials/source.html and wire it into the
+    # content header so pages can declare `source_path:` in front matter.
+    "content.action.edit",
+    "content.action.view",
+
+    # Code-block UX.
+    "content.code.annotate",
+    "content.code.copy",
+    "content.code.select",
+
+    # Footnotes as inline tooltips.
+    "content.footnote.tooltips",
+
+    # Linked content tabs (e.g., "Python" tabs all switch together).
+    "content.tabs.link",
+
+    # Hoverable link tooltips.
+    "content.tooltips",
+
+    # Navigation behavior.
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.instant",            # instant nav (XHR, no full reload)
+    "navigation.instant.prefetch",   # prefetch on hover
+    "navigation.path",               # breadcrumbs above page title
+    "navigation.sections",
+    "navigation.tabs",               # top-level sections as tabs (required for the 8-tab nav)
+    "navigation.tabs.sticky",        # keep tabs visible while scrolling
+    "navigation.top",                # back-to-top button
+    "navigation.tracking",           # update URL with active anchor
+
+    # Search.
+    "search.highlight",
+    # NOTE: Zensical's built-in search is enabled by default; "instant search"
+    # in the spec is satisfied by the always-on client-side search plus
+    # `navigation.instant` above. There is no separate `search.instant`
+    # feature flag in Zensical 0.0.43.
+]
+
+[project.theme.icon]
+edit = "material/pencil"
+view = "material/eye"
+
+# ----------------------------------------------------------------------------
+# Color palette: light + dark with a toggle.
+# ----------------------------------------------------------------------------
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+# ----------------------------------------------------------------------------
+# Markdown extensions.
+#
+# Everything we need is enabled here:
+#   - admonition + pymdownx.details : notes / warnings / tips (collapsible too)
+#   - pymdownx.arithmatex (generic) : MathJax-style math equations
+#   - pymdownx.superfences + mermaid fence : Mermaid diagram rendering
+#   - pymdownx.highlight + inlinehilite : code blocks + inline code colors
+#   - pymdownx.tabbed : content tabs
+#   - pymdownx.tasklist : GitHub-style task lists
+#   - toc with permalink : anchor links on headings
+# ----------------------------------------------------------------------------
+[project.markdown_extensions.abbr]
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.def_list]
+[project.markdown_extensions.footnotes]
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.arithmatex]
+# `generic = true` emits a format the classic theme's MathJax loader picks up.
+generic = true
+
+[project.markdown_extensions.pymdownx.betterem]
+[project.markdown_extensions.pymdownx.caret]
+[project.markdown_extensions.pymdownx.details]   # collapsible admonitions
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_generator = "zensical.extensions.emoji.to_svg"
+emoji_index = "zensical.extensions.emoji.twemoji"
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.keys]
+[project.markdown_extensions.pymdownx.magiclink]
+[project.markdown_extensions.pymdownx.mark]
+[project.markdown_extensions.pymdownx.smartsymbols]
+
+[project.markdown_extensions.pymdownx.superfences]
+# Register the `mermaid` fence so ```mermaid blocks render as diagrams.
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }
+]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+combine_header_slug = true
+
+[project.markdown_extensions.pymdownx.tasklist]
+custom_checkbox = true
+
+[project.markdown_extensions.pymdownx.tilde]
