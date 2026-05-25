@@ -85,3 +85,22 @@
 
   --md-typeset-table-color:              rgba(255, 255, 255, 0.12);
 }
+
+/* ----------------------------------------------------------------------------
+ * Left primary sidebar — color nav links with the accent so they read
+ * as links rather than blending into body text. Hover darkens (light
+ * mode) / lightens (dark mode) for affordance.
+ * -------------------------------------------------------------------------- */
+.md-sidebar--primary .md-nav__link {
+  color: var(--md-accent-fg-color);
+}
+
+.md-sidebar--primary .md-nav__link:hover,
+.md-sidebar--primary .md-nav__link:focus {
+  color: var(--md-primary-fg-color--dark);
+}
+
+[data-md-color-scheme="slate"] .md-sidebar--primary .md-nav__link:hover,
+[data-md-color-scheme="slate"] .md-sidebar--primary .md-nav__link:focus {
+  color: var(--md-primary-fg-color--light);
+}
