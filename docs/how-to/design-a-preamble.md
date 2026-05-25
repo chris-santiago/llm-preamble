@@ -13,3 +13,6 @@ The five findings collapse into a procedure:
 5. **Keep it focused.** Each token of preamble that isn't enumerating a dimension your evaluator scores is a token diluting the model's attention away from those that are. Workflow content, tooling preferences, and unrelated engineering virtues cost you if they aren't being measured downstream.
 
 6. **Test it.** Run your candidate preamble vs `none` on the same eval harness. The expected lift is small but real — on the order of 1–5 points on a 100-point scale. If you see >10 points, your eval is probably overfit to your preamble (the dimensions match too tightly); if you see 0, your preamble isn't enumerating dimensions your evaluator actually measures.
+
+!!! tip "Worked example — trimming verbose agent prompts"
+    A concrete worked example of applying this procedure to three real agent prompts (chris-code `python-coder`, `pytorch-coder`, `rust-coder`) is in the repo's `agent_proposals/` directory. That directory is gitignored — it lives only in local working copies — but the rationale captured in its `CHANGES.md` walks through the dimension-by-dimension trimming approach, preserving rubric-overlapping content while dropping tokens that don't enumerate evaluator dimensions. See also [A/B test a candidate preamble](ab-test-a-preamble.md) for the validation flow that closes the loop.
