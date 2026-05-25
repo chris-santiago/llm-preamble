@@ -46,7 +46,7 @@ nav = [
 [project.theme]
 
 # Use the Material-for-MkDocs-style "classic" variant.
-variant = "classic"
+variant = "modern"
 
 language = "en"
 
