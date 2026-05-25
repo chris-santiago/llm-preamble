@@ -19,3 +19,6 @@ Thumbs.db
 # uv
 .uv/
 preamble_quality_experiment_v2/agent_proposals/
+
+# Zensical build output
+site/

@@ -1,0 +1,15 @@
+# Finding 3 — Bare enumeration captures most of the positive effect; expert framing is decorative
+
+**Claim.** Naming the evaluator's dimensions in your preamble — with no engineering virtue language, no "you must", no manifesto — gets you ~70% of the maximum achievable positive lift. The remaining ~30% comes from imperative tone, compound clauses that explain *why* each dimension matters, and focused enumeration structure.
+
+**Evidence.** From probe B above: a system prompt that was literally *"Your code will be evaluated on these specific dimensions: error handling consistency, edge case handling on empty/boundary/invalid inputs, type hint completeness on public functions, code organization and cohesion, documentation appropriateness, abstraction calibration, API ergonomics, concurrency safety where applicable, appropriate data structure choice, algorithmic correctness, and example quality when examples are requested."* produced CQS = 0.842, compared to `long_directive`'s 0.848 on the same task. Recovery ratio (B − none) / (long_directive − none) = 0.70.
+
+The remaining 30% (0.006 CQS units on this task) is attributable to:
+
+1. **Imperative tone** ("must", not just "will be evaluated on")
+2. **Compound clauses** that explain why each item matters (e.g., clause 3 of `long_directive`: "*defensive programming: validate inputs, handle edge cases, fail clearly*" — three rubric dims explained in context vs the bare list's "edge case handling on empty/boundary/invalid inputs")
+3. **Focused length.** `python_coder_agent` covers many of the same rubric dimensions as `long_directive` but spreads them across ~3000 tokens of workflow advice, refactoring heuristics, and tooling commentary; it scores +0.024 vs `long_directive`'s +0.046. The model's attention budget is finite; verbose preambles dilute their enumeration.
+
+**Action.** When time-constrained, write a one-sentence list. It's good enough. When you have time to polish, add imperative tone and dimension-level explanations to capture the remaining 30%. Don't add workflow/tooling/refactoring content unless it serves a separate single-turn goal — the dilution costs you.
+
+**Related work.** No published 2023–2026 work directly anchors the bare-enumeration-captures-~70% decomposition; v2's 70/30 attribution at fixed dimension coverage appears to be novel. Closest methodological analog: **CFPO** (Liu et al., arXiv 2502.04295) decomposes prompt optimization into content vs format axes and reports format-only recovers ~80% of joint-optimization gains on Big-Bench classification and GSM8K — directionally consistent, but on reasoning/classification rather than code craft. Supporting preconditions: **He et al.** (arXiv 2411.10541) show format-alone moves code-generation by ~40% with content held fixed; **Sclar et al.** (ICLR 2024, FormatSpread) document format-only spread up to 76 accuracy points. Closest domain match: **Bohr** (arXiv 2511.13972) on directive-prompt style control in multi-turn code generation. See [Related work § "Prompt format as an independent variable"](../explanation/related-work.md#prompt-format-as-an-independent-variable) for the full mapping.
